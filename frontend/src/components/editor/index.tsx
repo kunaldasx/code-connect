@@ -42,11 +42,9 @@ import { SidebarProvider } from "../ui/sidebar";
 import AppSidebar from "./sidebar";
 
 export default function CodeEditor({
-	isSharedUser,
 	userData,
 	virtualboxData,
 }: {
-	isSharedUser: boolean;
 	userData: User;
 	virtualboxData: Virtualbox;
 }) {
@@ -206,21 +204,6 @@ export default function CodeEditor({
 					toast.error(message);
 				};
 
-				// const onTerminalResponse = (response: {
-				// 	id: string;
-				// 	data: string;
-				// }) => {
-				// 	setTerminals((currentTerminals) => {
-				// 		const term = currentTerminals.find(
-				// 			(t) => t.id === response.id
-				// 		);
-				// 		if (term && term.terminal) {
-				// 			term.terminal.write(response.data);
-				// 		}
-				// 		return currentTerminals;
-				// 	});
-				// };
-
 				const onDisableAccess = (message: string) => {
 					setDisableAccess({
 						isDisabled: true,
@@ -246,7 +229,6 @@ export default function CodeEditor({
 				socket.on("connect_error", onConnectError);
 				socket.on("loaded", onLoadedEvent);
 				socket.on("rateLimit", onRateLimit);
-				// socket.on("terminalResponse", onTerminalResponse);
 				socket.on("disableAccess", onDisableAccess);
 				socket.on("ownerDisconnected", onOwnerDisconnected);
 				socket.on("forceDisconnect", onForceDisconnect);
@@ -304,14 +286,13 @@ export default function CodeEditor({
 		const exists = tabs.find((t) => t.id === tab.id);
 		setTabs((prev) => {
 			if (exists) {
-				setActiveId(exists.id);
 				return prev;
 			}
 			return [...prev, tab];
 		});
 
 		socket.emit("getFile", tab.id, (response: string) => {
-			if (!response) {
+			if (response === null) {
 				console.error("Failed to fetch file", tab.id);
 				return;
 			}
@@ -410,83 +391,36 @@ export default function CodeEditor({
 		});
 	};
 
-	// const createTerminal = () => {
-	// 	const socket = getSocket();
-	// 	if (!socket) {
-	// 		toast.error("Not connected to server");
-	// 		return;
-	// 	}
-
-	// 	setCreatingTerminal(true);
-	// 	const id = createId();
-	// 	console.log("Creating terminal:", id);
-
-	// 	setTerminals((prev) => [...prev, { id, terminal: null }]);
-	// 	setActiveTerminalId(id);
-
-	// 	setTimeout(() => {
-	// 		socket.emit("createTerminal", id, () => {
-	// 			setCreatingTerminal(false);
-	// 		});
-	// 	}, 1000);
-	// };
-
 	const createTerminal = () => {
-		const socket = getSocket();
-		if (!socket) {
-			toast.error("Not connected to server");
-			return;
-		}
-
-		setCreatingTerminal(true);
-		const id = createId();
-		console.log("Creating terminal:", id);
-
-		// Add terminal to state immediately
-		setTerminals((prev) => [...prev, { id, terminal: null }]);
-		setActiveTerminalId(id);
-
-		// Emit createTerminal without delay
-		socket.emit("createTerminal", id, (success: boolean) => {
-			setCreatingTerminal(false);
-			if (!success) {
-				// Remove the terminal if creation failed
-				setTerminals((prev) => prev.filter((t) => t.id !== id));
-				toast.error("Failed to create terminal");
+		try {
+			const socket = getSocket();
+			if (!socket) {
+				toast.error("Not connected to server");
+				return;
 			}
-		});
+
+			setCreatingTerminal(true);
+			const id = createId();
+			console.log("Creating terminal:", id);
+
+			// Add terminal to state immediately
+			setTerminals((prev) => [...prev, { id, terminal: null }]);
+			setActiveTerminalId(id);
+
+			// Emit createTerminal without delay
+			socket.emit("createTerminal", id, (success: boolean) => {
+				if (!success) {
+					// Remove the terminal if creation failed
+					setTerminals((prev) => prev.filter((t) => t.id !== id));
+					toast.error("Failed to create terminal");
+				}
+			});
+		} catch (error) {
+			console.log("[createTerminal Error]", error);
+		} finally {
+			setCreatingTerminal(false);
+		}
 	};
-	// const closeTerminal = (term: { id: string; terminal: Terminal | null }) => {
-	// 	const socket = getSocket();
-	// 	if (!socket) return;
-
-	// 	const numTerminals = terminals.length;
-	// 	const index = terminals.findIndex((t) => t.id === term.id);
-
-	// 	if (index === -1) return;
-
-	// 	socket.emit("closeTerminal", term.id, () => {
-	// 		const nextId =
-	// 			activeTerminalId === term.id
-	// 				? numTerminals === 1
-	// 					? null
-	// 					: index < numTerminals - 1
-	// 					? terminals[index + 1].id
-	// 					: terminals[index - 1].id
-	// 				: activeTerminalId;
-
-	// 		setTerminals((prev) => prev.filter((t) => t.id !== term.id));
-
-	// 		if (!nextId) {
-	// 			setActiveTerminalId("");
-	// 		} else {
-	// 			const nextTerminal = terminals.find((t) => t.id === nextId);
-	// 			if (nextTerminal) {
-	// 				setActiveTerminalId(nextTerminal.id);
-	// 			}
-	// 		}
-	// 	});
-	// };
 
 	const closeTerminal = (termId: string) => {
 		const socket = getSocket();
@@ -497,6 +431,10 @@ export default function CodeEditor({
 
 		socket.emit("closeTerminal", termId, () => {
 			setTerminals((prev) => {
+				// ✅ Dispose the current terminal
+				const termToClose = prev.find((t) => t.id === termId);
+				termToClose?.terminal?.dispose();
+
 				const newTerminals = prev.filter((t) => t.id !== termId);
 
 				// Handle active terminal selection
@@ -1028,85 +966,9 @@ export default function CodeEditor({
 									}}
 								/>
 							</ResizablePanel>
+
 							<ResizableHandle />
-							{/* <ResizablePanel
-								defaultSize={50}
-								minSize={20}
-								className="p-2 flex flex-col"
-							>
-								<div className="h-10 w-full flex gap-2 shrink-0 overflow-auto tab-scroll">
-									{terminals.map((term) => (
-										<Tab
-											key={term.id}
-											onClick={() =>
-												setActiveTerminalId(term.id)
-											}
-											onClose={() => closeTerminal(term)}
-											selected={
-												activeTerminalId === term.id
-											}
-										>
-											<SquareTerminal className="w-4 h-4 mr-2" />
-											Shell
-										</Tab>
-									))}
-									<Button
-										disabled={creatingTerminal}
-										onClick={() => {
-											if (terminals.length >= 4) {
-												toast.error(
-													"You reached the maximum # of terminals."
-												);
-												return;
-											}
-											createTerminal();
-										}}
-										size={"sm"}
-										variant={"secondary"}
-										className="font-normal shrink-0 select-none text-muted-foreground"
-									>
-										{creatingTerminal ? (
-											<Loader2 className="animate-spin w-4 h-4" />
-										) : (
-											<Plus className="w-4 h-4" />
-										)}
-									</Button>
-								</div>
-								{getSocket() && activeTerminal ? (
-									<div className="w-full relative grow h-full overflow-hidden rounded-lg bg-secondary">
-										{terminals.map((term) => (
-											<EditorTerminal
-												key={term.id}
-												socket={getSocket()!}
-												id={activeTerminal.id}
-												term={activeTerminal.terminal}
-												setTerm={(t: Terminal) => {
-													setTerminals((prev) =>
-														prev.map((term) =>
-															term.id ===
-															activeTerminalId
-																? {
-																		...term,
-																		terminal:
-																			t,
-																  }
-																: term
-														)
-													);
-												}}
-												visible={
-													activeTerminalId === term.id
-												}
-											/>
-										))}
-									</div>
-								) : (
-									<div className="w-full h-full flex items-center justify-center text-lg font-medium text-muted-foreground/50 select-none">
-										<TerminalSquare className="w-4 h-4 mr-2" />
-										No Terminals Open
-									</div>
-								)}
-							</ResizablePanel> */}
+
 							<ResizablePanel
 								defaultSize={50}
 								minSize={20}

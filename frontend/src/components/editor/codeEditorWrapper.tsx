@@ -10,7 +10,6 @@ const CodeEditor = dynamic(() => import("@/components/editor/index"), {
 
 export default function CodeEditorWrapper(
 	props: JSX.IntrinsicAttributes & {
-		isSharedUser: boolean;
 		userData: User;
 		virtualboxData: Virtualbox;
 	}
