@@ -1,0 +1,61 @@
+# Node.js / Package managers
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+**/.next/
+**/out/
+**/dist/
+**/build/
+**/.cache/
+coverage/
+
+**/projects/
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Env files (keep .env.example in repo)
+.env
+.env.*
+!.env.example
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Database specific (Cloudflare D1/D2, sqlite etc.)
+**/*.sqlite
+**/*.db
+**/*.db-journal
+**/.turbo
+**/.cache
+**/.wrangler/
+
+# Storage (Cloudflare R2 buckets, temp data)
+**/tmp/
+**/cache/
+**/uploads/
+**/*.bak
+
+# Testing artifacts
+jest-coverage/
+cypress/videos/
+cypress/screenshots/
+playwright-report/
+test-results/
+
+# Misc
+*.pid
+*.seed
+*.tgz
+*.orig
