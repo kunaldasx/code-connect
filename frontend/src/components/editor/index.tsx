@@ -114,7 +114,7 @@ export default function CodeEditor({
 		[userData.id, virtualboxData.id]
 	);
 
-	const activeTerminal = terminals.find((t) => t.id === activeTerminalId);
+	// const activeTerminal = terminals.find((t) => t.id === activeTerminalId);
 
 	const resizeObserver = new ResizeObserver((entries) => {
 		for (const entry of entries) {
@@ -318,8 +318,6 @@ export default function CodeEditor({
 			setActiveFile(response);
 			setEditorLanguage(processFileType(tab.name));
 			setActiveId(tab.id);
-
-			console.log("response 💖💖💖", response);
 		});
 	};
 
@@ -570,6 +568,7 @@ export default function CodeEditor({
 				yProvider.off("sync", onSync);
 			}
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [editorRef, room, activeFile]);
 
 	useEffect(() => {
@@ -645,6 +644,7 @@ export default function CodeEditor({
 				};
 			});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [generate.show]);
 
 	useEffect(() => {
@@ -667,6 +667,7 @@ export default function CodeEditor({
 				};
 			});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [decorations.options]);
 
 	const handleRename = (
