@@ -26,7 +26,7 @@ export default async function AppAuthLayout({
 			},
 			body: JSON.stringify({
 				id: user.id,
-				name: user.firstName + " " + user.lastName,
+				name: user.firstName + " " + (user.lastName ?? ""),
 				email: user.emailAddresses[0].emailAddress,
 			}),
 		});

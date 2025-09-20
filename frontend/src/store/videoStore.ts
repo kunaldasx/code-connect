@@ -4,6 +4,8 @@ interface Peer {
 	id: string;
 	peer: any; // SimplePeer instance
 	stream?: MediaStream;
+	name?: string;
+	avatar?: string;
 }
 
 interface VideoStore {
@@ -14,7 +16,13 @@ interface VideoStore {
 	isInCall: boolean;
 
 	setLocalStream: (stream: MediaStream | null) => void;
-	addPeer: (userId: string, peer: any, stream?: MediaStream) => void;
+	addPeer: (
+		userId: string,
+		peer: any,
+		stream?: MediaStream,
+		name?: string,
+		avatar?: string
+	) => void;
 	removePeer: (userId: string) => void;
 	toggleVideo: () => void;
 	toggleAudio: () => void;
@@ -31,10 +39,33 @@ export const useVideoStore = create<VideoStore>((set, get) => ({
 
 	setLocalStream: (stream) => set({ localStream: stream }),
 
-	addPeer: (userId, peer, stream) => {
+	addPeer: (userId, peer, stream, name, avatar) => {
 		set((state) => {
 			const newPeers = new Map(state.peers);
-			newPeers.set(userId, { id: userId, peer, stream });
+			const existingPeer = newPeers.get(userId);
+
+			// FIXED: Update existing peer or create new one
+			if (existingPeer) {
+				// Update existing peer with new stream if provided
+				newPeers.set(userId, {
+					...existingPeer,
+					peer: peer || existingPeer.peer,
+					stream: stream || existingPeer.stream,
+					name: name || existingPeer.name,
+					avatar: avatar || existingPeer.avatar,
+				});
+			} else {
+				// Create new peer
+				newPeers.set(userId, {
+					id: userId,
+					peer,
+					stream,
+					name,
+					avatar,
+				});
+			}
+
+			console.log(`Added/Updated peer ${userId}, has stream:`, !!stream);
 			return { peers: newPeers };
 		});
 	},
@@ -44,9 +75,13 @@ export const useVideoStore = create<VideoStore>((set, get) => ({
 			const newPeers = new Map(state.peers);
 			const peer = newPeers.get(userId);
 			if (peer) {
-				peer.peer.destroy();
+				// FIXED: Only destroy if peer exists and has destroy method
+				if (peer.peer && typeof peer.peer.destroy === "function") {
+					peer.peer.destroy();
+				}
 				newPeers.delete(userId);
 			}
+			console.log(`Removed peer ${userId}`);
 			return { peers: newPeers };
 		});
 	},
@@ -85,7 +120,9 @@ export const useVideoStore = create<VideoStore>((set, get) => ({
 
 		// Destroy all peer connections
 		peers.forEach((peer) => {
-			peer.peer.destroy();
+			if (peer.peer && typeof peer.peer.destroy === "function") {
+				peer.peer.destroy();
+			}
 		});
 
 		set({
