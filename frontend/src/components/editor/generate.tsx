@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { Check, Loader2, RotateCw, Sparkles } from "lucide-react";
 import { Socket } from "socket.io-client";
 import { Editor } from "@monaco-editor/react";
-import { User } from "@/lib/types";
+import { User } from "@/types/codeEditor";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 

@@ -2,7 +2,7 @@ import Dashboard from "@/components/dashboard";
 import Navbar from "@/components/dashboard/navbar";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { User } from "@/lib/types";
+import { User } from "@/types/codeEditor";
 
 export default async function DashboardPage() {
 	const user = await currentUser();

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Logo from "@/assets/logo.svg";
 import { Pencil, Users } from "lucide-react";
 import Link from "next/link";
-import { User, Virtualbox } from "@/lib/types";
+import { User, Virtualbox } from "@/types/codeEditor";
 import UserButton from "@/components/ui/userButton";
 import { useState } from "react";
 import EditVirtualboxModal from "./edit";

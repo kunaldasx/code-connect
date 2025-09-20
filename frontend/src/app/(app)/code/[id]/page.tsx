@@ -1,6 +1,6 @@
 import Navbar from "@/components/editor/navbar";
 import { Room } from "@/components/editor/live/room";
-import { User, UsersToVirtualboxes, Virtualbox } from "@/lib/types";
+import { User, UsersToVirtualboxes, Virtualbox } from "@/types/codeEditor";
 import { currentUser } from "@clerk/nextjs/server";
 import { notFound, redirect } from "next/navigation";
 import CodeEditorWrapper from "@/components/editor/codeEditorWrapper";
