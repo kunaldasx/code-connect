@@ -38,9 +38,8 @@ import PreviewWindow from "./preview";
 import { ImperativePanelHandle } from "react-resizable-panels";
 import { TypedLiveblocksProvider, useRoom } from "@/liveblocks.config";
 import { Awareness } from "y-protocols/awareness";
-import { Sidebar, SidebarProvider } from "../ui/sidebar";
+import { SidebarContent, SidebarProvider } from "../ui/sidebar";
 import AppSidebar from "./sidebar";
-import VideoConference from "./videoConference";
 
 export default function CodeEditor({
 	userData,
@@ -96,7 +95,12 @@ export default function CodeEditor({
 		virtualboxData.type !== "react"
 	);
 	const [sidebarOpen, setSidebarOpen] = useState(true);
+	const [sidebarContent, setSidebarContent] = useState<
+		"explorer" | "video-conference"
+	>("explorer");
+
 	const previewPanelRef = useRef<ImperativePanelHandle>(null);
+	const sidebarPanelRef = useRef<ImperativePanelHandle>(null);
 
 	// ✅ FIXED: Create socket instance using useRef to persist across renders
 	const socketRef = useRef<Socket | null>(null);
@@ -815,63 +819,94 @@ export default function CodeEditor({
 
 			{/* Side Menu */}
 			<div className="bg-gray-800 h-full w-12 flex flex-col justify-start items-center gap-8 py-4 px-2 z-20">
-				<div onClick={() => setSidebarOpen((prev) => !prev)}>
+				<div
+					onClick={() => {
+						setSidebarContent("explorer");
+						if (sidebarOpen && sidebarContent === "explorer") {
+							setSidebarOpen((prev) => !prev);
+							sidebarPanelRef.current?.collapse();
+						} else if (!sidebarOpen) {
+							setSidebarOpen((prev) => !prev);
+							sidebarPanelRef.current?.expand();
+						}
+					}}
+				>
 					<FilesIcon />
 				</div>
-				<div onClick={() => setSidebarOpen((prev) => !prev)}>
+				<div
+					onClick={() => {
+						setSidebarContent("video-conference");
+						if (
+							sidebarOpen &&
+							sidebarContent === "video-conference"
+						) {
+							setSidebarOpen((prev) => !prev);
+							sidebarPanelRef.current?.collapse();
+						} else if (!sidebarOpen) {
+							setSidebarOpen((prev) => !prev);
+							sidebarPanelRef.current?.expand();
+						}
+					}}
+				>
 					<VideoIcon />
 				</div>
 			</div>
 
 			<SidebarProvider open={sidebarOpen}>
-				{0 ? (
-					<AppSidebar
-						virtualboxData={virtualboxData}
-						setFiles={setFiles}
-						files={files}
-						selectFile={selectFile}
-						handleRename={handleRename}
-						handleDeleteFile={handleDeleteFile}
-						handleDeleteFolder={handleDeleteFolder}
-						socket={getSocket()!}
-						addNew={(name, type) => {
-							if (type === "file") {
-								setFiles((prev) => [
-									...prev,
-									{
-										id: `projects/${virtualboxData.id}/${name}`,
-										name,
-										type: "file",
-									},
-								]);
-							} else {
-								setFiles((prev) => [
-									...prev,
-									{
-										id: `projects/${virtualboxData.id}/${name}`,
-										name,
-										type: "folder",
-										children: [],
-									},
-								]);
-							}
-						}}
-						ai={ai}
-						setAi={setAi}
-						deletingFolderId={deletingFolderId}
-					/>
-				) : (
-					<Sidebar>
-						<VideoConference />
-					</Sidebar>
-				)}
-
 				<ResizablePanelGroup direction="horizontal">
 					<ResizablePanel
-						maxSize={80}
+						ref={sidebarPanelRef}
+						defaultSize={20} // width percentage
+						minSize={15}
+						collapsible
+						collapsedSize={0} // when collapsed, takes no space
+						onCollapse={() => setSidebarOpen(false)}
+						onExpand={() => setSidebarOpen(true)}
+					>
+						<AppSidebar
+							sidebarContent={sidebarContent}
+							virtualboxData={virtualboxData}
+							setFiles={setFiles}
+							files={files}
+							selectFile={selectFile}
+							handleRename={handleRename}
+							handleDeleteFile={handleDeleteFile}
+							handleDeleteFolder={handleDeleteFolder}
+							socket={getSocket()!}
+							addNew={(name, type) => {
+								if (type === "file") {
+									setFiles((prev) => [
+										...prev,
+										{
+											id: `projects/${virtualboxData.id}/${name}`,
+											name,
+											type: "file",
+										},
+									]);
+								} else {
+									setFiles((prev) => [
+										...prev,
+										{
+											id: `projects/${virtualboxData.id}/${name}`,
+											name,
+											type: "folder",
+											children: [],
+										},
+									]);
+								}
+							}}
+							ai={ai}
+							setAi={setAi}
+							deletingFolderId={deletingFolderId}
+						/>
+					</ResizablePanel>
+
+					<ResizableHandle />
+
+					<ResizablePanel
 						minSize={30}
 						defaultSize={60}
-						className="flex flex-col p-2"
+						className="flex flex-col p-2 w-full grow"
 					>
 						<div className="h-10 w-full flex gap-2">
 							{tabs.map((tab) => (
@@ -903,6 +938,7 @@ export default function CodeEditor({
 										<Cursors yProvider={provider} />
 									) : null}
 									<Editor
+										width={"100%"}
 										height={"100%"}
 										defaultLanguage="typescript"
 										theme="vs-dark"
