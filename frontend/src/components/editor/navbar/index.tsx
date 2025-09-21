@@ -42,7 +42,7 @@ export default function Navbar({
 				data={virtualboxData}
 				shared={shared}
 			/>
-			<div className="h-14 px-2 py-2 w-full flex items-center justify-between border-b border-border">
+			<div className="h-14 px-4 py-2 w-full flex items-center justify-between border-b border-border">
 				<div className="flex items-center space-x-4">
 					<Link
 						href="/"

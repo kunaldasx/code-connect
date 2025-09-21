@@ -77,52 +77,86 @@ export default function AppSidebar({
 		const el = ref.current;
 
 		if (el) {
+			console.log(
+				"Setting up root drop target with ID:",
+				`projects/${virtualboxData.id}`
+			);
 			return dropTargetForElements({
 				element: el,
 				getData: () => ({ id: `projects/${virtualboxData.id}` }),
 				canDrop: ({ source }) => {
+					console.log("Root canDrop check:", source.data.id);
 					const file = files.find(
 						(child) => child.id === source.data.id
 					);
-					return !file;
+					const canDrop = !file;
+					console.log("Root canDrop result:", canDrop);
+					return canDrop;
+				},
+				onDragEnter: () => {
+					console.log("Drag entered root folder");
+				},
+				onDrop: () => {
+					console.log("Drop on root folder detected");
 				},
 			});
 		}
-	}, [files]);
+	}, [files, virtualboxData.id]);
 
 	useEffect(() => {
+		console.log("Setting up monitor for elements");
+
 		return monitorForElements({
-			onDrop({ source, location }) {
+			onGenerateDragPreview: ({ source }) => {
+				console.log("Drag preview generated:", source.data.id);
+			},
+			onDragStart: ({ source }) => {
+				console.log("Drag started:", source.data.id);
+			},
+			onDropTargetChange: ({ location }) => {
+				console.log(
+					"Drop target changed:",
+					location.current.dropTargets.map((t) => t.data.id)
+				);
+			},
+			onDrop: ({ source, location }) => {
 				const destination = location.current.dropTargets[0];
 				if (!destination) {
+					console.log("No destination found");
+					return;
+				}
+
+				// Add null check for socket
+				if (!socket) {
+					console.error("Socket is not connected");
 					return;
 				}
 
 				const fileId = source.data.id as string;
 				const folderId = destination.data.id as string;
 
-				const fileFolder = fileId
-					.split("/")
-					.slice(0 - 1)
-					.join("/");
+				const fileFolder = fileId.split("/").slice(0, -1).join("/");
+
 				if (fileFolder === folderId) {
+					console.log("File is already in this folder");
 					return;
 				}
 
 				setMovingId(fileId);
+
 				socket.emit(
 					"moveFile",
 					fileId,
 					folderId,
 					(response: (TFolder | TFile)[]) => {
+						console.log("Move file response:", response);
 						setFiles(response);
 						setMovingId("");
 					}
 				);
 			},
 		});
-	}, []);
-
+	}, [socket, setFiles, virtualboxData.id]);
 	return (
 		<Sidebar className="h-[calc(100vh-56px)] relative max-h-full flex flex-col items-start w-full">
 			{sidebarContent === "explorer" ? (

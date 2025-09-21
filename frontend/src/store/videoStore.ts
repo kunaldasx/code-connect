@@ -44,9 +44,7 @@ export const useVideoStore = create<VideoStore>((set, get) => ({
 			const newPeers = new Map(state.peers);
 			const existingPeer = newPeers.get(userId);
 
-			// FIXED: Update existing peer or create new one
 			if (existingPeer) {
-				// Update existing peer with new stream if provided
 				newPeers.set(userId, {
 					...existingPeer,
 					peer: peer || existingPeer.peer,
@@ -55,7 +53,6 @@ export const useVideoStore = create<VideoStore>((set, get) => ({
 					avatar: avatar || existingPeer.avatar,
 				});
 			} else {
-				// Create new peer
 				newPeers.set(userId, {
 					id: userId,
 					peer,
@@ -75,7 +72,6 @@ export const useVideoStore = create<VideoStore>((set, get) => ({
 			const newPeers = new Map(state.peers);
 			const peer = newPeers.get(userId);
 			if (peer) {
-				// FIXED: Only destroy if peer exists and has destroy method
 				if (peer.peer && typeof peer.peer.destroy === "function") {
 					peer.peer.destroy();
 				}
@@ -87,14 +83,25 @@ export const useVideoStore = create<VideoStore>((set, get) => ({
 	},
 
 	toggleVideo: () => {
-		const { localStream, isVideoEnabled } = get();
-		if (localStream) {
-			const videoTrack = localStream.getVideoTracks()[0];
-			if (videoTrack) {
-				videoTrack.enabled = !isVideoEnabled;
-				set({ isVideoEnabled: !isVideoEnabled });
+		set((state) => {
+			const { localStream, isVideoEnabled } = state;
+			const newVideoEnabled = !isVideoEnabled;
+
+			if (localStream) {
+				const videoTrack = localStream.getVideoTracks()[0];
+				if (videoTrack) {
+					videoTrack.enabled = newVideoEnabled;
+				}
 			}
-		}
+
+			console.log(`Video toggled to: ${newVideoEnabled}`);
+			return {
+				isVideoEnabled: newVideoEnabled,
+				// Force a state update by creating a new timestamp or counter
+				// This helps trigger re-renders in components
+				lastVideoToggle: Date.now(),
+			};
+		});
 	},
 
 	toggleAudio: () => {
@@ -113,12 +120,10 @@ export const useVideoStore = create<VideoStore>((set, get) => ({
 	cleanup: () => {
 		const { localStream, peers } = get();
 
-		// Stop local stream
 		if (localStream) {
 			localStream.getTracks().forEach((track) => track.stop());
 		}
 
-		// Destroy all peer connections
 		peers.forEach((peer) => {
 			if (peer.peer && typeof peer.peer.destroy === "function") {
 				peer.peer.destroy();
