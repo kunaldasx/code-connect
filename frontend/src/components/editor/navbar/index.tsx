@@ -1,15 +1,17 @@
 "use client";
 import Image from "next/image";
-import Logo from "@/assets/logo.svg";
+import Logo from "@/assets/logo.png";
 import { Pencil, Users } from "lucide-react";
 import Link from "next/link";
 import { User, Virtualbox } from "@/types/codeEditor";
-import UserButton from "@/components/ui/userButton";
 import { useState } from "react";
 import EditVirtualboxModal from "./edit";
 import { Button } from "@/components/ui/button";
 import ShareVirtualboxModal from "./share";
 import { Avatars } from "../live/avatars";
+import ThemeButton from "@/components/shared/themeButton";
+import { dark } from "@clerk/themes";
+import { UserButton } from "@clerk/nextjs";
 
 export default function Navbar({
 	userData,
@@ -46,7 +48,13 @@ export default function Navbar({
 						href="/"
 						className="ring-offset-2 ring-offset-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none rounded-sm"
 					>
-						<Image src={Logo} alt="Logo" width={36} height={36} />
+						<Image
+							src={Logo}
+							alt="Logo"
+							width={36}
+							height={36}
+							className="stroke-indigo-400 fill-indigo-400 text-"
+						/>
 					</Link>
 					<div className="text-sm font-medium flex items-center">
 						{virtualboxData.name}
@@ -59,20 +67,21 @@ export default function Navbar({
 							</button>
 						) : null}
 					</div>
-					<div className="flex items-center space-x-4">
-						<Avatars />
-						{isOwner ? (
-							<Button
-								variant={"outline"}
-								onClick={() => setIsShareOpen(true)}
-							>
-								<Users className="w-4 h-4 mr-2" />
-								Share
-							</Button>
-						) : null}
+				</div>
+				<div className="flex items-center space-x-2">
+					<Avatars />
+					{isOwner ? (
+						<Button
+							variant={"outline"}
+							onClick={() => setIsShareOpen(true)}
+						>
+							<Users className="w-4 h-4 mr-2" />
+							Share
+						</Button>
+					) : null}
 
-						<UserButton userData={userData} />
-					</div>
+					<ThemeButton />
+					<UserButton appearance={{ theme: dark }} />
 				</div>
 			</div>
 		</>

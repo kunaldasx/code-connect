@@ -19,7 +19,8 @@ import { BeforeMount, Editor, OnMount } from "@monaco-editor/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import monaco from "monaco-editor";
 import { useClerk } from "@clerk/nextjs";
-import Tab from "../ui/tab";
+import FileTab from "../shared/fileTab";
+import TerminalTab from "../shared/terminalTab";
 import { TFile, TFolder, TTab } from "./sidebar/types";
 import { io, Socket } from "socket.io-client";
 import { processFileType } from "@/lib/utils";
@@ -488,7 +489,6 @@ export default function CodeEditor({
 						}, 0);
 					}
 				}
-			} else {
 			}
 		};
 
@@ -856,8 +856,8 @@ export default function CodeEditor({
 				<ResizablePanelGroup direction="horizontal">
 					<ResizablePanel
 						ref={sidebarPanelRef}
-						defaultSize={20} // width percentage
-						minSize={15}
+						defaultSize={18} // width percentage
+						minSize={18}
 						collapsible
 						collapsedSize={0} // when collapsed, takes no space
 						onCollapse={() => setSidebarOpen(false)}
@@ -910,7 +910,7 @@ export default function CodeEditor({
 					>
 						<div className="h-10 w-full flex gap-2">
 							{tabs.map((tab) => (
-								<Tab
+								<FileTab
 									key={tab.id}
 									saved={tab.saved}
 									selected={activeId === tab.id}
@@ -918,7 +918,7 @@ export default function CodeEditor({
 									onClose={() => closeTab(tab.id)}
 								>
 									{tab.name}
-								</Tab>
+								</FileTab>
 							))}
 						</div>
 						<div
@@ -972,7 +972,7 @@ export default function CodeEditor({
 										language={editorLanguage}
 										options={{
 											minimap: {
-												enabled: false,
+												enabled: true,
 											},
 											padding: {
 												bottom: 4,
@@ -1020,7 +1020,7 @@ export default function CodeEditor({
 							>
 								<div className="h-10 w-full flex gap-2 shrink-0 overflow-auto tab-scroll">
 									{terminals.map((term) => (
-										<Tab
+										<TerminalTab
 											key={term.id}
 											onClick={() =>
 												setActiveTerminalId(term.id)
@@ -1034,7 +1034,7 @@ export default function CodeEditor({
 										>
 											<SquareTerminal className="w-4 h-4 mr-2" />
 											Shell
-										</Tab>
+										</TerminalTab>
 									))}
 									<Button
 										disabled={creatingTerminal}

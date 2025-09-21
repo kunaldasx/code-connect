@@ -1,12 +1,11 @@
-import { ChevronLeft, Clock, Pencil } from "lucide-react";
-import { Button } from "../../ui/button";
 import Image from "next/image";
-import Logo from "@/assets/logo.svg";
+import Logo from "@/assets/logo.png";
 import { dark } from "@clerk/themes";
 import Link from "next/link";
 import DashboardNavbarSearch from "./search";
-import UserButton from "@/components/ui/userButton";
 import { User } from "@/types/codeEditor";
+import ThemeButton from "@/components/shared/themeButton";
+import { UserButton } from "@clerk/nextjs";
 
 export default function Navbar({ userData }: { userData: User }) {
 	return (
@@ -22,9 +21,10 @@ export default function Navbar({ userData }: { userData: User }) {
 					Virtualbox
 				</div>
 			</div>
-			<div className="flex items-center space-x-4">
+			<div className="flex items-center space-x-2">
 				<DashboardNavbarSearch />
-				<UserButton userData={userData} />
+				<ThemeButton />
+				<UserButton appearance={{ theme: dark }} />
 			</div>
 		</div>
 	);
