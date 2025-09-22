@@ -27,20 +27,23 @@ export default function New({
 					"createFile",
 					name,
 					({ success }: { success: boolean }) => {
-						if (success) {
-							addNew(name, type);
-						}
+						if (success) console.log("New file created");
+						else console.log("Filed to create file");
 					}
 				);
 			} else {
-				socket.emit("createFolder", name, () => {
-					addNew(name, type);
-				});
+				socket.emit(
+					"createFolder",
+					name,
+					({ success }: { success: boolean }) => {
+						if (success) console.log("New folder created");
+						else console.log("Filed to create folder");
+					}
+				);
 			}
 		}
 		stopEditing();
 	};
-
 	useEffect(() => {
 		inputRef.current?.focus();
 	}, []);

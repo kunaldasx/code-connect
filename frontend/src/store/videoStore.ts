@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 interface Peer {
 	id: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	peer: any; // SimplePeer instance
 	stream?: MediaStream;
 	name?: string;
@@ -18,6 +19,7 @@ interface VideoStore {
 	setLocalStream: (stream: MediaStream | null) => void;
 	addPeer: (
 		userId: string,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		peer: any,
 		stream?: MediaStream,
 		name?: string,
@@ -97,8 +99,6 @@ export const useVideoStore = create<VideoStore>((set, get) => ({
 			console.log(`Video toggled to: ${newVideoEnabled}`);
 			return {
 				isVideoEnabled: newVideoEnabled,
-				// Force a state update by creating a new timestamp or counter
-				// This helps trigger re-renders in components
 				lastVideoToggle: Date.now(),
 			};
 		});
