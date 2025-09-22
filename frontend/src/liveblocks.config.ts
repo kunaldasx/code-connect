@@ -28,6 +28,7 @@ export type UserMeta = {
 	};
 };
 type RoomEvent =
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	| { type: "webrtc-signal"; from: string; to: string; signal: any }
 	| { type: "user-joined-call"; userId: string }
 	| { type: "user-left-call"; userId: string };

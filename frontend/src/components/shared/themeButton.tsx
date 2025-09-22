@@ -11,7 +11,7 @@ const ThemeButton = () => {
 
 	if (!mounted) return null;
 	return (
-		<label className="switch cursor-pointer scale-75">
+		<label className="switch cursor-pointer scale-[70%]">
 			<span className="sun">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 					<g fill="#ffd43b">

@@ -41,6 +41,7 @@ import { TypedLiveblocksProvider, useRoom } from "@/liveblocks.config";
 import { Awareness } from "y-protocols/awareness";
 import { SidebarProvider } from "../ui/sidebar";
 import AppSidebar from "./sidebar";
+import { useTheme } from "next-themes";
 
 export default function CodeEditor({
 	userData,
@@ -107,6 +108,7 @@ export default function CodeEditor({
 	const socketRef = useRef<Socket | null>(null);
 
 	const [isConnecting, setIsConnecting] = useState(false);
+	const { theme, setTheme } = useTheme();
 
 	// ✅ FIXED: Memoize socket connection parameters to avoid reconnections
 	const connectionParams = useMemo(
@@ -828,7 +830,7 @@ export default function CodeEditor({
 			</div>
 
 			{/* Side Menu */}
-			<div className="bg-secondary h-full w-12 flex flex-col justify-start items-center gap-8 py-4 px-2 z-20">
+			<div className="bg-secondary h-full w-12 flex flex-col justify-start items-center gap-8 z-20">
 				<div
 					onClick={() => {
 						setSidebarContent("explorer");
@@ -840,8 +842,13 @@ export default function CodeEditor({
 							sidebarPanelRef.current?.expand();
 						}
 					}}
+					className={`${
+						sidebarContent === "explorer"
+							? "border-l-4 border-blue-500"
+							: "text-gray-500"
+					} p-2 hover:text-foreground`}
 				>
-					<FilesIcon />
+					<FilesIcon className="size-7" />
 				</div>
 				<div
 					onClick={() => {
@@ -857,8 +864,13 @@ export default function CodeEditor({
 							sidebarPanelRef.current?.expand();
 						}
 					}}
+					className={`${
+						sidebarContent === "video-conference"
+							? "border-l-4 border-blue-500"
+							: "text-gray-500"
+					} p-2 hover:text-foreground`}
 				>
-					<VideoIcon />
+					<VideoIcon className="size-7" />
 				</div>
 			</div>
 
@@ -951,7 +963,11 @@ export default function CodeEditor({
 										width={"100%"}
 										height={"100%"}
 										defaultLanguage="typescript"
-										theme="vs-dark"
+										theme={
+											theme === "dark"
+												? "vs-dark"
+												: "light"
+										}
 										beforeMount={handleEditorWillMount}
 										onMount={handleEditorMount}
 										onChange={(value) => {

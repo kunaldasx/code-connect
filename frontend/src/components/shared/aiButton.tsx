@@ -8,7 +8,7 @@ const AIButton = ({
 	onCheckedChange: Dispatch<SetStateAction<boolean>>;
 }) => {
 	return (
-		<div className="toggle-cont">
+		<div className="toggle-cont scale-90">
 			<input
 				className="toggle-input"
 				id="toggle"

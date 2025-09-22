@@ -23,7 +23,7 @@ export default function FileTab({
 			variant={"secondary"}
 			className={`font-normal select-none ${
 				selected
-					? "bg-neutral-700 hover:bg-neutral-600 text-foreground"
+					? "bg-secondary hover:bg-secondary/40 text-foreground"
 					: "text-muted-foreground"
 			}`}
 		>

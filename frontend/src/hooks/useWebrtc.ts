@@ -92,12 +92,14 @@ export function useWebRTC() {
 			peer.on("signal", (data) => {
 				console.log(`Sending signal to ${userId}:`, data.type);
 				// Send signal to the other peer via Liveblocks
-				broadcast({
-					type: "webrtc-signal",
-					from: self?.id || "",
-					to: userId,
-					signal: data,
-				});
+				broadcast(
+					JSON.stringify({
+						type: "webrtc-signal",
+						from: self?.id || "",
+						to: userId,
+						signal: data,
+					})
+				);
 			});
 
 			peer.on("stream", (remoteStream) => {

@@ -8,7 +8,7 @@ export function Avatars() {
 	const users = useOthers();
 
 	return (
-		<div className="flex space-x-2">
+		<div className="flex space-x-2 mr-2">
 			{users.map(({ connectionId, info }) => {
 				return (
 					<div
