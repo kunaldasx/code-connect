@@ -34,6 +34,7 @@ export default function Dashboard({
 			id: string;
 			name: string;
 			email: string;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			image: any;
 		};
 		sharedOn: Date;
@@ -58,8 +59,8 @@ export default function Dashboard({
 				setOpen={setNewProjectModalOpen}
 			/>
 			<AboutModal open={aboutModalOpen} setOpen={setAboutModalOpen} />
-			<div className="flex grow w-full">
-				<div className="w-56 shrink-0 border-r border-border p-4 justify-between flex flex-col">
+			<div className="flex grow h-screen w-full">
+				<div className="w-56 h-full shrink-0 border-r border-border p-4 justify-between flex flex-col">
 					<div className="flex flex-col">
 						<CustomButton
 							className="mb-4"
@@ -92,23 +93,7 @@ export default function Dashboard({
 							<Users className="w-4 h-4 mr-2" />
 							Shared With Me
 						</Button>
-						<Button
-							variant={"ghost"}
-							onClick={() => setScreen("settings")}
-							className={activeScreen("settings")}
-						>
-							<Settings className="w-4 h-4 mr-2" />
-							Settings
-						</Button>
-					</div>
-					<div className="flex flex-col">
-						<Button
-							variant={"ghost"}
-							className="justify-start font-normal text-muted-foreground"
-						>
-							<Code2 className="w-4 h-4 mr-2" />
-							Github Repo
-						</Button>
+
 						<Button
 							onClick={() => setAboutModalOpen(true)}
 							variant={"ghost"}
@@ -123,7 +108,7 @@ export default function Dashboard({
 					<DashboardProjects virtualboxes={virtualboxes} q={q} />
 				) : screen === "shared" ? (
 					<DashboardSharedWithMe shared={shared} />
-				) : screen === "settings" ? null : null}
+				) : null}
 			</div>
 		</>
 	);

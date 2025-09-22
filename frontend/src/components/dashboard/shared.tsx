@@ -23,6 +23,7 @@ export default function DashboardSharedWithMe({
 			id: string;
 			name: string;
 			email: string;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			image: any;
 		};
 		sharedOn: Date;
@@ -51,12 +52,12 @@ export default function DashboardSharedWithMe({
 												src={
 													virtualbox.type === "react"
 														? "/project-icons/react.svg"
-														: "/project-icons/node-svg"
+														: "/project-icons/node.svg"
 												}
 												width={20}
 												height={20}
 												className="mr-2"
-												alt=""
+												alt="icon"
 											/>
 											{virtualbox.name}
 										</div>

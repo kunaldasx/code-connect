@@ -6,7 +6,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Virtualbox } from "../../../lib/types";
+import { Virtualbox } from "@/types/codeEditor";
 import { Ellipsis, Globe, Lock, Trash2 } from "lucide-react";
 
 export default function ProjectCardDropdown({
@@ -25,8 +25,7 @@ export default function ProjectCardDropdown({
 					e.preventDefault();
 					e.stopPropagation();
 				}}
-				className="
-      h-6 w-6 flex items-center justify-center transition-colors bg-transparent hover:bg-muted-foreground/25 rounded-sm"
+				className="h-6 w-6 flex items-center justify-center transition-colors bg-transparent hover:bg-muted-foreground/25 rounded-sm"
 			>
 				<Ellipsis className="w-4 h-4" />
 			</DropdownMenuTrigger>
