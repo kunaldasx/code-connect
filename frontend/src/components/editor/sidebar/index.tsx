@@ -14,22 +14,13 @@ import SidebarFolder from "./folder";
 import { useEffect, useRef, useState } from "react";
 import New from "./new";
 import { Socket } from "socket.io-client";
-import Toggle from "@/components/ui/customToggle";
 import { Virtualbox } from "@/types/codeEditor";
 import {
 	dropTargetForElements,
 	monitorForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import {
-	Sidebar,
-	SidebarContent,
-	SidebarGroup,
-	SidebarHeader,
-	SidebarSeparator,
-	SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarGroup } from "@/components/ui/sidebar";
 import VideoConference from "../videoConference";
 import AIButton from "@/components/shared/aiButton";
 
@@ -77,48 +68,22 @@ export default function AppSidebar({
 		const el = ref.current;
 
 		if (el) {
-			console.log(
-				"Setting up root drop target with ID:",
-				`projects/${virtualboxData.id}`
-			);
 			return dropTargetForElements({
 				element: el,
 				getData: () => ({ id: `projects/${virtualboxData.id}` }),
 				canDrop: ({ source }) => {
-					console.log("Root canDrop check:", source.data.id);
 					const file = files.find(
 						(child) => child.id === source.data.id
 					);
 					const canDrop = !file;
-					console.log("Root canDrop result:", canDrop);
 					return canDrop;
-				},
-				onDragEnter: () => {
-					console.log("Drag entered root folder");
-				},
-				onDrop: () => {
-					console.log("Drop on root folder detected");
 				},
 			});
 		}
 	}, [files, virtualboxData.id]);
 
 	useEffect(() => {
-		console.log("Setting up monitor for elements");
-
 		return monitorForElements({
-			onGenerateDragPreview: ({ source }) => {
-				console.log("Drag preview generated:", source.data.id);
-			},
-			onDragStart: ({ source }) => {
-				console.log("Drag started:", source.data.id);
-			},
-			onDropTargetChange: ({ location }) => {
-				console.log(
-					"Drop target changed:",
-					location.current.dropTargets.map((t) => t.data.id)
-				);
-			},
 			onDrop: ({ source, location }) => {
 				const destination = location.current.dropTargets[0];
 				if (!destination) {
@@ -150,7 +115,9 @@ export default function AppSidebar({
 					folderId,
 					(response: (TFolder | TFile)[]) => {
 						console.log("Move file response:", response);
-						setFiles(response);
+						if (response) {
+							setFiles(response);
+						}
 						setMovingId("");
 					}
 				);

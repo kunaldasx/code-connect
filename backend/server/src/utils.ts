@@ -1,4 +1,4 @@
-import type { R2Files } from "./types.js";
+import type { R2Files, TFile, TFolder } from "./types.js";
 import "dotenv/config";
 
 export const renameFile = async (
@@ -180,3 +180,85 @@ export const getFolder = async (folderId: string) => {
 		return null;
 	}
 };
+
+// Updated buildHierarchicalStructure function that works with your fileData structure:
+export function buildHierarchicalStructure(
+	fileData: Array<{ id: string; data: string }>
+): (TFolder | TFile)[] {
+	const result: any[] = [];
+	const folderMap = new Map<string, any>();
+
+	// First, identify all unique folder paths from the file paths
+	const folderPaths = new Set<string>();
+
+	fileData.forEach((file) => {
+		const pathParts = file.id.split("/");
+		for (let i = 3; i < pathParts.length; i++) {
+			const folderPath = pathParts.slice(0, i).join("/");
+			folderPaths.add(folderPath);
+		}
+	});
+
+	console.log("Identified folder paths:", Array.from(folderPaths));
+
+	// Create folder objects and organize them hierarchically
+	const sortedFolderPaths = Array.from(folderPaths).sort();
+
+	sortedFolderPaths.forEach((folderPath) => {
+		const pathParts = folderPath.split("/");
+		const folderName = pathParts[pathParts.length - 1];
+
+		const folder = {
+			id: folderPath,
+			name: folderName,
+			type: "folder" as const,
+			children: [] as any[],
+		};
+
+		folderMap.set(folderPath, folder);
+
+		if (pathParts.length === 3) {
+			// Root level folder (projects/virtualboxId/foldername)
+			result.push(folder);
+		} else {
+			// Nested folder - add to parent
+			const parentPath = pathParts.slice(0, -1).join("/");
+			const parentFolder = folderMap.get(parentPath);
+			if (parentFolder && parentFolder.children) {
+				parentFolder.children.push(folder);
+			}
+		}
+	});
+
+	// Now add files to their respective folders or root
+	fileData.forEach((file) => {
+		const pathParts = file.id.split("/");
+		const fileName = pathParts[pathParts.length - 1];
+
+		const fileObj = {
+			id: file.id,
+			name: fileName,
+			type: "file" as const,
+		};
+
+		if (pathParts.length === 3) {
+			// Root level file (projects/virtualboxId/filename)
+			result.push(fileObj);
+		} else {
+			// File in a folder - find the parent folder
+			const parentPath = pathParts.slice(0, -1).join("/");
+			const parentFolder = folderMap.get(parentPath);
+			if (parentFolder && parentFolder.children) {
+				parentFolder.children.push(fileObj);
+			} else {
+				console.warn(
+					`Parent folder not found for file ${file.id}, parent path: ${parentPath}`
+				);
+			}
+		}
+	});
+
+	console.log("Built hierarchy:", JSON.stringify(result, null, 2));
+
+	return result;
+}
