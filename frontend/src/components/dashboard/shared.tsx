@@ -87,7 +87,7 @@ export default function DashboardSharedWithMe({
 					</Table>
 				</div>
 			) : (
-				<div>
+				<div className="text-muted-foreground">
 					No Virtualboxes here. Get a friend to share one with you,
 					and try out live collaboration!
 				</div>

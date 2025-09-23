@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
 import { Pencil, Users } from "lucide-react";
@@ -9,9 +10,10 @@ import EditVirtualboxModal from "./edit";
 import { Button } from "@/components/ui/button";
 import ShareVirtualboxModal from "./share";
 import { Avatars } from "../live/avatars";
-import ThemeButton from "@/components/shared/themeButton";
-import { dark } from "@clerk/themes";
+import { dark, shadcn } from "@clerk/themes";
 import { UserButton } from "@clerk/nextjs";
+import { ThemeTogglerButton } from "@/components/animate-ui/components/buttons/theme-toggler";
+import { useTheme } from "next-themes";
 
 export default function Navbar({
 	userData,
@@ -26,6 +28,7 @@ export default function Navbar({
 		image: string;
 	}[];
 }) {
+	const { theme } = useTheme();
 	const [isEditOpen, setIsEditOpen] = useState(false);
 	const [isShareOpen, setIsShareOpen] = useState(false);
 
@@ -81,8 +84,10 @@ export default function Navbar({
 						</Button>
 					) : null}
 
-					<ThemeButton />
-					<UserButton appearance={{ theme: dark }} />
+					<ThemeTogglerButton variant="ghost" />
+					<UserButton
+						appearance={{ theme: theme === dark ? dark : shadcn }}
+					/>
 				</div>
 			</div>
 		</>

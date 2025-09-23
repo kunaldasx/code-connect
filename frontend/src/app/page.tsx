@@ -1,7 +1,13 @@
-import { Button } from "@/components/ui/button";
+import { StarsBackground } from "@/components/animate-ui/components/backgrounds/stars";
+import {
+	RippleButton,
+	RippleButtonRipples,
+} from "@/components/animate-ui/components/buttons/ripple";
 import { currentUser } from "@clerk/nextjs/server";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import logo from "@/assets/logo.png";
 
 export default async function Home() {
 	const user = await currentUser();
@@ -10,24 +16,46 @@ export default async function Home() {
 		redirect("/dashboard");
 	}
 	return (
-		<div className="flex w-screen overflow-hidden overscroll-none flex-col h-screen bg-background">
-			<div className="w-full max-w-screen-md px-8 flex flex-col items-center">
-				<h1 className="text-2xl font-medium text-center mt-32">
-					A Code Connect, AI Powered, Auto-Scaling Copilot
+		<StarsBackground
+			starColor="#b88bc8"
+			className="flex w-full overflow-x-hidden overscroll-none flex-col justify-center items-center p-12"
+		>
+			<div className="w-full max-w-screen-md px-8 flex flex-col items-center gap-4 mt-12">
+				<Image
+					src={logo}
+					height={100}
+					width={100}
+					alt="logo"
+					className="object-cover"
+				/>
+				<h1 className="text-3xl font-semibold text-center leading-7">
+					Code Connect
+					<br />
+					<span className="text-sm">
+						Collaborate Smarter, Code Together
+					</span>
 				</h1>
-				<div className="text-muted-foreground mt-4 text-center">
-					Code Connect is virtual box code editing environment with
-					custom AI code autocompletion and real-time collaboration.
-					The infrastructure runs on Docker containers and Kubernetes
-					to scale automatically based on resource consumption.
+				<div className="text-muted-foreground text-center">
+					Code Connect is your all-in-one platform for real-time
+					coding and communication. Whether you’re pair programming,
+					running a coding workshop, or building a project with your
+					team, Code Connect makes collaboration seamless. Our live
+					editor lets multiple contributors work on the same codebase
+					simultaneously, with every keystroke synced instantly.
+					Built-in video conferencing keeps the conversation flowing,
+					so you can discuss ideas, debug issues, and ship faster—all
+					without switching tabs.
 				</div>
-				<div className="mt-8 flex space-x-4">
+				<div className="flex space-x-4">
 					<Link href={"/sign-up"}>
-						<Button>Go To App</Button>
+						<RippleButton>
+							Go To App
+							<RippleButtonRipples />
+						</RippleButton>
 					</Link>
 				</div>
-				<div className="w-full rounded-lg bg-neutral-800 mt-12 aspect-video" />
+				<div className="w-full rounded-lg bg-neutral-800 aspect-video" />
 			</div>
-		</div>
+		</StarsBackground>
 	);
 }
