@@ -1,13 +1,10 @@
 import { StarsBackground } from "@/components/animate-ui/components/backgrounds/stars";
-import {
-	RippleButton,
-	RippleButtonRipples,
-} from "@/components/animate-ui/components/buttons/ripple";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import logo from "@/assets/logo.png";
+import AnimatedButton from "@/components/shared/animatedButton";
 
 export default async function Home() {
 	const user = await currentUser();
@@ -48,10 +45,7 @@ export default async function Home() {
 				</div>
 				<div className="flex space-x-4">
 					<Link href={"/sign-up"}>
-						<RippleButton>
-							Go To App
-							<RippleButtonRipples />
-						</RippleButton>
+						<AnimatedButton>Go To App</AnimatedButton>
 					</Link>
 				</div>
 				<div className="w-full rounded-lg bg-neutral-800 aspect-video" />

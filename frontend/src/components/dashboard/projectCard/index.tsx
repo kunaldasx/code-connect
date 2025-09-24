@@ -1,27 +1,44 @@
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 export default function ProjectCard({
 	children,
 	id,
-	className,
 }: {
 	children: React.ReactNode;
 	id: string;
-	className?: string;
 }) {
 	return (
-		<Link
-			href={`/code/${id}`}
-			tabIndex={0}
-			className={cn(
-				className,
-				"rounded-lg border bg-card shadow h-48 text-white p-[1px] gradient-project-card-bg cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-			)}
-		>
-			<div className="rounded-[7px] p-4 h-full flex flex-col justify-between gradient-project-card">
-				{children}
-			</div>
-		</Link>
+		<>
+			<style>
+				{`
+				.card {
+					width: 300px;
+					height: 200px;
+					background-image: linear-gradient(163deg, #fe53bb 0%, #0044ff 100%);
+					border-radius: 20px;
+					transition: all .3s;
+				}	
+				.card2 {
+					width: 300px;
+					height: 200px;
+					padding: 20px;
+					border-radius: 18px;
+					transition: all .2s;
+				}	
+				.card2:hover {
+					transform: scale(0.98);
+					border-radius: 20px;
+				}	
+				.card:hover {
+					box-shadow: 0px 0px 30px 1px #8e51ea66;
+				}	
+				`}
+			</style>
+			<Link href={`/code/${id}`} tabIndex={0} className="card">
+				<div className="card2 flex flex-col justify-between items-start bg-secondary">
+					{children}
+				</div>
+			</Link>
+		</>
 	);
 }
