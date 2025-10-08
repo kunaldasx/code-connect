@@ -1,13 +1,6 @@
 "use client";
 
-import {
-	ChevronLeft,
-	ChevronRight,
-	Link,
-	RotateCw,
-	TerminalSquare,
-	UnfoldVertical,
-} from "lucide-react";
+import { Link, RotateCw, UnfoldVertical } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -37,9 +30,6 @@ export default function PreviewWindow({
 							</PreviewButton>
 						) : (
 							<>
-								{/* <PreviewButton onClick={() => console.log("Terminal")}>
-                  <TerminalSquare className="w-4 h-4" />
-                </PreviewButton> */}
 								<PreviewButton
 									onClick={() => {
 										navigator.clipboard.writeText(

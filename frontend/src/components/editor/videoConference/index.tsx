@@ -38,8 +38,6 @@ const VideoConference: React.FC = () => {
 	const totalParticipants = isInCall ? 1 + peers.size : 0;
 	const getGridClass = () => {
 		if (totalParticipants <= 2) return "grid-cols-1";
-		// if (totalParticipants <= 2) return "grid-cols-2";
-		// if (totalParticipants <= 4) return "grid-cols-2";
 		return "grid-cols-3";
 	};
 

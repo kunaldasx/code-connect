@@ -2,7 +2,6 @@
 
 import { z } from "zod";
 
-import { Virtualbox } from "../../../lib/types";
 import {
 	Dialog,
 	DialogContent,
@@ -33,6 +32,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { deleteVirtualbox, updateVirtualbox } from "@/lib/actions";
 import { toast } from "sonner";
+import { Virtualbox } from "@/types/codeEditor";
 
 const formSchema = z.object({
 	name: z.string().min(1).max(16),

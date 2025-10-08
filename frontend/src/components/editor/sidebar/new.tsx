@@ -9,7 +9,6 @@ export default function New({
 	socket,
 	type,
 	stopEditing,
-	addNew,
 }: {
 	socket: Socket;
 	type: "file" | "folder";

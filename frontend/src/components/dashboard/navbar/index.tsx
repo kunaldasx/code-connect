@@ -5,13 +5,13 @@ import Logo from "@/assets/logo.png";
 import { dark, shadcn } from "@clerk/themes";
 import Link from "next/link";
 import DashboardNavbarSearch from "./search";
-import { User } from "@/types/codeEditor";
 import { UserButton } from "@clerk/nextjs";
 import { ThemeTogglerButton } from "@/components/animate-ui/components/buttons/theme-toggler";
 import { useTheme } from "next-themes";
 
-export default function Navbar({ userData }: { userData: User }) {
+export default function Navbar() {
 	const { theme } = useTheme();
+
 	return (
 		<div className="h-14 px-2 w-full border-b border-border flex items-center justify-between">
 			<div className="flex items-center space-x-4">

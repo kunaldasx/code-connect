@@ -12,7 +12,6 @@ import {
 	dropTargetForElements,
 	monitorForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { Button } from "@/components/ui/button";
 import { Sidebar, SidebarContent, SidebarGroup } from "@/components/ui/sidebar";
 import VideoConference from "../videoConference";
 import AIButton from "@/components/shared/aiButton";

@@ -108,7 +108,7 @@ export default function CodeEditor({
 	const socketRef = useRef<Socket | null>(null);
 
 	const [isConnecting, setIsConnecting] = useState(false);
-	const { theme, setTheme } = useTheme();
+	const { theme } = useTheme();
 
 	// ✅ FIXED: Memoize socket connection parameters to avoid reconnections
 	const connectionParams = useMemo(
