@@ -32,7 +32,6 @@ import {
 import type { User } from "./types.js";
 import { fileURLToPath } from "url";
 import "dotenv/config";
-import { error } from "console";
 
 const app: Express = express();
 

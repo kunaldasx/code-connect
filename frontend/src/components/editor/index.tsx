@@ -30,7 +30,7 @@ import * as Y from "yjs";
 import { MonacoBinding } from "y-monaco";
 import { LiveblocksYjsProvider } from "@liveblocks/yjs";
 import { Cursors } from "./live/cursors";
-import { User, Virtualbox } from "@/lib/types";
+import { User, Virtualbox } from "@/types/codeEditor";
 import { Terminal } from "@xterm/xterm";
 import { createId } from "@paralleldrive/cuid2";
 import DisableAccessModal from "./live/disableModel";
@@ -38,8 +38,9 @@ import PreviewWindow from "./preview";
 import { ImperativePanelHandle } from "react-resizable-panels";
 import { TypedLiveblocksProvider, useRoom } from "@/liveblocks.config";
 import { Awareness } from "y-protocols/awareness";
-import { SidebarProvider } from "../ui/sidebar";
+import { Sidebar, SidebarProvider } from "../ui/sidebar";
 import AppSidebar from "./sidebar";
+import VideoConference from "./videoConference";
 
 export default function CodeEditor({
 	userData,
@@ -823,41 +824,48 @@ export default function CodeEditor({
 			</div>
 
 			<SidebarProvider open={sidebarOpen}>
-				<AppSidebar
-					virtualboxData={virtualboxData}
-					setFiles={setFiles}
-					files={files}
-					selectFile={selectFile}
-					handleRename={handleRename}
-					handleDeleteFile={handleDeleteFile}
-					handleDeleteFolder={handleDeleteFolder}
-					socket={getSocket()!}
-					addNew={(name, type) => {
-						if (type === "file") {
-							setFiles((prev) => [
-								...prev,
-								{
-									id: `projects/${virtualboxData.id}/${name}`,
-									name,
-									type: "file",
-								},
-							]);
-						} else {
-							setFiles((prev) => [
-								...prev,
-								{
-									id: `projects/${virtualboxData.id}/${name}`,
-									name,
-									type: "folder",
-									children: [],
-								},
-							]);
-						}
-					}}
-					ai={ai}
-					setAi={setAi}
-					deletingFolderId={deletingFolderId}
-				/>
+				{0 ? (
+					<AppSidebar
+						virtualboxData={virtualboxData}
+						setFiles={setFiles}
+						files={files}
+						selectFile={selectFile}
+						handleRename={handleRename}
+						handleDeleteFile={handleDeleteFile}
+						handleDeleteFolder={handleDeleteFolder}
+						socket={getSocket()!}
+						addNew={(name, type) => {
+							if (type === "file") {
+								setFiles((prev) => [
+									...prev,
+									{
+										id: `projects/${virtualboxData.id}/${name}`,
+										name,
+										type: "file",
+									},
+								]);
+							} else {
+								setFiles((prev) => [
+									...prev,
+									{
+										id: `projects/${virtualboxData.id}/${name}`,
+										name,
+										type: "folder",
+										children: [],
+									},
+								]);
+							}
+						}}
+						ai={ai}
+						setAi={setAi}
+						deletingFolderId={deletingFolderId}
+					/>
+				) : (
+					<Sidebar>
+						<VideoConference />
+					</Sidebar>
+				)}
+
 				<ResizablePanelGroup direction="horizontal">
 					<ResizablePanel
 						maxSize={80}

@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Virtualbox } from "@/lib/types";
+import { User, Virtualbox } from "@/types/codeEditor";
 import dynamic from "next/dynamic";
 import { JSX } from "react";
 

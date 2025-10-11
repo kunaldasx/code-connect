@@ -1,5 +1,5 @@
 import { colors } from "@/lib/colors";
-import { User } from "@/lib/types";
+import { User } from "@/types/codeEditor";
 import { currentUser } from "@clerk/nextjs/server";
 import { Liveblocks } from "@liveblocks/node";
 import { NextRequest } from "next/server";

@@ -11,7 +11,12 @@ const client = createClient({
 });
 
 // ==== Types ====
-export type Presence = {};
+type Presence = {
+	cursor: { x: number; y: number } | null;
+	inCall?: boolean;
+	userName?: string;
+	userColor?: string;
+};
 export type Storage = {};
 export type UserMeta = {
 	id: string;
@@ -21,7 +26,11 @@ export type UserMeta = {
 		color: keyof typeof colors;
 	};
 };
-export type RoomEvent = {};
+type RoomEvent =
+	| { type: "webrtc-signal"; from: string; to: string; signal: any }
+	| { type: "user-joined-call"; userId: string }
+	| { type: "user-left-call"; userId: string };
+
 export type ThreadMetadata = {};
 
 export type UserAwareness = {
@@ -30,10 +39,18 @@ export type UserAwareness = {
 export type AwarenessList = [number, UserAwareness][];
 
 // ==== Room Context ====
-export const { RoomProvider, useRoom, useSelf, useOthers, useMyPresence } =
-	createRoomContext<Presence, Storage, UserMeta, RoomEvent, ThreadMetadata>(
-		client
-	);
+export const {
+	RoomProvider,
+	useOthers,
+	useMyPresence,
+	useUpdateMyPresence,
+	useSelf,
+	useBroadcastEvent,
+	useEventListener,
+	useRoom,
+} = createRoomContext<Presence, Storage, UserMeta, RoomEvent, ThreadMetadata>(
+	client
+);
 
 // ==== Yjs Provider (non-generic) ====
 // If you want to type it, just alias the class directly.

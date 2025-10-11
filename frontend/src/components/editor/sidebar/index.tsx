@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import New from "./new";
 import { Socket } from "socket.io-client";
 import Toggle from "@/components/ui/customToggle";
-import { Virtualbox } from "@/lib/types";
+import { Virtualbox } from "@/types/codeEditor";
 import {
 	dropTargetForElements,
 	monitorForElements,
