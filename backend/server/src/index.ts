@@ -921,26 +921,6 @@ io.on("connection", async (socket) => {
 		}
 	});
 
-	// socket.on("closeTerminal", (id: string, callback) => {
-	// 	if (!terminals[id]) {
-	// 		console.log("Terminal does not exist:", id);
-	// 		callback();
-	// 		return;
-	// 	}
-
-	// 	try {
-	// 		// terminals[id].onData.dispose();
-	// 		// terminals[id].onExit.dispose();
-	// 		terminals[id].terminal.kill();
-	// 		delete terminals[id];
-	// 		console.log("Terminal closed:", id);
-	// 	} catch (error) {
-	// 		console.error("Error closing terminal:", error);
-	// 	}
-
-	// 	callback();
-	// });
-
 	socket.on("closeTerminal", (id: string, callback) => {
 		if (!terminals[id]) {
 			console.log("Terminal does not exist:", id);
@@ -949,79 +929,9 @@ io.on("connection", async (socket) => {
 		}
 
 		try {
-			const terminal = terminals[id];
-
-			// Store references before deleting
-			const terminalInstance = terminal.terminal;
-			const onDataHandler = terminal.onData;
-			const onExitHandler = terminal.onExit;
-
-			// Remove from terminals object first to prevent race conditions
+			terminals[id].onData.dispose();
+			terminals[id].onExit.dispose();
 			delete terminals[id];
-
-			// Dispose handlers safely
-			try {
-				if (
-					onDataHandler &&
-					typeof onDataHandler.dispose === "function"
-				) {
-					onDataHandler.dispose();
-				}
-				if (
-					onExitHandler &&
-					typeof onExitHandler.dispose === "function"
-				) {
-					onExitHandler.dispose();
-				}
-			} catch (err) {
-				console.error("Error disposing handlers:", err);
-			}
-
-			// Kill the terminal process
-			if (terminalInstance) {
-				if (os.platform() === "win32") {
-					// On Windows, try graceful shutdown first
-					try {
-						// Send Ctrl+C for graceful termination
-						terminalInstance.write("\x03");
-
-						// Set a timeout to force kill if graceful shutdown doesn't work
-						setTimeout(() => {
-							try {
-								// Check if terminal still exists and force kill
-								if (
-									terminalInstance &&
-									typeof terminalInstance.kill === "function"
-								) {
-									terminalInstance.kill();
-								}
-							} catch (killErr) {
-								// Terminal already dead, which is fine
-								console.log("Terminal already terminated");
-							}
-						}, 500);
-					} catch (writeErr) {
-						// If write fails, try to kill directly
-						console.error(
-							"Error writing to terminal, forcing kill:",
-							writeErr
-						);
-						try {
-							terminalInstance.kill();
-						} catch (killErr) {
-							console.log("Terminal already terminated");
-						}
-					}
-				} else {
-					// Unix-like systems: direct kill
-					try {
-						terminalInstance.kill();
-					} catch (killErr) {
-						console.log("Terminal already terminated");
-					}
-				}
-			}
-
 			console.log("Terminal closed:", id);
 		} catch (error) {
 			console.error("Error closing terminal:", error);
@@ -1029,6 +939,95 @@ io.on("connection", async (socket) => {
 
 		callback();
 	});
+
+	// socket.on("closeTerminal", (id: string, callback) => {
+	// 	if (!terminals[id]) {
+	// 		console.log("Terminal does not exist:", id);
+	// 		callback();
+	// 		return;
+	// 	}
+
+	// 	try {
+	// 		const terminal = terminals[id];
+
+	// 		// Store references before deleting
+	// 		const terminalInstance = terminal.terminal;
+	// 		const onDataHandler = terminal.onData;
+	// 		const onExitHandler = terminal.onExit;
+
+	// 		// Remove from terminals object first to prevent race conditions
+	// 		delete terminals[id];
+
+	// 		// Dispose handlers safely
+	// 		try {
+	// 			if (
+	// 				onDataHandler &&
+	// 				typeof onDataHandler.dispose === "function"
+	// 			) {
+	// 				onDataHandler.dispose();
+	// 			}
+	// 			if (
+	// 				onExitHandler &&
+	// 				typeof onExitHandler.dispose === "function"
+	// 			) {
+	// 				onExitHandler.dispose();
+	// 			}
+	// 		} catch (err) {
+	// 			console.error("Error disposing handlers:", err);
+	// 		}
+
+	// 		// Kill the terminal process
+	// 		if (terminalInstance) {
+	// 			if (os.platform() === "win32") {
+	// 				// On Windows, try graceful shutdown first
+	// 				try {
+	// 					// Send Ctrl+C for graceful termination
+	// 					terminalInstance.write("\x03");
+
+	// 					// Set a timeout to force kill if graceful shutdown doesn't work
+	// 					setTimeout(() => {
+	// 						try {
+	// 							// Check if terminal still exists and force kill
+	// 							if (
+	// 								terminalInstance &&
+	// 								typeof terminalInstance.kill === "function"
+	// 							) {
+	// 								terminalInstance.kill();
+	// 							}
+	// 						} catch (killErr) {
+	// 							// Terminal already dead, which is fine
+	// 							console.log("Terminal already terminated");
+	// 						}
+	// 					}, 500);
+	// 				} catch (writeErr) {
+	// 					// If write fails, try to kill directly
+	// 					console.error(
+	// 						"Error writing to terminal, forcing kill:",
+	// 						writeErr
+	// 					);
+	// 					try {
+	// 						terminalInstance.kill();
+	// 					} catch (killErr) {
+	// 						console.log("Terminal already terminated");
+	// 					}
+	// 				}
+	// 			} else {
+	// 				// Unix-like systems: direct kill
+	// 				try {
+	// 					terminalInstance.kill();
+	// 				} catch (killErr) {
+	// 					console.log("Terminal already terminated");
+	// 				}
+	// 			}
+	// 		}
+
+	// 		console.log("Terminal closed:", id);
+	// 	} catch (error) {
+	// 		console.error("Error closing terminal:", error);
+	// 	}
+
+	// 	callback();
+	// });
 
 	socket.on("terminalData", (id: string, data: string) => {
 		if (!terminals[id]) {
