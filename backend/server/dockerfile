@@ -1,0 +1,44 @@
+# -------------------------
+# Stage 1: Build
+# -------------------------
+FROM node:20 AS builder
+
+WORKDIR /app
+
+# Copy only dependency files first
+COPY package*.json ./
+
+# Install all dependencies (dev + prod) for build
+RUN npm ci --legacy-peer-deps
+
+# Copy source code
+COPY . .
+
+# Build project (e.g., TypeScript → dist/)
+RUN npm run build
+
+# -------------------------
+# Stage 2: Production image
+# -------------------------
+FROM node:20-slim
+
+WORKDIR /app
+
+# Copy only package.json files
+COPY package*.json ./
+
+# Install only production dependencies
+RUN npm ci --omit=dev --legacy-peer-deps && \
+	npm cache clean --force
+
+# Copy build artifacts from builder
+COPY --from=builder /app/dist ./dist
+
+# Expose port
+EXPOSE 4000
+
+# Default env var (overridden by Render/Fly/etc.)
+ENV PORT=4000
+
+# Start app
+CMD ["node", "dist/index.js"]

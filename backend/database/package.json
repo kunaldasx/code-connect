@@ -1,0 +1,33 @@
+{
+	"name": "database",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"test": "vitest",
+		"generate": "drizzle-kit generate",
+		"migrate": "drizzle-kit migrate",
+		"push": "drizzle-kit push",
+		"db:studio": "cross-env LOCAL_DB_PATH=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit studio",
+		"cf-typegen": "wrangler types"
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.8.19",
+		"@types/itty-router-extras": "^0.4.3",
+		"drizzle-kit": "^0.31.4",
+		"typescript": "^5.5.2",
+		"vitest": "~3.2.0",
+		"wrangler": "^4.34.0"
+	},
+	"dependencies": {
+		"@paralleldrive/cuid2": "^2.2.2",
+		"better-sqlite3": "^12.2.0",
+		"cross-env": "^10.0.0",
+		"drizzle-orm": "^0.44.5",
+		"itty-router": "^5.0.22",
+		"itty-router-extras": "^0.4.6",
+		"zod": "^4.1.5"
+	}
+}
