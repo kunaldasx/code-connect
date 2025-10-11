@@ -33,25 +33,139 @@ import {
 import type { User } from "./types.js";
 import { fileURLToPath } from "url";
 import "dotenv/config";
+import {
+	createProxyMiddleware,
+	responseInterceptor,
+} from "http-proxy-middleware";
+import {
+	createPreviewProxy,
+	detectDevServer,
+	previewServers,
+} from "./previewProxy.js";
+import cors from "cors";
+import type { Socket } from "net";
 
-const app: Express = express();
+interface Terminal {
+	terminal: IPty;
+	onData: any;
+	onExit: any;
+	projectId: string;
+	userId: string;
+	outputBuffer: string;
+}
 
 const port = process.env.PORT || 4000;
-
+const app: Express = express();
 const httpServer = createServer(app);
+
 const io = new Server(httpServer, {
 	cors: {
 		origin: "*",
+		credentials: true,
 	},
-	// Add connection timeout and other options
+	transports: ["websocket", "polling"],
 	connectTimeout: 60000,
 	pingTimeout: 60000,
 	pingInterval: 25000,
 });
 
+// Middleware
+app.use(
+	cors({
+		origin: process.env.CLIENT_URL || "http://localhost:3000",
+		credentials: true,
+	})
+);
+app.use(express.json());
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+	res.json({
+		status: "healthy",
+		previewServers: Array.from(previewServers.entries()).map(
+			([key, server]) => ({
+				key,
+				port: server.port,
+				type: server.type,
+				startedAt: server.startedAt,
+			})
+		),
+	});
+});
+
+// Preview proxy route - MUST be before static file serving
+app.use("/preview/:projectId/:userId", createPreviewProxy(io));
+
+// WebSocket proxy for Vite HMR
+httpServer.on("upgrade", (request, socket, head) => {
+	const url = request.url;
+
+	// Check if this is a preview WebSocket connection
+	const match = url?.match(/^\/preview\/([^\/]+)\/([^\/]+)/);
+	if (match) {
+		const projectId = match[1];
+		const userId = match[2];
+		const serverKey = `${projectId}_${userId}`;
+		const server = previewServers.get(serverKey);
+
+		if (server) {
+			// Create a WebSocket proxy for this connection
+			const wsProxy = createProxyMiddleware({
+				target: `ws://localhost:${server.port}`,
+				ws: true,
+				changeOrigin: true,
+				pathRewrite: (path) => {
+					// Remove the base path
+					const basePath = `/preview/${projectId}/${userId}`;
+					return path.replace(basePath, "") || "/";
+				},
+				on: {
+					error: (err) => {
+						console.error("WebSocket proxy error:", err);
+						socket.destroy();
+					},
+					proxyReqWs: (proxyReq, req, socket, options, head) => {
+						console.log(
+							`[WS PROXY] Upgrading WebSocket connection for ${serverKey}`
+						);
+					},
+				},
+			});
+
+			// Proxy the WebSocket connection
+			wsProxy.upgrade(request, socket as Socket, head);
+		} else {
+			// No server available, close the connection
+			socket.destroy();
+		}
+	}
+});
+
+// API endpoint to check preview status
+app.get("/api/preview-status/:projectId/:userId", (req, res) => {
+	const { projectId, userId } = req.params;
+	const serverKey = `${projectId}_${userId}`;
+	const server = previewServers.get(serverKey);
+
+	res.json({
+		available: !!server,
+		server: server
+			? {
+					port: server.port,
+					type: server.type,
+					url: `/preview/${projectId}/${userId}`,
+					startedAt: server.startedAt,
+			  }
+			: null,
+	});
+});
+
 let inactivityTimeout: NodeJS.Timeout | null = null;
 const connectionAttempts = new Map<string, number>();
 const CONNECTION_COOLDOWN = 1000; // 1 second cooldown
+
+const MAX_TERMINALS = 4;
+const BUFFER_MAX_SIZE = 10000; // Increased buffer size for better detection
 
 // Enhanced connection tracking
 const connectedUsers = new Map<
@@ -77,13 +191,7 @@ const virtualboxSessions = new Map<
 	}
 >();
 
-const terminals: {
-	[id: string]: {
-		terminal: IPty;
-		onData: IDisposable;
-		onExit: IDisposable;
-	};
-} = {};
+const terminals: Record<string, Terminal> = {};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -124,6 +232,30 @@ const disconnectExistingUser = (userKey: string) => {
 		}
 	}
 };
+
+function cleanupTerminal(id: string) {
+	try {
+		if (terminals[id]) {
+			// Dispose handlers
+			if (terminals[id].onData) {
+				terminals[id].onData.dispose();
+			}
+			if (terminals[id].onExit) {
+				terminals[id].onExit.dispose();
+			}
+
+			// Kill the process
+			terminals[id].terminal.kill();
+
+			// Remove from map
+			delete terminals[id];
+
+			console.log("Terminal cleaned up:", id);
+		}
+	} catch (error) {
+		console.error("Error cleaning up terminal:", error);
+	}
+}
 
 io.use(async (socket, next) => {
 	try {
@@ -848,94 +980,180 @@ io.on("connection", async (socket) => {
 		}
 	);
 
-	socket.on("createTerminal", (id: string, callback) => {
-		if (terminals[id]) {
-			console.log("Terminal already exists:", id);
-			callback(false);
-			return;
-		}
+	socket.on(
+		"createTerminal",
+		(
+			id: string,
+			projectId: string,
+			userId: string,
+			callback: (success: boolean) => void
+		) => {
+			// Validate terminal doesn't already exist
+			if (terminals[id]) {
+				console.log("Terminal already exists:", id);
+				callback(false);
+				return;
+			}
 
-		if (Object.keys(terminals).length >= 4) {
-			console.log("Max terminals reached");
-			callback(false);
-			return;
-		}
+			// Check maximum terminals limit
+			if (Object.keys(terminals).length >= MAX_TERMINALS) {
+				console.log("Max terminals reached");
+				callback(false);
+				return;
+			}
 
-		console.log("Creating terminal:", id);
+			console.log("Creating terminal:", id);
 
-		try {
-			const pty = spawn(
-				os.platform() === "win32" ? "powershell.exe" : "bash",
-				[],
-				{
+			try {
+				// Determine shell based on OS
+				const shell =
+					os.platform() === "win32" ? "powershell.exe" : "bash";
+				const projectPath = path.join(dirName, "projects", projectId);
+
+				// Spawn the terminal
+				const pty = spawn(shell, [], {
 					name: "xterm",
 					cols: 100,
 					rows: 30,
-					cwd: path.join(dirName, "projects", data.id),
-				}
-			);
-
-			const onData = pty.onData((data) => {
-				// Send data to all connected sockets
-				io.emit("terminalResponse", {
-					id,
-					data,
+					cwd: projectPath,
+					env: {
+						...process.env,
+						FORCE_COLOR: "1",
+						TERM: "xterm-256color",
+						COLORTERM: "truecolor",
+					},
 				});
-			});
 
-			const onExit = pty.onExit((code) => {
-				console.log(`Terminal ${id} exited with code:`, code);
-				// Clean up terminal on exit
-				if (terminals[id]) {
-					try {
-						// Safely dispose handlers
-						if (
-							terminals[id].onData &&
-							typeof terminals[id].onData.dispose === "function"
-						) {
-							terminals[id].onData.dispose();
+				// Initialize output buffer for server detection
+				let outputBuffer = "";
+				let serverDetected = false;
+
+				// Handle terminal data
+				const onData = pty.onData((terminalData) => {
+					// Accumulate output for detection
+					outputBuffer += terminalData;
+					if (outputBuffer.length > BUFFER_MAX_SIZE) {
+						outputBuffer = outputBuffer.slice(-BUFFER_MAX_SIZE);
+					}
+
+					// Only try to detect if we haven't already found a server
+					if (!serverDetected) {
+						const detected = detectDevServer(outputBuffer);
+
+						if (detected) {
+							const serverKey = `${projectId}_${userId}`;
+							const existingServer =
+								previewServers.get(serverKey);
+
+							// Only update if this is a new server or port changed
+							if (
+								!existingServer ||
+								existingServer.port !== detected.port
+							) {
+								serverDetected = true;
+
+								// Store server information
+								previewServers.set(serverKey, {
+									port: detected.port,
+									url: `http://localhost:${detected.port}`,
+									type: detected.type,
+									startedAt: new Date(),
+								});
+
+								console.log(
+									`🚀 ${detected.type.toUpperCase()} server detected for ${serverKey} on port ${
+										detected.port
+									}`
+								);
+
+								// Notify all clients in the room about the preview server
+								io.to(`project-${projectId}`).emit(
+									"previewServerReady",
+									{
+										port: detected.port,
+										url: `/preview/${projectId}/${userId}`,
+										type: detected.type,
+										terminalId: id,
+										message: `${detected.type.toUpperCase()} dev server is ready!`,
+									}
+								);
+
+								// Clear buffer after successful detection
+								outputBuffer = "";
+							}
 						}
-						if (
-							terminals[id].onExit &&
-							typeof terminals[id].onExit.dispose === "function"
-						) {
-							terminals[id].onExit.dispose();
-						}
-					} catch (err) {
-						console.error(
-							"Error disposing terminal handlers:",
-							err
+					}
+
+					// Send terminal output to clients
+					io.to(`terminal-${id}`).emit("terminalResponse", {
+						id,
+						data: terminalData,
+					});
+				});
+
+				// Handle terminal exit
+				const onExit = pty.onExit((code) => {
+					console.log(`Terminal ${id} exited with code:`, code);
+
+					// Clean up preview server mapping
+					const serverKey = `${projectId}_${userId}`;
+					if (previewServers.has(serverKey)) {
+						console.log(`Removing preview server for ${serverKey}`);
+						previewServers.delete(serverKey);
+
+						// Notify clients that preview is no longer available
+						io.to(`project-${projectId}`).emit(
+							"previewServerStopped",
+							{
+								terminalId: id,
+								message: "Dev server has stopped",
+							}
 						);
 					}
-					delete terminals[id];
-				}
-			});
 
-			terminals[id] = {
-				terminal: pty,
-				onData,
-				onExit,
-			};
-
-			// Clear screen after terminal is ready
-			setTimeout(() => {
-				if (terminals[id] && terminals[id].terminal) {
-					try {
-						terminals[id].terminal.write(
-							os.platform() === "win32" ? "cls\r" : "clear\r"
-						);
-					} catch (err) {
-						console.error("Error clearing terminal screen:", err);
+					// Clean up terminal
+					if (terminals[id]) {
+						cleanupTerminal(id);
 					}
-				}
-			}, 100);
+				});
 
-			callback(true); // Success
-		} catch (error) {
-			console.error("Error creating terminal:", error);
-			callback(false); // Failure
+				// Store terminal instance
+				terminals[id] = {
+					terminal: pty,
+					onData,
+					onExit,
+					projectId,
+					userId,
+					outputBuffer: "",
+				};
+
+				// Join the terminal room
+				socket.join(`terminal-${id}`);
+				socket.join(`project-${projectId}`);
+
+				// Clear screen after terminal is ready
+				setTimeout(() => {
+					if (terminals[id]?.terminal) {
+						try {
+							const clearCommand =
+								os.platform() === "win32" ? "cls\r" : "clear\r";
+							terminals[id].terminal.write(clearCommand);
+						} catch (err) {
+							console.error(
+								"Error clearing terminal screen:",
+								err
+							);
+						}
+					}
+				}, 100);
+
+				callback(true);
+			} catch (error) {
+				console.error("Error creating terminal:", error);
+				callback(false);
+			}
 		}
-	});
+	);
 
 	socket.on("closeTerminal", (id: string, callback) => {
 		if (!terminals[id]) {
@@ -945,9 +1163,8 @@ io.on("connection", async (socket) => {
 		}
 
 		try {
-			terminals[id].onData.dispose();
-			terminals[id].onExit.dispose();
-			delete terminals[id];
+			cleanupTerminal(id);
+			callback?.();
 			console.log("Terminal closed:", id);
 		} catch (error) {
 			console.error("Error closing terminal:", error);
@@ -1053,13 +1270,7 @@ io.on("connection", async (socket) => {
 				connectedOwners.delete(data.id);
 
 				// Clean up terminals when owner disconnects
-				Object.entries(terminals).forEach(([termId, termInfo]) => {
-					const { terminal, onData, onExit } = termInfo;
-					if (os.platform() !== "win32") terminal.kill();
-					onData.dispose();
-					onExit.dispose();
-					delete terminals[termId];
-				});
+				Object.keys(terminals).forEach(cleanupTerminal);
 
 				console.log("Owner disconnected, notifying other users");
 				socket.broadcast.emit("ownerDisconnected");
@@ -1084,8 +1295,30 @@ io.on("connection", async (socket) => {
 				}
 			}, 15000);
 		}
+
+		// Clean up preview server when user disconnects
+		const serverKey = `${data.id}_${data.userId}`;
+		if (previewServers.has(serverKey)) {
+			console.log(
+				`Removing preview server for disconnected user: ${serverKey}`
+			);
+			previewServers.delete(serverKey);
+		}
 	});
 });
+
+// Error handling middleware
+app.use(
+	(
+		err: Error,
+		req: express.Request,
+		res: express.Response,
+		next: express.NextFunction
+	) => {
+		console.error("Server error:", err);
+		res.status(500).json({ error: "Internal server error" });
+	}
+);
 
 // Add endpoint to check connected users (useful for debugging)
 app.get("/debug/connections", (req, res) => {
@@ -1106,4 +1339,21 @@ app.get("/debug/connections", (req, res) => {
 
 httpServer.listen(port, () => {
 	console.log(`[🚀 Server running on port ${port}]`);
+});
+
+export { io, httpServer };
+
+// Clean up all terminals on process exit
+process.on("exit", () => {
+	Object.keys(terminals).forEach(cleanupTerminal);
+});
+
+process.on("SIGINT", () => {
+	Object.keys(terminals).forEach(cleanupTerminal);
+	process.exit();
+});
+
+process.on("SIGTERM", () => {
+	Object.keys(terminals).forEach(cleanupTerminal);
+	process.exit();
 });

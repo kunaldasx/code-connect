@@ -426,13 +426,19 @@ export default function CodeEditor({
 			setActiveTerminalId(id);
 
 			// Emit createTerminal without delay
-			socket.emit("createTerminal", id, (success: boolean) => {
-				if (!success) {
-					// Remove the terminal if creation failed
-					setTerminals((prev) => prev.filter((t) => t.id !== id));
-					toast.error("Failed to create terminal");
+			socket.emit(
+				"createTerminal",
+				id,
+				virtualboxData.id,
+				userData.id,
+				(success: boolean) => {
+					if (!success) {
+						// Remove the terminal if creation failed
+						setTerminals((prev) => prev.filter((t) => t.id !== id));
+						toast.error("Failed to create terminal");
+					}
 				}
-			});
+			);
 		} catch (error) {
 			console.log("[createTerminal Error]", error);
 		} finally {
@@ -1029,6 +1035,8 @@ export default function CodeEditor({
 								className="p-2 flex flex-col"
 							>
 								<PreviewWindow
+									socket={getSocket()!}
+									virtualbox={virtualboxData}
 									collapsed={isPreviewCollapsed}
 									open={() => {
 										previewPanelRef.current?.expand();
