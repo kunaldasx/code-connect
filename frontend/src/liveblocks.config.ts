@@ -24,6 +24,7 @@ export type UserMeta = {
 		name: string;
 		email: string;
 		color: keyof typeof colors;
+		image: string;
 	};
 };
 type RoomEvent =

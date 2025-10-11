@@ -71,6 +71,12 @@ export function useWebRTC() {
 				`Creating peer with ${userId}, initiator: ${initiator}`
 			);
 
+			// Get user info from others array - FIXED: Use correct Liveblocks structure
+			const userInfo = others.find((user) => user.id === userId);
+			const userName =
+				userInfo?.info?.name || `User ${userId.slice(0, 8)}`;
+			const userAvatar = userInfo?.info?.image;
+
 			const peer = new SimplePeer({
 				initiator,
 				trickle: false,
@@ -86,20 +92,18 @@ export function useWebRTC() {
 			peer.on("signal", (data) => {
 				console.log(`Sending signal to ${userId}:`, data.type);
 				// Send signal to the other peer via Liveblocks
-				broadcast(
-					JSON.stringify({
-						type: "webrtc-signal",
-						from: self?.id || "",
-						to: userId,
-						signal: data,
-					})
-				);
+				broadcast({
+					type: "webrtc-signal",
+					from: self?.id || "",
+					to: userId,
+					signal: data,
+				});
 			});
 
 			peer.on("stream", (remoteStream) => {
 				console.log(`Received stream from ${userId}`);
-				// Add the remote stream to the store
-				addPeer(userId, peer, remoteStream);
+				// Add the remote stream to the store - FIXED: Pass the stream parameter
+				addPeer(userId, peer, remoteStream, userName, userAvatar);
 			});
 
 			peer.on("error", (err) => {
@@ -119,11 +123,12 @@ export function useWebRTC() {
 			});
 
 			peersRef.current.set(userId, peer);
-			addPeer(userId, peer);
+			// FIXED: Only add to store initially without stream, it will be updated when stream event fires
+			addPeer(userId, peer, undefined, userName, userAvatar);
 
 			return peer;
 		},
-		[broadcast, self?.id, addPeer, removePeer]
+		[broadcast, self?.id, addPeer, removePeer, others]
 	);
 
 	// Join the call
@@ -132,22 +137,29 @@ export function useWebRTC() {
 			const stream = await initializeMediaStream();
 			setIsInCall(true);
 
-			// Notify others that you've joined
-			broadcast({
-				type: "user-joined-call",
-				userId: self?.id,
-			});
+			// FIXED: Wait a bit for presence to update, then notify others
+			setTimeout(() => {
+				broadcast({
+					type: "user-joined-call",
+					userId: self?.id,
+				});
+			}, 100);
 
 			// Create peer connections with all users already in the call
 			// Only initiate if we should be the initiator
-			others.forEach((user) => {
-				if (user.presence?.inCall && shouldInitiate(user.id ?? "")) {
-					console.log(
-						`Initiating connection with existing user ${user.id}`
-					);
-					createPeer(user.id ?? "", true, stream);
-				}
-			});
+			setTimeout(() => {
+				others.forEach((user) => {
+					if (
+						user.presence?.inCall &&
+						shouldInitiate(user.id ?? "")
+					) {
+						console.log(
+							`Initiating connection with existing user ${user.id}`
+						);
+						createPeer(user.id ?? "", true, stream);
+					}
+				});
+			}, 200);
 		} catch (error) {
 			console.error("Failed to join call:", error);
 			setIsInCall(false);
@@ -177,8 +189,10 @@ export function useWebRTC() {
 
 	// Handle incoming WebRTC signals
 	useEventListener(({ event }) => {
+		// FIXED: Check event structure properly
 		if (event?.type === "webrtc-signal" && isInCall) {
-			const { from, to, signal } = event as unknown as SignalData;
+			const signalData = event as unknown as SignalData;
+			const { from, to, signal } = signalData;
 
 			// Only process signals meant for us
 			if (to !== self?.id) return;
@@ -204,11 +218,13 @@ export function useWebRTC() {
 		}
 
 		// Handle user joining the call
-		if (event.type === "user-joined-call" && isInCall) {
+		if (event?.type === "user-joined-call" && isInCall) {
 			const { userId } = event as any;
 
 			// Skip if it's our own event
 			if (userId === self?.id) return;
+
+			console.log(`User ${userId} joined the call`);
 
 			// Only create connection if we should initiate AND don't already have a peer
 			if (
@@ -219,7 +235,10 @@ export function useWebRTC() {
 				console.log(
 					`User ${userId} joined, we should initiate connection`
 				);
-				createPeer(userId, true, localStream);
+				// FIXED: Add a small delay to ensure both users are ready
+				setTimeout(() => {
+					createPeer(userId, true, localStream);
+				}, 300);
 			} else {
 				console.log(
 					`User ${userId} joined, waiting for them to initiate`
@@ -228,7 +247,7 @@ export function useWebRTC() {
 		}
 
 		// Handle user leaving the call
-		if (event.type === "user-left-call") {
+		if (event?.type === "user-left-call") {
 			const { userId } = event as any;
 			const peer = peersRef.current.get(userId);
 			if (peer) {
@@ -239,15 +258,6 @@ export function useWebRTC() {
 			}
 		}
 	});
-
-	// Cleanup on unmount
-	// useEffect(() => {
-	// 	return () => {
-	// 		if (isInCall) {
-	// 			leaveCall();
-	// 		}
-	// 	};
-	// }, [isInCall, leaveCall]);
 
 	return {
 		joinCall,
