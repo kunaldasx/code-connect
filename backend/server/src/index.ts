@@ -773,65 +773,6 @@ io.on("connection", async (socket) => {
 		}
 	);
 
-	// socket.on("createTerminal", (id: string, callback) => {
-	// 	if (terminals[id] || Object.keys(terminals).length >= 4) {
-	// 		return;
-	// 	}
-
-	// 	console.log("creating terminal (" + id + ")");
-	// 	const pty = spawn(os.platform() === "win32" ? "cmd.exe" : "bash", [], {
-	// 		name: "xterm",
-	// 		cols: 100,
-	// 		cwd: path.join(dirName, "projects", data.id),
-	// 	});
-
-	// 	const onData = pty.onData((data) => {
-	// 		io.emit("terminalResponse", {
-	// 			id,
-	// 			data,
-	// 		});
-	// 	});
-
-	// 	const onExit = pty.onExit((code) => console.log("exit:(", code));
-	// 	pty.write("clear\r");
-	// 	terminals[id] = {
-	// 		terminal: pty,
-	// 		onData,
-	// 		onExit,
-	// 	};
-
-	// 	callback();
-	// });
-
-	// socket.on("closeTerminal", (id: string, callback) => {
-	// 	if (!terminals[id]) {
-	// 		console.log(
-	// 			"tried to close, but term does not exists. terminals",
-	// 			terminals
-	// 		);
-	// 		return;
-	// 	}
-
-	// 	terminals[id].onData.dispose();
-	// 	terminals[id].onExit.dispose();
-
-	// 	delete terminals[id];
-
-	// 	callback();
-	// });
-
-	// socket.on("terminalData", (id: string, data: string) => {
-	// 	console.log(`Received data for terminal ${id}: ${data}`);
-	// 	if (!terminals[id]) {
-	// 		return;
-	// 	}
-
-	// 	try {
-	// 		terminals[id].terminal.write(data);
-	// 	} catch (e) {
-	// 		console.log("Error writing to terminal", e);
-	// 	}
-	// });
 	socket.on("createTerminal", (id: string, callback) => {
 		if (terminals[id]) {
 			console.log("Terminal already exists:", id);
@@ -940,95 +881,6 @@ io.on("connection", async (socket) => {
 		callback();
 	});
 
-	// socket.on("closeTerminal", (id: string, callback) => {
-	// 	if (!terminals[id]) {
-	// 		console.log("Terminal does not exist:", id);
-	// 		callback();
-	// 		return;
-	// 	}
-
-	// 	try {
-	// 		const terminal = terminals[id];
-
-	// 		// Store references before deleting
-	// 		const terminalInstance = terminal.terminal;
-	// 		const onDataHandler = terminal.onData;
-	// 		const onExitHandler = terminal.onExit;
-
-	// 		// Remove from terminals object first to prevent race conditions
-	// 		delete terminals[id];
-
-	// 		// Dispose handlers safely
-	// 		try {
-	// 			if (
-	// 				onDataHandler &&
-	// 				typeof onDataHandler.dispose === "function"
-	// 			) {
-	// 				onDataHandler.dispose();
-	// 			}
-	// 			if (
-	// 				onExitHandler &&
-	// 				typeof onExitHandler.dispose === "function"
-	// 			) {
-	// 				onExitHandler.dispose();
-	// 			}
-	// 		} catch (err) {
-	// 			console.error("Error disposing handlers:", err);
-	// 		}
-
-	// 		// Kill the terminal process
-	// 		if (terminalInstance) {
-	// 			if (os.platform() === "win32") {
-	// 				// On Windows, try graceful shutdown first
-	// 				try {
-	// 					// Send Ctrl+C for graceful termination
-	// 					terminalInstance.write("\x03");
-
-	// 					// Set a timeout to force kill if graceful shutdown doesn't work
-	// 					setTimeout(() => {
-	// 						try {
-	// 							// Check if terminal still exists and force kill
-	// 							if (
-	// 								terminalInstance &&
-	// 								typeof terminalInstance.kill === "function"
-	// 							) {
-	// 								terminalInstance.kill();
-	// 							}
-	// 						} catch (killErr) {
-	// 							// Terminal already dead, which is fine
-	// 							console.log("Terminal already terminated");
-	// 						}
-	// 					}, 500);
-	// 				} catch (writeErr) {
-	// 					// If write fails, try to kill directly
-	// 					console.error(
-	// 						"Error writing to terminal, forcing kill:",
-	// 						writeErr
-	// 					);
-	// 					try {
-	// 						terminalInstance.kill();
-	// 					} catch (killErr) {
-	// 						console.log("Terminal already terminated");
-	// 					}
-	// 				}
-	// 			} else {
-	// 				// Unix-like systems: direct kill
-	// 				try {
-	// 					terminalInstance.kill();
-	// 				} catch (killErr) {
-	// 					console.log("Terminal already terminated");
-	// 				}
-	// 			}
-	// 		}
-
-	// 		console.log("Terminal closed:", id);
-	// 	} catch (error) {
-	// 		console.error("Error closing terminal:", error);
-	// 	}
-
-	// 	callback();
-	// });
-
 	socket.on("terminalData", (id: string, data: string) => {
 		if (!terminals[id]) {
 			console.log("Terminal not found:", id);
@@ -1099,53 +951,6 @@ io.on("connection", async (socket) => {
 		}
 	);
 
-	// socket.on("disconnect", async (reason) => {
-	// 	console.log(`Socket disconnected: ${socket.id}, reason: ${reason}`);
-
-	// 	clearInterval(heartbeatInterval);
-
-	// 	// Clean up connection tracking
-	// 	const connectionInfo = connectedUsers.get(data.userKey);
-	// 	if (connectionInfo && connectionInfo.socketId === socket.id) {
-	// 		connectedUsers.delete(data.userKey);
-
-	// 		if (data.isOwner) {
-	// 			connectedOwners.delete(data.id);
-
-	// 			// Clean up terminals when owner disconnects
-	// 			Object.entries(terminals).forEach(([termId, termInfo]) => {
-	// 				const { terminal, onData, onExit } = termInfo;
-	// 				if (os.platform() !== "win32") terminal.kill();
-	// 				onData.dispose();
-	// 				onExit.dispose();
-	// 				delete terminals[termId];
-	// 			});
-
-	// 			console.log("Owner disconnected, notifying other users");
-	// 			socket.broadcast.emit("ownerDisconnected");
-	// 		} else {
-	// 			console.log("Shared user disconnected");
-	// 		}
-	// 	}
-
-	// 	// Handle inactivity timeout
-	// 	const sockets = await io.fetchSockets();
-	// 	if (inactivityTimeout) {
-	// 		clearTimeout(inactivityTimeout);
-	// 	}
-
-	// 	if (sockets.length === 0) {
-	// 		inactivityTimeout = setTimeout(async () => {
-	// 			const currentSockets = await io.fetchSockets();
-	// 			if (currentSockets.length === 0) {
-	// 				console.log(
-	// 					"No users connected for 15 seconds - cleanup complete"
-	// 				);
-	// 			}
-	// 		}, 15000);
-	// 	}
-	// });
-
 	socket.on("disconnect", async (reason) => {
 		console.log(`Socket disconnected: ${socket.id}, reason: ${reason}`);
 
@@ -1159,85 +964,14 @@ io.on("connection", async (socket) => {
 			if (data.isOwner) {
 				connectedOwners.delete(data.id);
 
-				// Clean up all terminals when owner disconnects
-				const terminalEntries = Object.entries(terminals);
-
-				for (const [termId, termInfo] of terminalEntries) {
-					try {
-						const { terminal, onData, onExit } = termInfo;
-
-						// Remove from terminals object first
-						delete terminals[termId];
-
-						// Safely dispose handlers
-						try {
-							if (
-								onData &&
-								typeof onData.dispose === "function"
-							) {
-								onData.dispose();
-							}
-							if (
-								onExit &&
-								typeof onExit.dispose === "function"
-							) {
-								onExit.dispose();
-							}
-						} catch (disposeErr) {
-							console.error(
-								`Error disposing handlers for terminal ${termId}:`,
-								disposeErr
-							);
-						}
-
-						// Kill terminal process
-						if (terminal) {
-							if (os.platform() === "win32") {
-								// Windows: try graceful shutdown
-								try {
-									terminal.write("\x03");
-									// Don't wait for timeout in disconnect, just force kill after short delay
-									setTimeout(() => {
-										try {
-											if (
-												terminal &&
-												typeof terminal.kill ===
-													"function"
-											) {
-												terminal.kill();
-											}
-										} catch (killErr) {
-											// Already dead
-										}
-									}, 100);
-								} catch (err) {
-									// If write fails, force kill
-									try {
-										terminal.kill();
-									} catch (killErr) {
-										// Already dead
-									}
-								}
-							} else {
-								// Unix: direct kill
-								try {
-									terminal.kill();
-								} catch (killErr) {
-									// Already dead
-								}
-							}
-						}
-
-						console.log(
-							`Terminal ${termId} cleaned up on owner disconnect`
-						);
-					} catch (err) {
-						console.error(
-							`Error cleaning up terminal ${termId}:`,
-							err
-						);
-					}
-				}
+				// Clean up terminals when owner disconnects
+				Object.entries(terminals).forEach(([termId, termInfo]) => {
+					const { terminal, onData, onExit } = termInfo;
+					if (os.platform() !== "win32") terminal.kill();
+					onData.dispose();
+					onExit.dispose();
+					delete terminals[termId];
+				});
 
 				console.log("Owner disconnected, notifying other users");
 				socket.broadcast.emit("ownerDisconnected");

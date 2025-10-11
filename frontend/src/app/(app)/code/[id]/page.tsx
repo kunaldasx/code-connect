@@ -4,7 +4,6 @@ import { User, UsersToVirtualboxes, Virtualbox } from "@/lib/types";
 import { currentUser } from "@clerk/nextjs/server";
 import { notFound, redirect } from "next/navigation";
 import CodeEditorWrapper from "@/components/editor/codeEditorWrapper";
-import { SidebarProvider } from "@/components/ui/sidebar";
 
 const getUserData = async (id: string) => {
 	const userRes = await fetch(
@@ -72,7 +71,6 @@ export default async function CodePage({
 					<CodeEditorWrapper
 						userData={userData}
 						virtualboxData={virtualboxData}
-						isSharedUser={isSharedUser}
 					/>
 				</div>
 			</Room>

@@ -1,46 +1,5 @@
-// import {
-// 	DeleteServiceCommand,
-// 	DescribeServicesCommand,
-// 	ECSClient,
-// 	StopTaskCommand,
-// } from "@aws-sdk/client-ecs";
 import type { R2Files } from "./types.js";
 import "dotenv/config";
-import { error } from "console";
-
-// const client = new ECSClient({
-// 	region: "us-east-1",
-// 	credentials: {
-// 		accessKeyId: "",
-// 		secretAccessKey: "",
-// 	},
-// });
-
-// export const testDescribe = async () => {
-// 	const command = new DescribeServicesCommand({
-// 		cluster: "virtualboxcc",
-// 		services: ["virtualboxcc"],
-// 	});
-
-// 	const response = await client.send(command);
-// 	console.log("describing:", response);
-// 	return response;
-// };
-
-// export const stopServer = async (service: string) => {
-// 	const command = new DeleteServiceCommand({
-// 		cluster: "virtualboxcc",
-// 		service,
-// 		force: true,
-// 	});
-
-// 	try {
-// 		const response = await client.send(command);
-// 		console.log("Stopped server:", response);
-// 	} catch (error) {
-// 		console.error("Error stopping server: ", error);
-// 	}
-// };
 
 export const renameFile = async (
 	fileId: string,
@@ -87,6 +46,7 @@ export const saveFile = async (fileId: string, data: string) => {
 			console.error(
 				`❌ saveFile failed: ${res.status} ${res.statusText}`
 			);
+
 			return false;
 		}
 

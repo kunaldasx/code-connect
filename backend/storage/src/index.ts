@@ -135,6 +135,8 @@ export default {
 			const { fileId, data } = saveSchema.parse(body);
 
 			await env.R2.put(fileId, data);
+
+			return success;
 		} else if (path === '/api/init' && method === 'POST') {
 			const initSchema = z.object({
 				virtualboxId: z.string(),
