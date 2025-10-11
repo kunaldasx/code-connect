@@ -29,8 +29,10 @@ import {
 	SidebarHeader,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
+import VideoConference from "../videoConference";
 
 export default function AppSidebar({
+	sidebarContent,
 	virtualboxData,
 	setFiles,
 	files,
@@ -44,6 +46,7 @@ export default function AppSidebar({
 	setAi,
 	deletingFolderId,
 }: {
+	sidebarContent: "explorer" | "video-conference";
 	virtualboxData: Virtualbox;
 	setFiles: (files: (TFile | TFolder)[]) => void;
 	files: (TFile | TFolder)[];
@@ -119,8 +122,8 @@ export default function AppSidebar({
 	}, []);
 
 	return (
-		<Sidebar className="h-[calc(100vh-56px)] relative max-h-full flex flex-col items-start">
-			{1 ? (
+		<Sidebar className="h-[calc(100vh-56px)] relative max-h-full flex flex-col items-start w-full">
+			{sidebarContent === "explorer" ? (
 				// File Explorer
 				<SidebarContent>
 					<div className="flex w-full items-center justify-between h-8 px-4 py-4 border-b">
@@ -215,7 +218,9 @@ export default function AppSidebar({
 				</SidebarContent>
 			) : (
 				// Code Generation
-				<></>
+				<SidebarContent>
+					<VideoConference />
+				</SidebarContent>
 			)}
 		</Sidebar>
 	);

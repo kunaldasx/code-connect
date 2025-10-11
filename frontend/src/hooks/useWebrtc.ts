@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import SimplePeer from "simple-peer";
 import {
 	useBroadcastEvent,
@@ -44,7 +44,7 @@ export function useWebRTC() {
 			return stream;
 		} catch (error) {
 			console.error("Error accessing media devices:", error);
-			throw error;
+			return new MediaStream();
 		}
 	}, [setLocalStream]);
 
@@ -86,12 +86,14 @@ export function useWebRTC() {
 			peer.on("signal", (data) => {
 				console.log(`Sending signal to ${userId}:`, data.type);
 				// Send signal to the other peer via Liveblocks
-				broadcast({
-					type: "webrtc-signal",
-					from: self?.id || "",
-					to: userId,
-					signal: data,
-				});
+				broadcast(
+					JSON.stringify({
+						type: "webrtc-signal",
+						from: self?.id || "",
+						to: userId,
+						signal: data,
+					})
+				);
 			});
 
 			peer.on("stream", (remoteStream) => {
@@ -139,11 +141,11 @@ export function useWebRTC() {
 			// Create peer connections with all users already in the call
 			// Only initiate if we should be the initiator
 			others.forEach((user) => {
-				if (user.presence?.inCall && shouldInitiate(user.id)) {
+				if (user.presence?.inCall && shouldInitiate(user.id ?? "")) {
 					console.log(
 						`Initiating connection with existing user ${user.id}`
 					);
-					createPeer(user.id, true, stream);
+					createPeer(user.id ?? "", true, stream);
 				}
 			});
 		} catch (error) {
@@ -175,7 +177,7 @@ export function useWebRTC() {
 
 	// Handle incoming WebRTC signals
 	useEventListener(({ event }) => {
-		if (event.type === "webrtc-signal" && isInCall) {
+		if (event?.type === "webrtc-signal" && isInCall) {
 			const { from, to, signal } = event as unknown as SignalData;
 
 			// Only process signals meant for us
@@ -239,13 +241,13 @@ export function useWebRTC() {
 	});
 
 	// Cleanup on unmount
-	useEffect(() => {
-		return () => {
-			if (isInCall) {
-				leaveCall();
-			}
-		};
-	}, [isInCall, leaveCall]);
+	// useEffect(() => {
+	// 	return () => {
+	// 		if (isInCall) {
+	// 			leaveCall();
+	// 		}
+	// 	};
+	// }, [isInCall, leaveCall]);
 
 	return {
 		joinCall,
