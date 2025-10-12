@@ -52,68 +52,89 @@ const startercode = {
 			body: `
         import { defineConfig } from 'vite';
         import react from '@vitejs/plugin-react';
-
+            
         export default defineConfig({
           plugins: [react()],
 
+          // Base path configuration
+          base: '/', 
+          
           // Server configuration for development
           server: {
             port: 5173,
-            host: '0.0.0.0',
+            host: '0.0.0.0', // Listen on all network interfaces
             strictPort: true,
-
+            
             // HMR configuration
             hmr: {
               // Use WebSocket protocol
               protocol: 'ws',
-              // Accept connections from any host (needed for proxy)
-              host: 'localhost',
+              // Use the same port as the dev server
               port: 5173,
+              // Allow connections from any host
+              host: 'localhost',
             },
-
+            
             // Allow connections from the proxy
             cors: {
               origin: '*',
               credentials: true
             },
-
+            
+            // Watch options for better file watching
+            watch: {
+              usePolling: true, // Use polling for file changes (better for containers/remote)
+              interval: 100, // Check for changes every 100ms
+            },
+            
             // Configure allowed hosts
             fs: {
-              strict: false
+              strict: false,
+              allow: ['..'] // Allow serving files from parent directory
             }
           },
-
-          // Base URL configuration (important for proxied apps)
-          base: './',
-
+            
           // Build configuration
           build: {
-            // Generate relative paths in build output
+            // Generate with absolute paths in build output
             outDir: 'dist',
             assetsDir: 'assets',
-
+            
+            // Source maps for debugging
+            sourcemap: true,
+            
             // Ensure proper module resolution
             rollupOptions: {
               output: {
-                // Use relative paths for assets
+                // Use consistent naming for assets
                 assetFileNames: 'assets/[name]-[hash][extname]',
                 chunkFileNames: 'assets/[name]-[hash].js',
                 entryFileNames: 'assets/[name]-[hash].js',
               }
             }
           },
-
+            
           // Resolve configuration
           resolve: {
             alias: {
               '@': '/src',
             }
           },
-
+            
           // Optimize dependencies
           optimizeDeps: {
             include: ['react', 'react-dom'],
-            exclude: []
+            exclude: [],
+            // Force pre-bundling of dependencies
+            force: true
+          },
+            
+          // Explicitly handle preview path rewriting
+          preview: {
+            port: 5173,
+            strictPort: true,
+            host: '0.0.0.0',
+            cors: true
           }
         });
       `,

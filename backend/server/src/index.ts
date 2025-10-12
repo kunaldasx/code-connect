@@ -17,10 +17,7 @@ import {
 import path from "path";
 import fs from "fs";
 import { spawn } from "@homebridge/node-pty-prebuilt-multiarch";
-import type {
-	IDisposable,
-	IPty,
-} from "@homebridge/node-pty-prebuilt-multiarch";
+import type { IPty } from "@homebridge/node-pty-prebuilt-multiarch";
 import os from "os";
 import {
 	MAX_BODY_SIZE,
@@ -34,16 +31,12 @@ import type { User } from "./types.js";
 import { fileURLToPath } from "url";
 import "dotenv/config";
 import {
-	createProxyMiddleware,
-	responseInterceptor,
-} from "http-proxy-middleware";
-import {
 	createPreviewProxy,
 	detectDevServer,
 	previewServers,
 } from "./previewProxy.js";
 import cors from "cors";
-import type { Socket } from "net";
+import { setupWebSocketProxy } from "./websocketHandler.js";
 
 interface Terminal {
 	terminal: IPty;
@@ -67,6 +60,7 @@ const io = new Server(httpServer, {
 	connectTimeout: 60000,
 	pingTimeout: 60000,
 	pingInterval: 25000,
+	path: "/socket.io/",
 });
 
 // Middleware
@@ -93,53 +87,35 @@ app.get("/health", (req, res) => {
 	});
 });
 
-// Preview proxy route - MUST be before static file serving
+// Preview proxy route
 app.use("/preview/:projectId/:userId", createPreviewProxy(io));
 
-// WebSocket proxy for Vite HMR
-httpServer.on("upgrade", (request, socket, head) => {
-	const url = request.url;
-
-	// Check if this is a preview WebSocket connection
-	const match = url?.match(/^\/preview\/([^\/]+)\/([^\/]+)/);
-	if (match) {
-		const projectId = match[1];
-		const userId = match[2];
-		const serverKey = `${projectId}_${userId}`;
-		const server = previewServers.get(serverKey);
-
-		if (server) {
-			// Create a WebSocket proxy for this connection
-			const wsProxy = createProxyMiddleware({
-				target: `ws://localhost:${server.port}`,
-				ws: true,
-				changeOrigin: true,
-				pathRewrite: (path) => {
-					// Remove the base path
-					const basePath = `/preview/${projectId}/${userId}`;
-					return path.replace(basePath, "") || "/";
-				},
-				on: {
-					error: (err) => {
-						console.error("WebSocket proxy error:", err);
-						socket.destroy();
-					},
-					proxyReqWs: (proxyReq, req, socket, options, head) => {
-						console.log(
-							`[WS PROXY] Upgrading WebSocket connection for ${serverKey}`
-						);
-					},
-				},
-			});
-
-			// Proxy the WebSocket connection
-			wsProxy.upgrade(request, socket as Socket, head);
-		} else {
-			// No server available, close the connection
-			socket.destroy();
+// Use middleware to catch @vite requests
+app.use((req, res, next) => {
+	if (
+		req.url.startsWith("/@vite/") ||
+		req.url.startsWith("/src/") ||
+		req.url.startsWith("/node_modules/")
+	) {
+		console.log(`[CATCH-ALL] Direct request: ${req.url}`);
+		const referer = req.get("Referer") || req.get("Referrer");
+		if (referer && referer.includes("/preview/")) {
+			const match = referer.match(/\/preview\/([^\/]+)\/([^\/]+)/);
+			if (match) {
+				const [, projectId, userId] = match;
+				const redirectUrl = `/preview/${projectId}/${userId}${req.url}`;
+				console.log(
+					`[CATCH-ALL] Redirecting ${req.url} -> ${redirectUrl}`
+				);
+				return res.redirect(302, redirectUrl);
+			}
 		}
 	}
+	next();
 });
+
+// Setup WebSocket proxy for HMR and other WebSocket connections
+setupWebSocketProxy(httpServer);
 
 // API endpoint to check preview status
 app.get("/api/preview-status/:projectId/:userId", (req, res) => {
@@ -154,9 +130,88 @@ app.get("/api/preview-status/:projectId/:userId", (req, res) => {
 					port: server.port,
 					type: server.type,
 					url: `/preview/${projectId}/${userId}`,
+					iframeUrl: `/preview/${projectId}/${userId}/iframe`,
 					startedAt: server.startedAt,
 			  }
 			: null,
+	});
+});
+
+// Get available preview options for a project
+app.get("/api/preview-options/:projectId/:userId", (req, res) => {
+	const { projectId, userId } = req.params;
+	const baseUrl = `${req.protocol}://${req.get("host")}`;
+
+	res.json({
+		approaches: {
+			iframe: {
+				name: "iframe Preview",
+				description:
+					"Embeds the dev server in an iframe - most reliable",
+				url: `${baseUrl}/preview/${projectId}/${userId}/iframe`,
+				pros: [
+					"No path rewriting needed",
+					"Perfect HMR support",
+					"Simple to implement",
+					"Works with any dev server",
+				],
+				cons: [
+					"Nested iframe experience",
+					"Some browser security restrictions",
+				],
+				recommended: true,
+			},
+
+			proxy: {
+				name: "Reverse Proxy",
+				description: "Proxies requests with path rewriting",
+				url: `${baseUrl}/preview/${projectId}/${userId}`,
+				pros: [
+					"Direct experience (no iframe)",
+					"URL path matches structure",
+				],
+				cons: [
+					"Complex path rewriting",
+					"Potential HMR issues",
+					"Asset loading problems",
+				],
+				recommended: false,
+			},
+		},
+	});
+});
+
+// Temporary endpoint to manually register a preview server for testing
+app.post("/api/register-preview/:projectId/:userId", (req, res) => {
+	const { projectId, userId } = req.params;
+	const { port, type } = req.body;
+	const serverKey = `${projectId}_${userId}`;
+
+	if (!port || !type) {
+		return res.status(400).json({ error: "Port and type are required" });
+	}
+
+	// Register the server
+	previewServers.set(serverKey, {
+		port: parseInt(port),
+		url: `http://localhost:${port}`,
+		type: type,
+		startedAt: new Date(),
+	});
+
+	console.log(
+		`🚀 Manually registered ${type.toUpperCase()} server for ${serverKey} on port ${port}`
+	);
+
+	res.json({
+		success: true,
+		message: `Preview server registered for ${serverKey}`,
+		server: {
+			port: parseInt(port),
+			type: type,
+			url: `/preview/${projectId}/${userId}`,
+			startedAt: new Date(),
+		},
 	});
 });
 
@@ -1021,23 +1076,46 @@ io.on("connection", async (socket) => {
 						FORCE_COLOR: "1",
 						TERM: "xterm-256color",
 						COLORTERM: "truecolor",
+						// Don't set base path - let proxy handle it
+						// Add Vite-specific environment variables
+						VITE_CJS_TRACE: "true",
+						NODE_ENV: "development",
 					},
 				});
 
 				// Initialize output buffer for server detection
 				let outputBuffer = "";
 				let serverDetected = false;
+				let detectionTimeout: NodeJS.Timeout;
+
+				// Set a timeout to stop looking for server after 30 seconds
+				detectionTimeout = setTimeout(() => {
+					if (!serverDetected && terminals[id]) {
+						console.log(
+							`Server detection timeout for terminal ${id}`
+						);
+						outputBuffer = ""; // Clear buffer to save memory
+					}
+				}, 30000);
 
 				// Handle terminal data
 				const onData = pty.onData((terminalData) => {
-					// Accumulate output for detection
-					outputBuffer += terminalData;
-					if (outputBuffer.length > BUFFER_MAX_SIZE) {
-						outputBuffer = outputBuffer.slice(-BUFFER_MAX_SIZE);
-					}
+					// Send terminal output to clients immediately
+					io.to(`terminal-${id}`).emit("terminalResponse", {
+						id,
+						data: terminalData,
+					});
 
-					// Only try to detect if we haven't already found a server
+					// Accumulate output for detection only if not yet detected
 					if (!serverDetected) {
+						outputBuffer += terminalData;
+
+						// Keep buffer size manageable
+						if (outputBuffer.length > BUFFER_MAX_SIZE) {
+							outputBuffer = outputBuffer.slice(-BUFFER_MAX_SIZE);
+						}
+
+						// Try to detect server
 						const detected = detectDevServer(outputBuffer);
 
 						if (detected) {
@@ -1051,6 +1129,7 @@ io.on("connection", async (socket) => {
 								existingServer.port !== detected.port
 							) {
 								serverDetected = true;
+								clearTimeout(detectionTimeout);
 
 								// Store server information
 								previewServers.set(serverKey, {
@@ -1066,39 +1145,41 @@ io.on("connection", async (socket) => {
 									}`
 								);
 
-								// Notify all clients in the room about the preview server
-								io.to(`project-${projectId}`).emit(
-									"previewServerReady",
-									{
-										port: detected.port,
-										url: `/preview/${projectId}/${userId}`,
-										type: detected.type,
-										terminalId: id,
-										message: `${detected.type.toUpperCase()} dev server is ready!`,
-									}
-								);
+								// Wait a moment for server to fully initialize
+								setTimeout(() => {
+									// Notify all clients in the room about the preview server
+									io.to(`project-${projectId}`).emit(
+										"previewServerReady",
+										{
+											port: detected.port,
+											url: `/preview/${projectId}/${userId}`,
+											type: detected.type,
+											terminalId: id,
+											message: `${detected.type.toUpperCase()} dev server is ready!`,
+										}
+									);
+								}, 1000); // Give server 1 second to fully start
 
 								// Clear buffer after successful detection
 								outputBuffer = "";
 							}
 						}
 					}
-
-					// Send terminal output to clients
-					io.to(`terminal-${id}`).emit("terminalResponse", {
-						id,
-						data: terminalData,
-					});
 				});
 
 				// Handle terminal exit
 				const onExit = pty.onExit((code) => {
 					console.log(`Terminal ${id} exited with code:`, code);
 
+					// Clear detection timeout if still active
+					if (detectionTimeout) {
+						clearTimeout(detectionTimeout);
+					}
+
 					// Clean up preview server mapping
 					const serverKey = `${projectId}_${userId}`;
 					if (previewServers.has(serverKey)) {
-						console.log(`Removing preview server for ${serverKey}`);
+						console.log(`🔴 Terminal exited, removing preview server for ${serverKey}`);
 						previewServers.delete(serverKey);
 
 						// Notify clients that preview is no longer available
@@ -1107,6 +1188,7 @@ io.on("connection", async (socket) => {
 							{
 								terminalId: id,
 								message: "Dev server has stopped",
+								serverKey: serverKey
 							}
 						);
 					}
@@ -1163,6 +1245,26 @@ io.on("connection", async (socket) => {
 		}
 
 		try {
+			// Get terminal info before cleanup
+			const terminal = terminals[id];
+			const serverKey = `${terminal.projectId}_${terminal.userId}`;
+			
+			// Clean up any associated preview server
+			if (previewServers.has(serverKey)) {
+				console.log(`🔴 Manually closing terminal, removing preview server for ${serverKey}`);
+				previewServers.delete(serverKey);
+				
+				// Notify clients that preview is no longer available
+				io.to(`project-${terminal.projectId}`).emit(
+					"previewServerStopped",
+					{
+						terminalId: id,
+						message: "Terminal closed, dev server stopped",
+						serverKey: serverKey
+					}
+				);
+			}
+			
 			cleanupTerminal(id);
 			callback?.();
 			console.log("Terminal closed:", id);
@@ -1296,13 +1398,14 @@ io.on("connection", async (socket) => {
 			}, 15000);
 		}
 
-		// Clean up preview server when user disconnects
+		// Don't immediately remove preview servers when users disconnect
+		// They might reconnect soon, and the health check will clean up dead servers
 		const serverKey = `${data.id}_${data.userId}`;
 		if (previewServers.has(serverKey)) {
 			console.log(
-				`Removing preview server for disconnected user: ${serverKey}`
+				`User disconnected, but keeping preview server ${serverKey} for potential reconnection`
 			);
-			previewServers.delete(serverKey);
+			// The health check will remove it if the server is actually dead
 		}
 	});
 });

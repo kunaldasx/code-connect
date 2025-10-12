@@ -64,7 +64,7 @@ export default async function CodePage({
 	}
 
 	return (
-		<div className="overflow-hidden overscroll-none w-screen flex flex-col h-screen bg-background">
+		<div className="overflow-hidden overscroll-none w-screen flex flex-col bg-background">
 			<Room id={virtualboxId}>
 				<Navbar
 					userData={userData}
