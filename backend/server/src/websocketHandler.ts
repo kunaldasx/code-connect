@@ -1,8 +1,8 @@
 import { createProxyMiddleware } from "http-proxy-middleware";
 import type { IncomingMessage } from "http";
 import type { Socket } from "net";
-import { previewServers } from "./previewProxy.js";
 import net from "net";
+import { previewServers } from "./preview.js";
 
 // Track active WebSocket connections
 const activeWebSocketConnections = new Map<string, Set<Socket>>();
@@ -12,24 +12,24 @@ function checkServerHealth(port: number): Promise<boolean> {
 	return new Promise((resolve) => {
 		const socket = new net.Socket();
 		const timeout = 1000; // 1 second timeout
-		
+
 		socket.setTimeout(timeout);
-		
-		socket.on('connect', () => {
+
+		socket.on("connect", () => {
 			socket.destroy();
 			resolve(true);
 		});
-		
-		socket.on('error', () => {
+
+		socket.on("error", () => {
 			resolve(false);
 		});
-		
-		socket.on('timeout', () => {
+
+		socket.on("timeout", () => {
 			socket.destroy();
 			resolve(false);
 		});
-		
-		socket.connect(port, 'localhost');
+
+		socket.connect(port, "localhost");
 	});
 }
 
@@ -38,17 +38,19 @@ setInterval(async () => {
 	for (const [serverKey, server] of previewServers.entries()) {
 		const isHealthy = await checkServerHealth(server.port);
 		if (!isHealthy) {
-			console.log(`[HEALTH CHECK] Server ${serverKey} on port ${server.port} is not responding, removing...`);
+			console.log(
+				`[HEALTH CHECK] Server ${serverKey} on port ${server.port} is not responding, removing...`
+			);
 			previewServers.delete(serverKey);
-			
+
 			// Close any active WebSocket connections for this server
 			const connections = activeWebSocketConnections.get(serverKey);
 			if (connections) {
-				connections.forEach(socket => {
+				connections.forEach((socket) => {
 					try {
 						socket.destroy();
 					} catch (e) {
-						console.error('Error destroying socket:', e);
+						console.error("Error destroying socket:", e);
 					}
 				});
 				activeWebSocketConnections.delete(serverKey);
@@ -84,17 +86,21 @@ export function setupWebSocketProxy(httpServer: any) {
 					// First check if the server is actually healthy
 					const isHealthy = await checkServerHealth(server.port);
 					if (!isHealthy) {
-						console.log(`[WS] Server ${serverKey} on port ${server.port} is not responding, removing...`);
+						console.log(
+							`[WS] Server ${serverKey} on port ${server.port} is not responding, removing...`
+						);
 						previewServers.delete(serverKey);
-						socket.write("HTTP/1.1 503 Service Unavailable\r\n\r\n");
+						socket.write(
+							"HTTP/1.1 503 Service Unavailable\r\n\r\n"
+						);
 						socket.destroy();
 						return;
 					}
-					
+
 					console.log(
 						`[WS] Found server for ${serverKey} on port ${server.port}`
 					);
-					
+
 					// Track this WebSocket connection
 					if (!activeWebSocketConnections.has(serverKey)) {
 						activeWebSocketConnections.set(serverKey, new Set());
@@ -119,25 +125,33 @@ export function setupWebSocketProxy(httpServer: any) {
 							return newPath || "/";
 						},
 
-					// Enhanced error handling
-					on: {
-						error: (err, req, socket) => {
-							console.error(`[WS] Proxy error for ${serverKey}:`, err.message);
-							
-							// Check if this is a connection refused error (server stopped)
-							if (err.message.includes('ECONNREFUSED') || err.message.includes('connect ECONNREFUSED')) {
-								console.log(`[WS] Server ${serverKey} appears to be down, removing from registry`);
-								// Remove the dead server from registry
-								previewServers.delete(serverKey);
-							}
-							
-							if (
-								socket &&
-								typeof socket.destroy === "function"
-							) {
-								socket.destroy();
-							}
-						},
+						// Enhanced error handling
+						on: {
+							error: (err, req, socket) => {
+								console.error(
+									`[WS] Proxy error for ${serverKey}:`,
+									err.message
+								);
+
+								// Check if this is a connection refused error (server stopped)
+								if (
+									err.message.includes("ECONNREFUSED") ||
+									err.message.includes("connect ECONNREFUSED")
+								) {
+									console.log(
+										`[WS] Server ${serverKey} appears to be down, removing from registry`
+									);
+									// Remove the dead server from registry
+									previewServers.delete(serverKey);
+								}
+
+								if (
+									socket &&
+									typeof socket.destroy === "function"
+								) {
+									socket.destroy();
+								}
+							},
 
 							proxyReqWs: (
 								proxyReq,
@@ -192,13 +206,16 @@ export function setupWebSocketProxy(httpServer: any) {
 								console.log(
 									`[WS] WebSocket connection closed for ${serverKey}`
 								);
-								
+
 								// Remove this socket from tracking
-								const connections = activeWebSocketConnections.get(serverKey);
+								const connections =
+									activeWebSocketConnections.get(serverKey);
 								if (connections) {
 									connections.delete(socket);
 									if (connections.size === 0) {
-										activeWebSocketConnections.delete(serverKey);
+										activeWebSocketConnections.delete(
+											serverKey
+										);
 									}
 								}
 							},

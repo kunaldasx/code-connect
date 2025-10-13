@@ -30,14 +30,13 @@ import {
 import type { User } from "./types.js";
 import { fileURLToPath } from "url";
 import "dotenv/config";
-import {
-	createPreviewProxy,
-	detectDevServer,
-	previewServers,
-} from "./previewProxy.js";
 import cors from "cors";
 import { setupWebSocketProxy } from "./websocketHandler.js";
-import { createIframePreview } from "./previewIframe.js";
+import {
+	createIframePreview,
+	detectDevServer,
+	previewServers,
+} from "./preview.js";
 
 interface Terminal {
 	terminal: IPty;
@@ -88,9 +87,8 @@ app.get("/health", (req, res) => {
 	});
 });
 
-// Preview proxy route
+// Iframe Preview route
 app.get("/preview/:projectId/:userId", createIframePreview());
-// app.use("/preview/:projectId/:userId", createPreviewProxy(io));
 
 // Use middleware to catch @vite requests
 app.use((req, res, next) => {
