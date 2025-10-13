@@ -37,6 +37,7 @@ import {
 } from "./previewProxy.js";
 import cors from "cors";
 import { setupWebSocketProxy } from "./websocketHandler.js";
+import { createIframePreview } from "./previewIframe.js";
 
 interface Terminal {
 	terminal: IPty;
@@ -88,7 +89,8 @@ app.get("/health", (req, res) => {
 });
 
 // Preview proxy route
-app.use("/preview/:projectId/:userId", createPreviewProxy(io));
+app.get("/preview/:projectId/:userId", createIframePreview());
+// app.use("/preview/:projectId/:userId", createPreviewProxy(io));
 
 // Use middleware to catch @vite requests
 app.use((req, res, next) => {
@@ -1179,7 +1181,9 @@ io.on("connection", async (socket) => {
 					// Clean up preview server mapping
 					const serverKey = `${projectId}_${userId}`;
 					if (previewServers.has(serverKey)) {
-						console.log(`🔴 Terminal exited, removing preview server for ${serverKey}`);
+						console.log(
+							`🔴 Terminal exited, removing preview server for ${serverKey}`
+						);
 						previewServers.delete(serverKey);
 
 						// Notify clients that preview is no longer available
@@ -1188,7 +1192,7 @@ io.on("connection", async (socket) => {
 							{
 								terminalId: id,
 								message: "Dev server has stopped",
-								serverKey: serverKey
+								serverKey: serverKey,
 							}
 						);
 					}
@@ -1248,23 +1252,25 @@ io.on("connection", async (socket) => {
 			// Get terminal info before cleanup
 			const terminal = terminals[id];
 			const serverKey = `${terminal.projectId}_${terminal.userId}`;
-			
+
 			// Clean up any associated preview server
 			if (previewServers.has(serverKey)) {
-				console.log(`🔴 Manually closing terminal, removing preview server for ${serverKey}`);
+				console.log(
+					`🔴 Manually closing terminal, removing preview server for ${serverKey}`
+				);
 				previewServers.delete(serverKey);
-				
+
 				// Notify clients that preview is no longer available
 				io.to(`project-${terminal.projectId}`).emit(
 					"previewServerStopped",
 					{
 						terminalId: id,
 						message: "Terminal closed, dev server stopped",
-						serverKey: serverKey
+						serverKey: serverKey,
 					}
 				);
 			}
-			
+
 			cleanupTerminal(id);
 			callback?.();
 			console.log("Terminal closed:", id);
