@@ -42,7 +42,7 @@ const VideoConference: React.FC = () => {
 	};
 
 	return (
-		<div className="w-full h-full flex flex-col justify-between items-center gap-4 p-4 overflow-hidden">
+		<div className="w-full h-[calc(100vh-56px)]  flex flex-col justify-between items-center gap-4 p-4 overflow-hidden">
 			{/* Connection Status */}
 			<div className="text-center">
 				<h2 className="text-xl font-bold mb-2">Video Conference</h2>

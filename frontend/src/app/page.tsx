@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import logo from "@/assets/logo.png";
+import previewImg from "@/assets/preview.png";
 import AnimatedButton from "@/components/shared/animatedButton";
 
 export default async function Home() {
@@ -48,7 +49,11 @@ export default async function Home() {
 						<AnimatedButton>Go To App</AnimatedButton>
 					</Link>
 				</div>
-				<div className="w-full rounded-lg bg-neutral-800 aspect-video" />
+				<Image
+					src={previewImg}
+					className="w-full rounded-lg aspect-video"
+					alt="app preview"
+				/>
 			</div>
 		</StarsBackground>
 	);
