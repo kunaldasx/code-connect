@@ -35,7 +35,7 @@
   <img src="frontend/src/assets/preview.png" alt="preview" width="100%" />
 </p>
 
-🌐 **Live Demo**🔗 [crusto-pizza.vercel.app](https://code-connect-site.vercel.app)
+🌐 **Live Demo**🔗 [code-connect-site.vercel.app](https://code-connect-site.vercel.app)
 
 ## Key Features
 
