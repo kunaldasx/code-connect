@@ -27,9 +27,11 @@ import {
 	SidebarContent,
 	SidebarGroup,
 	SidebarHeader,
+	SidebarSeparator,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
 import VideoConference from "../videoConference";
+import AIButton from "@/components/shared/aiButton";
 
 export default function AppSidebar({
 	sidebarContent,
@@ -193,9 +195,10 @@ export default function AppSidebar({
 							/>
 						) : null}
 					</SidebarGroup>
+					{/* <SidebarSeparator /> */}
 
-					<SidebarGroup className="w-full space-y-4 px-4">
-						<div className="flex items-center justify-between w-full">
+					<SidebarGroup className="w-full space-y-4 px-4 py-4 border-t overflow-hidden">
+						<div className="flex items-start justify-start w-full gap-4">
 							<div className="flex items-center">
 								<Sparkles
 									className={`h-4 w-4 mr-2 ${
@@ -209,7 +212,7 @@ export default function AppSidebar({
 									ctrl+G
 								</span>
 							</div>
-							<Switch checked={ai} onCheckedChange={setAi} />
+							<AIButton checked={ai} onCheckedChange={setAi} />
 						</div>
 						<Button className="w-full">
 							<MonitorPlay className="w-4 h-4 mr-2" /> Run
