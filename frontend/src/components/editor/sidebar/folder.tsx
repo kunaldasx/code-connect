@@ -12,7 +12,10 @@ import {
 	ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { ChevronDown, ChevronRight, Pencil, Trash2 } from "lucide-react";
-import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+	dropTargetForElements,
+	draggable,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 
 export default function SidebarFolder({
 	data,
@@ -38,6 +41,7 @@ export default function SidebarFolder({
 }) {
 	const ref = useRef(null);
 	const [isDraggedOver, setIsDraggedOver] = useState(false);
+	const [dragging, setDragging] = useState(false);
 	const isDeleting =
 		deletingFolderId.length > 0 && data.id.startsWith(deletingFolderId);
 
@@ -53,18 +57,48 @@ export default function SidebarFolder({
 		const el = ref.current;
 
 		if (el) {
-			return dropTargetForElements({
+			// Setup both draggable and drop target
+			const cleanupDraggable = draggable({
 				element: el,
-				onDragEnter: () => setIsDraggedOver(true),
-				onDragLeave: () => setIsDraggedOver(false),
-				onDrop: () => setIsDraggedOver(false),
+				onDragStart: () => setDragging(true),
+				onDrop: () => setDragging(false),
+				getInitialData: () => ({ id: data.id }),
+			});
+
+			const cleanupDropTarget = dropTargetForElements({
+				element: el,
+				onDragEnter: () => {
+					console.log("Drag entered folder:", data.name);
+					setIsDraggedOver(true);
+				},
+				onDragLeave: () => {
+					console.log("Drag left folder:", data.name);
+					setIsDraggedOver(false);
+				},
+				onDrop: () => {
+					console.log("Drop on folder:", data.name);
+					setIsDraggedOver(false);
+				},
 				getData: () => ({ id: data.id }),
-				canDrop: () => {
-					return !movingId;
+				canDrop: ({ source }) => {
+					// Don't allow dropping on itself or if currently moving
+					const sourceId = source.data.id as string;
+					console.log(
+						"canDrop check - source:",
+						sourceId,
+						"target:",
+						data.id
+					);
+					return sourceId !== data.id && !movingId;
 				},
 			});
+
+			return () => {
+				cleanupDraggable();
+				cleanupDropTarget();
+			};
 		}
-	}, []);
+	}, [data.id, data.name, movingId]);
 
 	useEffect(() => {
 		if (editing) {
@@ -77,11 +111,11 @@ export default function SidebarFolder({
 			data.id,
 			inputRef.current?.value ?? data.name,
 			data.name,
-			"file"
+			"folder" // Fix: should be "folder", not "file"
 		);
 
 		if (!renamed && inputRef.current) {
-			inputRef.current.name = data.name;
+			inputRef.current.value = data.name;
 		}
 
 		setEditing(false);
@@ -91,7 +125,7 @@ export default function SidebarFolder({
 		<ContextMenu>
 			<ContextMenuTrigger
 				ref={ref}
-				disabled={isDeleting}
+				disabled={isDeleting || dragging}
 				onDoubleClick={() => {
 					setEditing(true);
 				}}
@@ -100,6 +134,8 @@ export default function SidebarFolder({
 					isDraggedOver
 						? "bg-secondary/50 rounded-t-sm"
 						: "rounded-sm"
+				} ${
+					dragging ? "opacity-50" : ""
 				} w-full flex items-center h-7 px-1 transition-colors hover:bg-secondary cursor-pointer rounded-sm`}
 			>
 				{isOpen ? (
@@ -124,7 +160,7 @@ export default function SidebarFolder({
 					<form
 						onSubmit={(e) => {
 							e.preventDefault();
-							setEditing(false);
+							renameFolder();
 						}}
 					>
 						<input
@@ -134,17 +170,16 @@ export default function SidebarFolder({
 							ref={inputRef}
 							disabled={!editing}
 							defaultValue={data.name}
-							onBlur={() => setEditing(false)}
+							onBlur={() => renameFolder()}
 						/>
 					</form>
 				)}
 			</ContextMenuTrigger>
 			<ContextMenuContent>
 				<ContextMenuItem
-					// onClick={() => {
-					//   setEditing(true);
-					// }}
-					disabled
+					onClick={() => {
+						setEditing(true);
+					}}
 				>
 					<Pencil className="w-4 h-4 mr-2" />
 					Rename
@@ -167,7 +202,7 @@ export default function SidebarFolder({
 				>
 					<div className="w-[1px] bg-border mx-2 h-full"></div>
 					<div className="flex flex-col grow">
-						{data.children.map((child) =>
+						{data.children?.map((child) =>
 							child.type === "file" ? (
 								<SidebarFile
 									key={child.id}

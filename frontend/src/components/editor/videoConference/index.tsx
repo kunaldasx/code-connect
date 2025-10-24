@@ -37,14 +37,14 @@ const VideoConference: React.FC = () => {
 	// FIXED: Calculate grid layout based on total participants
 	const totalParticipants = isInCall ? 1 + peers.size : 0;
 	const getGridClass = () => {
-		if (totalParticipants <= 1) return "grid-cols-1";
-		if (totalParticipants <= 2) return "grid-cols-2";
-		if (totalParticipants <= 4) return "grid-cols-2";
+		if (totalParticipants <= 2) return "grid-cols-1 grid-rows-3";
+		// if (totalParticipants <= 2) return "grid-cols-2";
+		// if (totalParticipants <= 4) return "grid-cols-2";
 		return "grid-cols-3";
 	};
 
 	return (
-		<div className="w-full h-full flex flex-col justify-between items-center gap-4 p-4 bg-gray-900 min-h-screen">
+		<div className="w-full h-full flex flex-col justify-between items-center gap-4 p-4 overflow-hidden">
 			{/* Connection Status */}
 			<div className="text-white text-center">
 				<h2 className="text-xl font-bold mb-2">Video Conference</h2>
@@ -53,18 +53,19 @@ const VideoConference: React.FC = () => {
 						? `In call with ${peers.size} other${
 								peers.size !== 1 ? "s" : ""
 						  }`
-						: "Not in call"}
+						: `People in call:
+						${others.filter((u) => u.presence?.inCall).length}`}
 				</p>
+
 				{/* FIXED: Show other users' presence status */}
 				<p className="text-xs text-gray-400 mt-1">
-					Others in call:{" "}
-					{others.filter((user) => user.presence?.inCall).length}
+					People Online: {others.length}
 				</p>
 			</div>
 
 			{/* Video Grid */}
 			<div
-				className={`flex-1 grid gap-4 w-full max-w-6xl ${getGridClass()}`}
+				className={`flex-1 grid gap-4 w-full max-w-6xl ${getGridClass()} overflow-auto`}
 			>
 				{/* Local Video */}
 				{isInCall && (
@@ -103,10 +104,10 @@ const VideoConference: React.FC = () => {
 			<div className="flex gap-3 justify-center items-center">
 				<button
 					onClick={handleToggleCall}
-					className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors ${
+					className={`flex items-center gap-2 px-4 py-2 rounded-lg font-sm transition-colors ${
 						isInCall
-							? "bg-red-600 hover:bg-red-700 text-white"
-							: "bg-green-600 hover:bg-green-700 text-white"
+							? "bg-red-700 hover:bg-red-800 text-white"
+							: "bg-green-700 hover:bg-green-800 text-white"
 					}`}
 				>
 					{isInCall ? (
@@ -126,10 +127,10 @@ const VideoConference: React.FC = () => {
 					<>
 						<button
 							onClick={toggleVideo}
-							className={`flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-colors ${
+							className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
 								!isVideoEnabled
-									? "bg-gray-600 text-gray-300"
-									: "bg-blue-600 hover:bg-blue-700 text-white"
+									? "bg-gray-700 text-gray-300"
+									: "bg-primary text-primary-foreground/50"
 							}`}
 						>
 							{isVideoEnabled ? (
@@ -141,10 +142,10 @@ const VideoConference: React.FC = () => {
 
 						<button
 							onClick={toggleAudio}
-							className={`flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-colors ${
+							className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
 								!isAudioEnabled
-									? "bg-gray-600 text-gray-300"
-									: "bg-blue-600 hover:bg-blue-700 text-white"
+									? "bg-gray-700 text-gray-300"
+									: "bg-primary text-primary-foreground/50"
 							}`}
 						>
 							{isAudioEnabled ? (
@@ -156,19 +157,6 @@ const VideoConference: React.FC = () => {
 					</>
 				)}
 			</div>
-
-			{/* Debug Info */}
-			{process.env.NODE_ENV === "development" && (
-				<div className="text-xs text-gray-500 max-w-md">
-					<div>Local stream: {localStream ? "Yes" : "No"}</div>
-					<div>Peers: {peers.size}</div>
-					<div>Others online: {others.length}</div>
-					<div>
-						Others in call:{" "}
-						{others.filter((u) => u.presence?.inCall).length}
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };

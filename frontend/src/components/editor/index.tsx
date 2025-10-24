@@ -818,7 +818,7 @@ export default function CodeEditor({
 			</div>
 
 			{/* Side Menu */}
-			<div className="bg-gray-800 h-full w-12 flex flex-col justify-start items-center gap-8 py-4 px-2 z-20">
+			<div className="bg-secondary h-full w-12 flex flex-col justify-start items-center gap-8 py-4 px-2 z-20">
 				<div
 					onClick={() => {
 						setSidebarContent("explorer");

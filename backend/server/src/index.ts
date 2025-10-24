@@ -300,6 +300,7 @@ io.on("connection", async (socket) => {
 				callback(null);
 				return;
 			}
+			console.log("fileData", file);
 
 			callback(file.data);
 		} catch (error) {

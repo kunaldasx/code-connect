@@ -1,4 +1,5 @@
 import { CameraOff } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 // Video Player Component
@@ -28,7 +29,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 			videoRef.current.srcObject = stream;
 			console.log(`Setting video source for ${label}:`, stream.id);
 
-			// FIXED: Add event listeners to debug video loading
 			const videoElement = videoRef.current;
 
 			const handleLoadedMetadata = () => {
@@ -61,16 +61,39 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 		}
 	}, [stream, label]);
 
-	// FIXED: For remote users, we should always show the video element if there's a stream
-	const shouldShowVideo = isLocal ? isVideoEnabled : !!stream;
-	const showPlaceholder = isLocal && !isVideoEnabled;
+	// Additional effect to handle video track enabling/disabling
+	useEffect(() => {
+		if (videoRef.current && stream) {
+			const videoElement = videoRef.current;
+
+			// Always ensure the video element has the stream
+			if (videoElement.srcObject !== stream) {
+				videoElement.srcObject = stream;
+			}
+
+			if (isVideoEnabled) {
+				// Force video to play when video is re-enabled
+				videoElement.play().catch((error) => {
+					console.log(`Auto-play failed for ${label}:`, error);
+				});
+			}
+		}
+	}, [isVideoEnabled, stream, label]);
+
+	// For local video: use isVideoEnabled prop directly (trust the parent component)
+	// For remote video: check if stream exists and has active video tracks
+	const shouldShowVideo = isLocal
+		? isVideoEnabled && stream
+		: stream && stream.getVideoTracks().length > 0;
+
 	const displayName = name || label;
 	const displayInitial = displayName.charAt(0).toUpperCase();
 
 	return (
-		<div className="relative w-full h-64 bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
-			{shouldShowVideo && stream ? (
+		<div className="relative w-full h-40 bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+			{shouldShowVideo ? (
 				<video
+					key={`${label}-${isVideoEnabled}`} // Force re-render when video state changes
 					ref={videoRef}
 					autoPlay
 					playsInline
@@ -80,38 +103,34 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 						transform: isLocal ? "scaleX(-1)" : "none", // Mirror local video
 					}}
 				/>
-			) : showPlaceholder ? (
-				<div className="flex flex-col items-center justify-center text-white">
-					<CameraOff size={40} color="#666" />
-					<span className="mt-2 text-sm">Camera Off</span>
-				</div>
 			) : (
+				// Show avatar for both: no stream OR video disabled
 				<div className="flex flex-col items-center justify-center text-white">
 					{avatar ? (
-						<img
+						<Image
 							src={avatar}
 							alt={displayName}
-							className="w-16 h-16 rounded-full object-cover border-2 border-gray-400"
+							width={50}
+							height={50}
+							className="rounded-full object-cover border-2 border-gray-400"
 						/>
 					) : (
 						<div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-xl font-bold">
 							{displayInitial}
 						</div>
 					)}
-					<span className="mt-2 text-sm">No Video</span>
 				</div>
 			)}
 
 			{/* User info overlay */}
 			<div className="absolute bottom-2 left-2 flex items-center gap-2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full">
-				{avatar && (
+				{avatar ? (
 					<img
 						src={avatar}
 						alt={displayName}
 						className="w-6 h-6 rounded-full object-cover"
 					/>
-				)}
-				{!avatar && (
+				) : (
 					<div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-xs font-bold">
 						{displayInitial}
 					</div>
