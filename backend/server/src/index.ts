@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import getVirtualboxFiles from "./getVirtualboxFiles.js";
 import { z } from "zod";
 import {
+	buildHierarchicalStructure,
 	createFile,
 	deleteFile,
 	generateCode,
@@ -267,7 +268,11 @@ io.on("connection", async (socket) => {
 		});
 	});
 
-	socket.emit("loaded", virtualboxFiles?.files);
+	// Also update your initial file loading to use the same structure:
+	socket.emit(
+		"loaded",
+		buildHierarchicalStructure(virtualboxFiles?.fileData || [])
+	);
 
 	// Add a heartbeat to detect dead connections
 	const heartbeatInterval = setInterval(() => {
@@ -381,6 +386,7 @@ io.on("connection", async (socket) => {
 					(f: any) => f.id === fileId
 				);
 				if (!file) {
+					console.error("File not found:", fileId);
 					callback(null);
 					return;
 				}
@@ -388,6 +394,8 @@ io.on("connection", async (socket) => {
 				const parts = fileId.split("/");
 				const fileName = parts.pop();
 				const newFileId = folderId + "/" + fileName;
+
+				console.log(`Moving file from ${fileId} to ${newFileId}`);
 
 				// Update in-memory state FIRST
 				await updateVirtualboxState((state) => {
@@ -399,16 +407,19 @@ io.on("connection", async (socket) => {
 						fileToUpdate.id = newFileId;
 					}
 
-					// Update files array
-					const fileInList = state.files.find(
-						(f: any) => f.id === fileId
+					// Update files array - Remove old entry and add new one
+					state.files = state.files.filter(
+						(f: any) => f.id !== fileId
 					);
-					if (fileInList) {
-						fileInList.id = newFileId;
-					}
+					state.files.push({
+						id: newFileId,
+						name: fileName,
+						type: "file",
+					});
 				});
 
 				// Update filesystem
+				fs.mkdirSync(path.join(dirName, folderId), { recursive: true });
 				fs.rename(
 					path.join(dirName, fileId),
 					path.join(dirName, newFileId),
@@ -423,12 +434,15 @@ io.on("connection", async (socket) => {
 								if (fileToRevert) {
 									fileToRevert.id = fileId;
 								}
-								const fileInListToRevert = state.files.find(
-									(f: any) => f.id === newFileId
+								// Revert files array
+								state.files = state.files.filter(
+									(f: any) => f.id !== newFileId
 								);
-								if (fileInListToRevert) {
-									fileInListToRevert.id = fileId;
-								}
+								state.files.push({
+									id: fileId,
+									name: fileName,
+									type: "file",
+								});
 							});
 						}
 					}
@@ -439,8 +453,19 @@ io.on("connection", async (socket) => {
 					console.error("Failed to sync file move to database:", err);
 				});
 
-				// Return updated files from memory (NO API CALL)
-				callback(virtualboxFiles?.files);
+				// Build proper hierarchical structure for frontend
+				const hierarchicalFiles = buildHierarchicalStructure(
+					virtualboxFiles?.fileData || []
+				);
+
+				// Return the hierarchical structure
+				callback(hierarchicalFiles);
+
+				// Broadcast the change to all connected clients (except sender)
+				socket.broadcast.emit(
+					"fileStructureUpdated",
+					hierarchicalFiles
+				);
 			} catch (error) {
 				console.error("Error in moveFile:", error);
 				callback(null);

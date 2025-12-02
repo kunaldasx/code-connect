@@ -39,7 +39,7 @@ import PreviewWindow from "./preview";
 import { ImperativePanelHandle } from "react-resizable-panels";
 import { TypedLiveblocksProvider, useRoom } from "@/liveblocks.config";
 import { Awareness } from "y-protocols/awareness";
-import { SidebarContent, SidebarProvider } from "../ui/sidebar";
+import { SidebarProvider } from "../ui/sidebar";
 import AppSidebar from "./sidebar";
 
 export default function CodeEditor({
@@ -206,6 +206,15 @@ export default function CodeEditor({
 					setFiles(files);
 				};
 
+				//  real-time file structure updates
+				const onFileStructureUpdated = (
+					updatedFiles: (TFolder | TFile)[]
+				) => {
+					if (!mounted) return;
+					console.log("File structure updated:", updatedFiles);
+					setFiles(updatedFiles);
+				};
+
 				const onRateLimit = (message: string) => {
 					toast.error(message);
 				};
@@ -234,6 +243,7 @@ export default function CodeEditor({
 				socket.on("disconnect", onDisconnect);
 				socket.on("connect_error", onConnectError);
 				socket.on("loaded", onLoadedEvent);
+				socket.on("fileStructureUpdated", onFileStructureUpdated);
 				socket.on("rateLimit", onRateLimit);
 				socket.on("disableAccess", onDisableAccess);
 				socket.on("ownerDisconnected", onOwnerDisconnected);
