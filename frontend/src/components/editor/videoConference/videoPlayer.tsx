@@ -39,6 +39,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 				console.log(`Video playing for ${label}`);
 			};
 
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const handleError = (e: any) => {
 				console.error(`Video error for ${label}:`, e);
 			};
@@ -80,11 +81,20 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 		}
 	}, [isVideoEnabled, stream, label]);
 
-	// For local video: use isVideoEnabled prop directly (trust the parent component)
-	// For remote video: check if stream exists and has active video tracks
-	const shouldShowVideo = isLocal
-		? isVideoEnabled && stream
-		: stream && stream.getVideoTracks().length > 0;
+	const shouldShowVideo = (() => {
+		if (!stream) return false;
+
+		if (isLocal) {
+			// For local video: use the isVideoEnabled prop from the store
+			return isVideoEnabled;
+		} else {
+			// For remote video: check if stream has active AND enabled video tracks
+			const videoTracks = stream.getVideoTracks();
+			return videoTracks.some(
+				(track) => track.readyState === "live" && track.enabled
+			);
+		}
+	})();
 
 	const displayName = name || label;
 	const displayInitial = displayName.charAt(0).toUpperCase();
@@ -104,7 +114,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 					}}
 				/>
 			) : (
-				// Show avatar for both: no stream OR video disabled
+				// Show avatar when video is disabled or no stream
 				<div className="flex flex-col items-center justify-center text-white">
 					{avatar ? (
 						<Image
@@ -119,16 +129,24 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 							{displayInitial}
 						</div>
 					)}
+					{/* Optional: Show camera off indicator */}
+					{stream && !shouldShowVideo && (
+						<div className="absolute top-2 right-2 bg-red-600 rounded-full p-1">
+							<CameraOff size={16} className="text-white" />
+						</div>
+					)}
 				</div>
 			)}
 
 			{/* User info overlay */}
 			<div className="absolute bottom-2 left-2 flex items-center gap-2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full">
 				{avatar ? (
-					<img
+					<Image
 						src={avatar}
 						alt={displayName}
-						className="w-6 h-6 rounded-full object-cover"
+						height={25}
+						width={25}
+						className="rounded-full object-cover"
 					/>
 				) : (
 					<div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-xs font-bold">
@@ -136,6 +154,14 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 					</div>
 				)}
 				<span className="text-sm font-medium">{displayName}</span>
+				{/* Show mute/camera status in overlay */}
+				{stream && (
+					<div className="flex items-center gap-1">
+						{!shouldShowVideo && (
+							<CameraOff size={12} className="text-red-400" />
+						)}
+					</div>
+				)}
 			</div>
 		</div>
 	);

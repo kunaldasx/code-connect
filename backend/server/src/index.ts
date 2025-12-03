@@ -355,26 +355,51 @@ io.on("connection", async (socket) => {
 					"Rate Limited: project size exceeded. Please delete some files."
 				);
 				callback({ success: false });
+				return;
 			}
+
 			await createFileRL.consume(data.userId, 1);
 			const id = `projects/${data.id}/${name}`;
 
 			await updateVirtualboxState((state) => {
-				state.files.push({ id, name, type: "file" });
+				// Add to fileData with empty content
 				state.fileData.push({ id, data: "" });
 			});
 
+			// Create file on filesystem
 			fs.writeFile(path.join(dirName, id), "", function (err) {
-				if (err) throw err;
+				if (err) {
+					console.error("Error creating file:", err);
+					// Remove from memory if filesystem operation fails
+					updateVirtualboxState((state) => {
+						state.fileData = state.fileData.filter(
+							(f: any) => f.id !== id
+						);
+					});
+					callback({ success: false });
+					return;
+				}
 			});
 
+			// Create file in database
 			await createFile(id);
+
+			// Build hierarchical structure
+			const hierarchicalFiles = buildHierarchicalStructure(
+				virtualboxFiles?.fileData || []
+			);
+
 			callback({ success: true });
+
+			// Broadcast to ALL connected clients (including sender)
+			io.emit("fileStructureUpdated", hierarchicalFiles);
 		} catch (e) {
+			console.error("Error in createFile:", e);
 			io.emit(
 				"rateLimit",
-				"Rate limited: file saving. Please slow down."
+				"Rate limited: file creation. Please slow down."
 			);
+			callback({ success: false });
 		}
 	});
 
@@ -667,31 +692,69 @@ io.on("connection", async (socket) => {
 
 			const id = `projects/${data.id}/${name}`;
 
-			// Update in-memory state FIRST
-			await updateVirtualboxState((state) => {
-				// Add folder to files array
-				state.files.push({
-					id,
-					name,
-					type: "folder",
-				});
-			});
+			// Create folder on filesystem first
+			fs.mkdir(
+				path.join(dirName, id),
+				{ recursive: true },
+				async (err) => {
+					if (err) {
+						console.error("Error creating folder on disk:", err);
+						callback({
+							success: false,
+						});
+						return;
+					}
 
-			// Create folder on filesystem
-			fs.mkdir(path.join(dirName, id), { recursive: true }, (err) => {
-				if (err) {
-					console.error("Error creating folder on disk:", err);
-					// Revert in-memory state if filesystem operation fails
-					updateVirtualboxState((state) => {
-						state.files = state.files.filter(
-							(f: any) => f.id !== id
+					try {
+						// Create a placeholder file in the folder to ensure it gets tracked
+						// This is a common pattern since many systems don't track empty folders
+						const placeholderFile = `${id}/.gitkeep`;
+
+						// Add placeholder to fileData so the folder structure is maintained
+						await updateVirtualboxState((state) => {
+							state.fileData.push({
+								id: placeholderFile,
+								data: "",
+							});
+						});
+
+						// Create the placeholder file on filesystem
+						fs.writeFile(
+							path.join(dirName, placeholderFile),
+							"",
+							async (err) => {
+								if (err) {
+									console.error(
+										"Error creating placeholder file:",
+										err
+									);
+								}
+							}
 						);
-					});
-				}
-			});
 
-			callback({ success: true, files: virtualboxFiles?.files });
+						// Create the placeholder in database to persist the folder
+						await createFile(placeholderFile);
+
+						// Build hierarchical structure
+						const hierarchicalFiles = buildHierarchicalStructure(
+							virtualboxFiles?.fileData || []
+						);
+
+						callback({ success: true });
+
+						// Broadcast to ALL connected clients
+						io.emit("fileStructureUpdated", hierarchicalFiles);
+					} catch (dbError) {
+						console.error(
+							"Error creating folder in database:",
+							dbError
+						);
+						callback({ success: false });
+					}
+				}
+			);
 		} catch (e) {
+			console.error("Error in createFolder:", e);
 			socket.emit(
 				"rateLimit",
 				"Rate limited: folder creation. Please slow down"

@@ -37,7 +37,7 @@ const VideoConference: React.FC = () => {
 	// FIXED: Calculate grid layout based on total participants
 	const totalParticipants = isInCall ? 1 + peers.size : 0;
 	const getGridClass = () => {
-		if (totalParticipants <= 2) return "grid-cols-1 grid-rows-3";
+		if (totalParticipants <= 2) return "grid-cols-1";
 		// if (totalParticipants <= 2) return "grid-cols-2";
 		// if (totalParticipants <= 4) return "grid-cols-2";
 		return "grid-cols-3";
@@ -83,8 +83,8 @@ const VideoConference: React.FC = () => {
 				{/* Remote Videos */}
 				{Array.from(peers.values()).map((peer) => {
 					console.log(
-						`Rendering peer ${peer.id}, has stream:`,
-						!!peer.stream
+						`Rendering peer ${peer.name}, has stream:`,
+						peer.avatar
 					);
 					return (
 						<VideoPlayer
