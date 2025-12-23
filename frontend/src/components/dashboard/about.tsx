@@ -18,7 +18,7 @@ export default function AboutModal({
 				<div className="text-sm text-muted-foreground">
 					Code Connect is virtual box code editing environment with
 					custom AI code autocompletion and real-time collaboration.
-					The infrastructire runs on Docker containers and Kubernetes
+					The infrastructure runs on Docker containers and Kubernetes
 					to scale automatically based on resource consumption.
 				</div>
 			</DialogContent>
