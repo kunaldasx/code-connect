@@ -1,13 +1,6 @@
 "use client";
 
-import {
-	Code2,
-	FolderDot,
-	HelpCircle,
-	Plus,
-	Settings,
-	Users,
-} from "lucide-react";
+import { FolderDot, HelpCircle, Plus, Users } from "lucide-react";
 import CustomButton from "../ui/customButton";
 import { Button } from "../ui/button";
 import { useState } from "react";

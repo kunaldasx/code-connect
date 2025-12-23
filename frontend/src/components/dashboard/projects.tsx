@@ -95,7 +95,7 @@ export default function DashboardProjects({
 					})}
 				</div>
 			) : (
-				<p className="grow w-full">
+				<p className="grow w-full text-muted-foreground">
 					No Project to show. Create a new one.
 				</p>
 			)}

@@ -1,13 +1,6 @@
 "use client";
 
-import {
-	FilePlus,
-	FolderPlus,
-	Loader2,
-	MonitorPlay,
-	Search,
-	Sparkles,
-} from "lucide-react";
+import { FilePlus, FolderPlus, Loader2, Search, Sparkles } from "lucide-react";
 import { TFile, TFolder, TTab } from "./types";
 import SidebarFile from "./file";
 import SidebarFolder from "./folder";
@@ -215,9 +208,6 @@ export default function AppSidebar({
 							</div>
 							<AIButton checked={ai} onCheckedChange={setAi} />
 						</div>
-						<Button className="w-full">
-							<MonitorPlay className="w-4 h-4 mr-2" /> Run
-						</Button>
 					</SidebarGroup>
 				</SidebarContent>
 			) : (
