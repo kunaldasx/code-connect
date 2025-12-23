@@ -23,6 +23,7 @@ export default function Navbar({
 	shared: {
 		id: string;
 		name: string;
+		image: string;
 	}[];
 }) {
 	const [isEditOpen, setIsEditOpen] = useState(false);

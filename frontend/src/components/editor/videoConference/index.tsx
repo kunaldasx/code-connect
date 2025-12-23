@@ -46,9 +46,9 @@ const VideoConference: React.FC = () => {
 	return (
 		<div className="w-full h-full flex flex-col justify-between items-center gap-4 p-4 overflow-hidden">
 			{/* Connection Status */}
-			<div className="text-white text-center">
+			<div className="text-center">
 				<h2 className="text-xl font-bold mb-2">Video Conference</h2>
-				<p className="text-sm text-gray-300">
+				<p className="text-sm">
 					{isInCall
 						? `In call with ${peers.size} other${
 								peers.size !== 1 ? "s" : ""
@@ -58,9 +58,7 @@ const VideoConference: React.FC = () => {
 				</p>
 
 				{/* FIXED: Show other users' presence status */}
-				<p className="text-xs text-gray-400 mt-1">
-					People Online: {others.length}
-				</p>
+				<p className="text-xs mt-1">People Online: {others.length}</p>
 			</div>
 
 			{/* Video Grid */}

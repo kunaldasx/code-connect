@@ -28,6 +28,7 @@ export default async function AppAuthLayout({
 				id: user.id,
 				name: user.firstName + " " + (user.lastName ?? ""),
 				email: user.emailAddresses[0].emailAddress,
+				image: user.imageUrl,
 			}),
 		});
 	}

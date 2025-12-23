@@ -229,14 +229,15 @@ export default {
 				const userSchema = z.object({
 					id: z.string(),
 					name: z.string(),
-					email: z.string().email(),
+					email: z.email(),
+					image: z.string(),
 				});
 
 				const body = await request.json();
 
-				const { id, name, email } = userSchema.parse(body);
+				const { id, name, email, image } = userSchema.parse(body);
 
-				const res = await db.insert(user).values({ id, name, email }).returning().get();
+				const res = await db.insert(user).values({ id, name, email, image }).returning().get();
 				return json({ res });
 			} else return new Response('Method Not Found', { status: 405 });
 		}

@@ -28,7 +28,11 @@ const getSharedUsers = async (usersToVirtualboxes: UsersToVirtualboxes[]) => {
 				`${process.env.DATABASE_INITIAL_URL}/api/user?id=${user.userId}`
 			);
 			const userData: User = await userRes.json();
-			return { id: userData.id, name: userData.name };
+			return {
+				id: userData.id,
+				name: userData.name,
+				image: userData.image,
+			};
 		})
 	);
 	return shared;

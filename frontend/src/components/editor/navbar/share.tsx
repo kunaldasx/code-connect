@@ -2,7 +2,6 @@
 
 import { z } from "zod";
 
-import { Virtualbox } from "../../../lib/types";
 import {
 	Dialog,
 	DialogContent,
@@ -15,29 +14,21 @@ import {
 	FormControl,
 	FormField,
 	FormItem,
-	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Loader2, UserPlus, X } from "lucide-react";
 import { useState } from "react";
-import Avatar from "@/components/ui/avatar";
 import { shareVirtualbox } from "@/lib/actions";
 import { toast } from "sonner";
 import SharedUser from "./sharedUser";
+import { Virtualbox } from "@/types/codeEditor";
 
 const formSchema = z.object({
-	email: z.string().email(),
+	email: z.email(),
 });
 
 export default function ShareVirtualboxModal({
@@ -52,6 +43,7 @@ export default function ShareVirtualboxModal({
 	shared: {
 		id: string;
 		name: string;
+		image: string;
 	}[];
 }) {
 	const [loading, setLoading] = useState(false);
@@ -68,6 +60,7 @@ export default function ShareVirtualboxModal({
 		setLoading(true);
 		const res = await shareVirtualbox(data.id, values.email);
 		if (!res.success) {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			toast.error(res.message as any);
 		} else {
 			toast.success("Shared successfully");
@@ -94,7 +87,10 @@ export default function ShareVirtualboxModal({
 					</DialogHeader>
 
 					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)}>
+						<form
+							onSubmit={form.handleSubmit(onSubmit)}
+							className="space-y-4"
+						>
 							<FormField
 								control={form.control}
 								name="email"
