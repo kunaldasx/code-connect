@@ -58,10 +58,10 @@ export default function DashboardProjects({
 												? "/project-icons/react.svg"
 												: "/project-icons/node.svg"
 										}
-										width={20}
-										height={20}
+										width={25}
+										height={25}
 									/>
-									<div className="font-medium flex items-center whitespace-nowrap w-full text-ellipsis overflow-hidden">
+									<div className="font-medium text-lg flex items-center whitespace-nowrap w-full text-ellipsis overflow-hidden">
 										{virtualbox.name}
 									</div>
 									<ProjectCardDropdown

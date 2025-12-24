@@ -31,6 +31,7 @@ export default async function DashboardPage() {
 			id: string;
 			name: string;
 			email: string;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			image: any;
 		};
 		sharedOn: Date;
@@ -39,9 +40,9 @@ export default async function DashboardPage() {
 	console.log("shared: ", shared);
 
 	return (
-		<div>
+		<>
 			<Navbar userData={userData} />
 			<Dashboard virtualboxes={userData.virtualbox} shared={shared} />
-		</div>
+		</>
 	);
 }

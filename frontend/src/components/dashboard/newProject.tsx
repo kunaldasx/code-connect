@@ -30,10 +30,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import CustomButton from "../ui/customButton";
-import { Loader2 } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { createVirtualbox } from "@/lib/actions";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 type TOptions = "react" | "node" | "python" | "more";
 
@@ -200,10 +201,10 @@ export default function NewProjectModal({
 								</FormItem>
 							)}
 						/>
-						<CustomButton
+						<Button
 							disabled={loading}
 							type="submit"
-							className="w-full"
+							className="w-full text-sm font-semibold"
 						>
 							{loading ? (
 								<>
@@ -211,9 +212,12 @@ export default function NewProjectModal({
 									Loading...
 								</>
 							) : (
-								"Submit"
+								<>
+									<PlusCircle className="w-5 h-5" />
+									Create
+								</>
 							)}
-						</CustomButton>
+						</Button>
 					</form>
 				</Form>
 			</DialogContent>

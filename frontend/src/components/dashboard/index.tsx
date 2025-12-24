@@ -1,7 +1,6 @@
 "use client";
 
-import { FolderDot, HelpCircle, Plus, Users } from "lucide-react";
-import CustomButton from "../ui/customButton";
+import { FolderDot, HelpCircle, PlusCircle, Users } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { Virtualbox } from "@/types/codeEditor";
@@ -11,6 +10,7 @@ import NewProjectModal from "./newProject";
 import { useSearchParams } from "next/navigation";
 import AboutModal from "./about";
 import { toast } from "sonner";
+import CreateButton from "../shared/createButton";
 
 type TScreen = "projects" | "shared" | "settings" | "search";
 
@@ -54,9 +54,8 @@ export default function Dashboard({
 			<AboutModal open={aboutModalOpen} setOpen={setAboutModalOpen} />
 			<div className="flex grow h-screen w-full">
 				<div className="w-56 h-full shrink-0 border-r border-border p-4 justify-between flex flex-col">
-					<div className="flex flex-col">
-						<CustomButton
-							className="mb-4"
+					<div className="flex flex-col gap-4">
+						<CreateButton
 							onClick={() => {
 								if (virtualboxes.length >= 8) {
 									toast.error(
@@ -67,34 +66,37 @@ export default function Dashboard({
 								setNewProjectModalOpen(true);
 							}}
 						>
-							<Plus className="w-4 h-4 mr-2" />
+							<PlusCircle className="w-5 h-5 mr-2" />
 							New Project
-						</CustomButton>
-						<Button
-							variant={"ghost"}
-							onClick={() => setScreen("projects")}
-							className={activeScreen("projects")}
-						>
-							<FolderDot className="w-4 h-4 mr-2" />
-							My Projects
-						</Button>
-						<Button
-							variant={"ghost"}
-							onClick={() => setScreen("shared")}
-							className={activeScreen("shared")}
-						>
-							<Users className="w-4 h-4 mr-2" />
-							Shared With Me
-						</Button>
+						</CreateButton>
 
-						<Button
-							onClick={() => setAboutModalOpen(true)}
-							variant={"ghost"}
-							className="justify-start font-normal text-muted-foreground"
-						>
-							<HelpCircle className="w-4 h-4 mr-2" />
-							About
-						</Button>
+						<div className="flex flex-col">
+							<Button
+								variant={"ghost"}
+								onClick={() => setScreen("projects")}
+								className={activeScreen("projects")}
+							>
+								<FolderDot className="w-4 h-4 mr-2" />
+								My Projects
+							</Button>
+							<Button
+								variant={"ghost"}
+								onClick={() => setScreen("shared")}
+								className={activeScreen("shared")}
+							>
+								<Users className="w-4 h-4 mr-2" />
+								Shared With Me
+							</Button>
+
+							<Button
+								onClick={() => setAboutModalOpen(true)}
+								variant={"ghost"}
+								className="justify-start font-normal text-muted-foreground"
+							>
+								<HelpCircle className="w-4 h-4 mr-2" />
+								About
+							</Button>
+						</div>
 					</div>
 				</div>
 				{screen === "projects" ? (
