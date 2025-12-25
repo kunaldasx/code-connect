@@ -41,7 +41,7 @@ export default async function DashboardPage() {
 
 	return (
 		<>
-			<Navbar userData={userData} />
+			<Navbar />
 			<Dashboard virtualboxes={userData.virtualbox} shared={shared} />
 		</>
 	);

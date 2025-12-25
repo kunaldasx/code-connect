@@ -764,19 +764,6 @@ io.on("connection", async (socket) => {
 	});
 
 	socket.on(
-		"resizeTerminal",
-		(dimensions: { cols: number; rows: number }) => {
-			try {
-				Object.values(terminals).forEach((t) => {
-					t.terminal.resize(dimensions.cols, dimensions.rows);
-				});
-			} catch (error) {
-				console.error("Error resizing terminals:", error);
-			}
-		}
-	);
-
-	socket.on(
 		"renameFile",
 		async (fileId: string, newName: string, callback) => {
 			try {
@@ -993,6 +980,19 @@ io.on("connection", async (socket) => {
 				terminals[id].terminal.resize(dimensions.cols, dimensions.rows);
 			} catch (error) {
 				console.error("Error resizing terminal:", error);
+			}
+		}
+	);
+
+	socket.on(
+		"resizeTerminal",
+		(dimensions: { cols: number; rows: number }) => {
+			try {
+				Object.values(terminals).forEach((t) => {
+					t.terminal.resize(dimensions.cols, dimensions.rows);
+				});
+			} catch (error) {
+				console.error("Error resizing terminals:", error);
 			}
 		}
 	);

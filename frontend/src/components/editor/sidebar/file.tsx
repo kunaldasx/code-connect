@@ -57,6 +57,7 @@ export default function SidebarFile({
 		if (!inputRef.current) {
 			console.log("no input ref");
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [editing, inputRef.current]);
 
 	const renameFile = () => {
@@ -85,6 +86,7 @@ export default function SidebarFile({
 				getInitialData: () => ({ id: data.id }),
 			});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

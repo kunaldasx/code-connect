@@ -14,8 +14,6 @@ export default function GenerateInput({
 	socket,
 	data,
 	editor,
-	cancel,
-	submit,
 	width,
 	onExpand,
 	onAccept,
@@ -84,7 +82,9 @@ export default function GenerateInput({
 					response: string;
 				};
 				success: boolean;
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				errors: any[];
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				messages: any[];
 			}) => {
 				if (!res.success) {
@@ -103,6 +103,7 @@ export default function GenerateInput({
 			onExpand();
 			setLoading({ generate: false, regenerate: false });
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [code]);
 
 	return (

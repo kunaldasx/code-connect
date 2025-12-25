@@ -5,7 +5,6 @@ import { Button } from "../ui/button";
 
 export default function FileTab({
 	children,
-	saved,
 	selected,
 	onClick,
 	onClose,

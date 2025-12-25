@@ -2,13 +2,12 @@ import { colors } from "@/lib/colors";
 import { User } from "@/types/codeEditor";
 import { currentUser } from "@clerk/nextjs/server";
 import { Liveblocks } from "@liveblocks/node";
-import { NextRequest } from "next/server";
 
 const liveblocks = new Liveblocks({
 	secret: process.env.LIVEBLOCKS_SECRET_KEY!,
 });
 
-export async function POST(request: NextRequest) {
+export async function POST() {
 	const clerkUser = await currentUser();
 
 	if (!clerkUser) {
@@ -24,7 +23,6 @@ export async function POST(request: NextRequest) {
 	const randomColor = colorNames[
 		Math.floor(Math.random() * colorNames.length)
 	] as keyof typeof colors;
-	const code = colors[randomColor];
 
 	const session = liveblocks.prepareSession(user.id, {
 		userInfo: {

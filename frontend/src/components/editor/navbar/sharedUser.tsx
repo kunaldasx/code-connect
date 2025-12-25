@@ -16,7 +16,7 @@ export default function SharedUser({
 }) {
 	const [loading, setLoading] = useState(false);
 
-	async function handleUnshare(id: string) {
+	async function handleUnshare() {
 		setLoading(true);
 
 		await unshareVirtualbox(virtualboxId, user.id);
@@ -35,7 +35,7 @@ export default function SharedUser({
 			</div>
 			<Button
 				disabled={loading}
-				onClick={() => handleUnshare(user.id)}
+				onClick={() => handleUnshare()}
 				variant={"ghost"}
 				size="sm"
 			>

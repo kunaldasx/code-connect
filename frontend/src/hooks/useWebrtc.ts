@@ -8,10 +8,12 @@ import {
 } from "@liveblocks/react";
 import { useVideoStore } from "@/store/videoStore";
 
-interface SignalData {
+interface CallEvent {
+	type: "webrtc-signal" | "user-joined-call" | "user-left-call";
 	from: string;
 	to: string;
 	signal: SimplePeer.SignalData;
+	userId: string;
 }
 
 export function useWebRTC() {
@@ -105,7 +107,13 @@ export function useWebRTC() {
 			peer.on("stream", (remoteStream) => {
 				console.log(`Received stream from ${userId}`);
 				// Add the remote stream to the store - FIXED: Pass the stream parameter
-				addPeer(userId, peer, remoteStream, userName, userAvatar);
+				addPeer(
+					userId,
+					peer,
+					remoteStream,
+					userName,
+					userAvatar?.toString()
+				);
 			});
 
 			peer.on("error", (err) => {
@@ -126,7 +134,7 @@ export function useWebRTC() {
 
 			peersRef.current.set(userId, peer);
 			// FIXED: Only add to store initially without stream, it will be updated when stream event fires
-			addPeer(userId, peer, undefined, userName, userAvatar);
+			addPeer(userId, peer, undefined, userName, userAvatar?.toString());
 
 			return peer;
 		},
@@ -192,8 +200,10 @@ export function useWebRTC() {
 	// Handle incoming WebRTC signals
 	useEventListener(({ event }) => {
 		// FIXED: Check event structure properly
-		if (event?.type === "webrtc-signal" && isInCall) {
-			const signalData = event as unknown as SignalData;
+		const e = event as unknown as CallEvent;
+
+		if (e?.type === "webrtc-signal" && isInCall) {
+			const signalData = e;
 			const { from, to, signal } = signalData;
 
 			// Only process signals meant for us
@@ -220,8 +230,8 @@ export function useWebRTC() {
 		}
 
 		// Handle user joining the call
-		if (event?.type === "user-joined-call" && isInCall) {
-			const { userId } = event as any;
+		if (e?.type === "user-joined-call" && isInCall) {
+			const { userId } = e;
 
 			// Skip if it's our own event
 			if (userId === self?.id) return;
@@ -249,8 +259,8 @@ export function useWebRTC() {
 		}
 
 		// Handle user leaving the call
-		if (event?.type === "user-left-call") {
-			const { userId } = event as any;
+		if (e?.type === "user-left-call") {
+			const { userId } = e;
 			const peer = peersRef.current.get(userId);
 			if (peer) {
 				console.log(`User ${userId} left, cleaning up connection`);
