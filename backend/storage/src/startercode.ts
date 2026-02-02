@@ -49,17 +49,74 @@ const startercode = {
 		},
 		{
 			name: 'vite.config.js',
-			body: `import { defineConfig } from 'vite'
-      import react from '@vitejs/plugin-react'
+			body: `
+        import { defineConfig } from 'vite';
+        import react from '@vitejs/plugin-react';
 
-      // https://vitejs.dev/config/
-      export default defineConfig({
-        plugins: [react()],
-        server: {
-          port: 5173,
-          host: "0.0.0.0",
-        }
-      })`,
+        export default defineConfig({
+          plugins: [react()],
+
+          // Server configuration for development
+          server: {
+            port: 5173,
+            host: '0.0.0.0',
+            strictPort: true,
+
+            // HMR configuration
+            hmr: {
+              // Use WebSocket protocol
+              protocol: 'ws',
+              // Accept connections from any host (needed for proxy)
+              host: 'localhost',
+              port: 5173,
+            },
+
+            // Allow connections from the proxy
+            cors: {
+              origin: '*',
+              credentials: true
+            },
+
+            // Configure allowed hosts
+            fs: {
+              strict: false
+            }
+          },
+
+          // Base URL configuration (important for proxied apps)
+          base: './',
+
+          // Build configuration
+          build: {
+            // Generate relative paths in build output
+            outDir: 'dist',
+            assetsDir: 'assets',
+
+            // Ensure proper module resolution
+            rollupOptions: {
+              output: {
+                // Use relative paths for assets
+                assetFileNames: 'assets/[name]-[hash][extname]',
+                chunkFileNames: 'assets/[name]-[hash].js',
+                entryFileNames: 'assets/[name]-[hash].js',
+              }
+            }
+          },
+
+          // Resolve configuration
+          resolve: {
+            alias: {
+              '@': '/src',
+            }
+          },
+
+          // Optimize dependencies
+          optimizeDeps: {
+            include: ['react', 'react-dom'],
+            exclude: []
+          }
+        });
+      `,
 		},
 		{
 			name: 'index.html',
