@@ -1,6 +1,6 @@
 <h1 align="center" style>
   <br>
-  <a href="#" target="_blank"><img src="https://raw.githubusercontent.com/kunaldasx/code-connect/main/frontend/src/assets/logo.png" alt="code connect" width="200"></a>
+  <a href="https://code-connect-site.vercel.app" target="_blank"><img src="https://raw.githubusercontent.com/kunaldasx/code-connect/main/frontend/src/assets/logo.png" alt="code connect" width="200"></a>
   <br>
   Code Connect
   <br>
@@ -32,10 +32,10 @@
 </p>
 
 <p align="center">
-  <img src="client/src/assets/images/crusto-preview.gif" alt="preview" width="100%" />
+  <img src="frontend/src/assets/preview.png" alt="preview" width="100%" />
 </p>
 
-🌐 **Live Demo**🔗 [crusto-pizza.vercel.app](https://crusto-pizza.vercel.app)
+🌐 **Live Demo**🔗 [crusto-pizza.vercel.app](https://code-connect-site.vercel.app)
 
 ## Key Features
 
@@ -56,6 +56,19 @@
 -   Responsive Interface – Works flawlessly on desktops, tablets, and mobile devices.
 
 -   Secure & Scalable – Built with authentication, encrypted communication, and scalable backend architecture.
+
+## Architecture
+
+### High-Level Structure
+
+```
+code-connect/
+├── frontend/           # Next.js 15 client application
+├── backend/
+│   ├── server/        # Node.js/Express WebSocket server
+│   ├── database/      # Cloudflare D1 database worker
+│   └── storage/       # Cloudflare R2 storage worker
+```
 
 ## How To Use
 
@@ -119,18 +132,14 @@ Crusto is an [emailware](https://en.wiktionary.org/wiki/emailware). Meaning, if 
 
 This software uses the following technologies:
 
--   Next.js
--   React.js
--   Typescript
--   TailwindCSS
--   Node.js
--   Express.js
--   Sqlite
--   Cloudflare
--   Clerk
--   Liveblocks
--   Drizzle
--   Docker
+-   **Frontend**: Next.js 15, React 19, TypeScript, TailwindCSS
+-   **Backend**: Node.js, Express, Socket.IO for real-time communication
+-   **Database**: Cloudflare D1 (SQLite) with Drizzle ORM
+-   **Storage**: Cloudflare R2 for file storage
+-   **Real-time Collaboration**: Liveblocks + Y.js for operational transforms
+-   **Authentication**: Clerk
+-   **Code Editor**: Monaco Editor with syntax highlighting
+-   **Video/Audio**: WebRTC with Simple Peer
 
 ## Support
 

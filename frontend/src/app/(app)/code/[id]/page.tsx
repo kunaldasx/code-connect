@@ -64,14 +64,14 @@ export default async function CodePage({
 	}
 
 	return (
-		<div className="overflow-hidden overscroll-none w-screen flex flex-col bg-background">
+		<div className="overflow-hidden overscroll-none w-full h-full flex flex-col bg-background">
 			<Room id={virtualboxId}>
 				<Navbar
 					userData={userData}
 					virtualboxData={virtualboxData}
 					shared={shared}
 				/>
-				<div className="w-screen flex flex-1">
+				<div className="w-full h-[calc(100vh-56px)]  flex">
 					<CodeEditorWrapper
 						userData={userData}
 						virtualboxData={virtualboxData}

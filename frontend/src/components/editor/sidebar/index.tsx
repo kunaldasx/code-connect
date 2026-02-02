@@ -117,7 +117,7 @@ export default function AppSidebar({
 		});
 	}, [socket, setFiles, virtualboxData.id]);
 	return (
-		<Sidebar className="h-[calc(100vh-56px)] relative max-h-full flex flex-col items-start w-full">
+		<Sidebar className="h-full relative max-h-full flex flex-col items-start w-full">
 			{sidebarContent === "explorer" ? (
 				// File Explorer
 				<SidebarContent>
