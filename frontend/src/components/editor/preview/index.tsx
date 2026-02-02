@@ -123,12 +123,16 @@ export default function PreviewWindow({
 	};
 
 	const handleRefresh = () => {
-		if (previewUrl) {
-			// Increment key to force full reload
-			setIframeKey((prev) => prev + 1);
+		const iframe = document.getElementById(
+			"preview-frame"
+		) as HTMLIFrameElement | null;
+
+		if (iframe && previewUrl) {
+			const url = new URL(previewUrl, window.location.origin);
+			url.searchParams.set("t", Date.now().toString());
+			iframe.src = url.href;
 			toast.info("Refreshing preview...");
 		} else {
-			// Try to check status again
 			checkPreviewStatus();
 		}
 	};
@@ -267,7 +271,9 @@ export default function PreviewWindow({
 						<iframe
 							key={iframeKey}
 							ref={iframeRef}
-							className="w-full h-full border-0"
+							className="w-full h-full border-0 overflow-hidden no-scrollbar"
+							style={{ overflow: "hidden" }}
+							scrolling="no"
 							src={`${process.env.NEXT_PUBLIC_API_INITIAL_URL}/preview/${virtualbox.id}/${virtualbox.userId}`}
 							sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-downloads allow-popups"
 							allow="accelerometer; camera; encrypted-media; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write"

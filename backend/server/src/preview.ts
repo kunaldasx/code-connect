@@ -1,10 +1,73 @@
 import type { Request, Response, NextFunction } from "express";
-import { previewServers } from "./previewProxy.js";
+
+interface PreviewServer {
+	port: number;
+	url: string;
+	type: "vite" | "next" | "other";
+	startedAt: Date;
+}
+
+// Store active preview servers
+export const previewServers = new Map<string, PreviewServer>();
+
+// Regex patterns to detect dev servers starting
+const DEV_SERVER_PATTERNS = [
+	// Vite patterns - handle both regular and base path URLs
+	{
+		regex: /Local:\s+https?:\/\/localhost:(\d+)/i,
+		type: "vite" as const,
+	},
+	{
+		regex: /VITE v[\d.]+ ready in \d+ ms[\s\S]*Local:\s+https?:\/\/localhost:(\d+)/i,
+		type: "vite" as const,
+	},
+	// Handle Vite with base path URLs
+	{
+		regex: /Local:\s+https?:\/\/localhost:(\d+)\/preview\/[^\/]+\/[^\/]+\//i,
+		type: "vite" as const,
+	},
+	// Next.js patterns
+	{
+		regex: /started server on.*http:\/\/localhost:(\d+)/i,
+		type: "next" as const,
+	},
+	// Generic pattern
+	{
+		regex: /(?:server|Server|listening|Listening).*?(?:localhost|127\.0\.0\.1):(\d+)/i,
+		type: "other" as const,
+	},
+];
+
+// Helper function to strip ANSI escape codes
+export function stripAnsiCodes(str: string): string {
+	return str.replace(
+		// eslint-disable-next-line no-control-regex
+		/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
+		""
+	);
+}
+
+// Detect dev server from terminal output
+export function detectDevServer(
+	output: string
+): { port: number; type: "vite" | "next" | "other" } | null {
+	const cleanOutput = stripAnsiCodes(output);
+
+	for (const pattern of DEV_SERVER_PATTERNS) {
+		const match = cleanOutput.match(pattern.regex);
+		if (match && match[1]) {
+			const port = parseInt(match[1], 10);
+			if (port > 1024 && port < 65535) {
+				return { port, type: pattern.type };
+			}
+		}
+	}
+	return null;
+}
 
 /**
  * iframe-based preview approach
  * This serves an HTML page with an iframe that directly loads the Vite dev server
- * This avoids all the path rewriting complexity of reverse proxying
  */
 export function createIframePreview() {
 	return (req: Request, res: Response, next: NextFunction) => {
@@ -111,25 +174,7 @@ function generateWaitingPage(projectId: string, userId: string): string {
             margin-top: 1rem;
         }
     </style>
-    <script>
-        // Auto-refresh every 3 seconds to check if server is ready
-        setTimeout(() => {
-            window.location.reload();
-        }, 3000);
-        
-        // Also check via API
-        setInterval(async () => {
-            try {
-                const response = await fetch('/api/preview-status/${projectId}/${userId}');
-                const data = await response.json();
-                if (data.available) {
-                    window.location.reload();
-                }
-            } catch (e) {
-                console.log('Checking server status...');
-            }
-        }, 2000);
-    </script>
+    
 </head>
 <body>
     <div class="container">
@@ -236,12 +281,14 @@ function generateIframePreview(
         
         .preview-frame {
             width: 100%;
-            height: calc(100vh - 60px);
+            height: 100vh;
             border: none;
             background: white;
         }
         
         .loading-overlay {
+            width: 100%;
+            height: 100vh;
             position: absolute;
             top: 60px;
             left: 0;
@@ -281,22 +328,6 @@ function generateIframePreview(
     </style>
 </head>
 <body>
-    <div class="preview-header">
-        <div class="preview-info">
-            <div class="status-indicator"></div>
-            <span>Live Preview</span>
-            <div class="preview-url">localhost:${port}</div>
-        </div>
-        <div class="preview-actions">
-            <a href="http://localhost:${port}" target="_blank" class="action-btn">
-                Open in New Tab
-            </a>
-            <button onclick="refreshPreview()" class="action-btn">
-                Refresh
-            </button>
-        </div>
-    </div>
-    
     <div class="loading-overlay" id="loading">
         <div class="loading-spinner"></div>
         <div>Loading preview...</div>
