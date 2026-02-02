@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "tsx src/index.ts",
-    "build": "tsc --skipLibCheck"
+    "build": "tsc --skipLibCheck",
+    "test:iframe": "node test-iframe-preview.js",
+    "test:cleanup": "node test-server-cleanup.js"
   },
   "keywords": [],
   "author": "",

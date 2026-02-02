@@ -1,5 +1,7 @@
-// previewProxy.ts
-import { createProxyMiddleware } from "http-proxy-middleware";
+import {
+	createProxyMiddleware,
+	responseInterceptor,
+} from "http-proxy-middleware";
 import type { Request, Response, NextFunction } from "express";
 import type { IncomingMessage, ServerResponse } from "http";
 import type { Socket } from "net";
@@ -17,13 +19,18 @@ export const previewServers = new Map<string, PreviewServer>();
 
 // Regex patterns to detect dev servers starting
 const DEV_SERVER_PATTERNS = [
-	// Vite patterns
+	// Vite patterns - handle both regular and base path URLs
 	{
 		regex: /Local:\s+https?:\/\/localhost:(\d+)/i,
 		type: "vite" as const,
 	},
 	{
 		regex: /VITE v[\d.]+ ready in \d+ ms[\s\S]*Local:\s+https?:\/\/localhost:(\d+)/i,
+		type: "vite" as const,
+	},
+	// Handle Vite with base path URLs
+	{
+		regex: /Local:\s+https?:\/\/localhost:(\d+)\/preview\/[^\/]+\/[^\/]+\//i,
 		type: "vite" as const,
 	},
 	// Next.js patterns
@@ -155,19 +162,43 @@ export function createPreviewProxy(io?: Server) {
 			changeOrigin: true,
 			ws: true, // Enable WebSocket proxy
 
-			// Remove the base path when forwarding to the dev server
+			// Handle path rewriting for Vite base path
 			pathRewrite: (path) => {
-				const newPath = path.replace(basePath, "");
-				return newPath || "/";
+				console.log(`[PATH REWRITE DEBUG] Original path: ${path}`);
+				console.log(`[PATH REWRITE DEBUG] Base path: ${basePath}`);
+
+				// Check if path starts with basePath (proxied requests)
+				if (path.startsWith(basePath)) {
+					const newPath = path.substring(basePath.length) || "/";
+					console.log(
+						`[PATH REWRITE] ${path} -> ${newPath} (proxy path stripped)`
+					);
+					return newPath;
+				} else {
+					console.log(
+						`[PATH REWRITE] ${path} -> ${path} (direct path, no rewrite needed)`
+					);
+					return path;
+				}
 			},
 
 			// Don't verify SSL certificates (for development)
 			secure: false,
 
-			// Handle errors gracefully
+			// Self-handle responses for Vite to rewrite HTML paths
+			selfHandleResponse: server.type === "vite",
+
+			// Handle errors and responses
 			on: {
 				error: (err, req, res) => {
-					console.error("Proxy error:", err.message);
+					console.error(`Proxy error for ${projectId}_${userId}:`, err.message);
+					
+					// Check if this is a connection refused error (server stopped)
+					if (err.message.includes('ECONNREFUSED') || err.message.includes('connect ECONNREFUSED')) {
+						console.log(`[PROXY] Server ${projectId}_${userId} appears to be down, removing from registry`);
+						// Remove the dead server from registry
+						previewServers.delete(`${projectId}_${userId}`);
+					}
 
 					// Type guard to check if res is a ServerResponse
 					if (res && isHttpResponse(res)) {
@@ -200,7 +231,7 @@ export function createPreviewProxy(io?: Server) {
 								</head>
 								<body>
 									<div class="error-container">
-										<h1>⚠️ Preview Server Error</h1>
+										<h1>&#x26A0; Preview Server Error</h1>
 										<p>Unable to connect to development server</p>
 										<p>Port: ${server.port}</p>
 										<p>Please check if the server is running</p>
@@ -212,15 +243,281 @@ export function createPreviewProxy(io?: Server) {
 					}
 				},
 
+				// HTML rewriting response handler for Vite
+				proxyRes:
+					server.type === "vite"
+						? responseInterceptor(
+								async (responseBuffer, proxyRes, req, res) => {
+									// Add CORS headers
+									proxyRes.headers[
+										"access-control-allow-origin"
+									] = "*";
+									proxyRes.headers[
+										"access-control-allow-methods"
+									] = "GET, POST, PUT, DELETE, OPTIONS";
+									proxyRes.headers[
+										"access-control-allow-headers"
+									] = "Content-Type";
+
+									// Add cache control for development (prevent aggressive caching)
+									if (
+										req.url?.endsWith(".js") ||
+										req.url?.endsWith(".jsx") ||
+										req.url?.includes("/@vite/")
+									) {
+										proxyRes.headers["cache-control"] =
+											"no-cache, no-store, must-revalidate";
+										proxyRes.headers["pragma"] = "no-cache";
+										proxyRes.headers["expires"] = "0";
+									}
+
+									// Log the response for debugging
+									console.log(
+										`[PROXY RESPONSE] ${req.url} -> ${proxyRes.statusCode} (${proxyRes.headers["content-type"]})`
+									);
+
+									// Fix MIME types for JavaScript files (including 304 responses)
+									if (
+										req.url?.endsWith(".js") ||
+										req.url?.includes("/@vite/") ||
+										req.url?.includes(".js?")
+									) {
+										proxyRes.headers["content-type"] =
+											"application/javascript; charset=utf-8";
+										console.log(
+											`[MIME FIX] Fixed JS type for ${req.url} (${proxyRes.statusCode})`
+										);
+									} else if (
+										req.url?.endsWith(".jsx") ||
+										req.url?.includes(".jsx?")
+									) {
+										proxyRes.headers["content-type"] =
+											"application/javascript; charset=utf-8";
+										console.log(
+											`[MIME FIX] Fixed JSX type for ${req.url} (${proxyRes.statusCode})`
+										);
+									} else if (
+										req.url?.endsWith(".css") ||
+										req.url?.includes(".css?")
+									) {
+										proxyRes.headers["content-type"] =
+											"text/css; charset=utf-8";
+									} else if (req.url?.endsWith(".svg")) {
+										proxyRes.headers["content-type"] =
+											"image/svg+xml";
+										console.log(
+											`[MIME FIX] Fixed SVG type for ${req.url}`
+										);
+									} else if (
+										req.url?.includes("?import") ||
+										req.url?.includes("?direct")
+									) {
+										proxyRes.headers["content-type"] =
+											"application/javascript; charset=utf-8";
+									}
+
+									// Fix HTML content to rewrite absolute paths
+									if (
+										proxyRes.headers[
+											"content-type"
+										]?.includes("text/html")
+									) {
+										let html =
+											responseBuffer.toString("utf8");
+										console.log(
+											"[HTML REWRITER] Processing HTML response"
+										);
+
+										// Fix src and href attributes that start with /
+										html = html.replace(
+											/(src|href)="(\/[^"]*)"/g,
+											(match, attr, path) => {
+												if (
+													!path.startsWith(basePath)
+												) {
+													const newPath = `${attr}="${basePath}${path}"`;
+													console.log(
+														`[HTML FIX] ${match} -> ${newPath}`
+													);
+													return newPath;
+												}
+												return match;
+											}
+										);
+
+										// Also fix import statements in script tags
+										html = html.replace(
+											/import\s*\(["'](\/[^"']*)["']\)/g,
+											(match, path) => {
+												if (
+													!path.startsWith(basePath)
+												) {
+													const newPath = `import("${basePath}${path}")`;
+													console.log(
+														`[HTML FIX IMPORT] ${match} -> ${newPath}`
+													);
+													return newPath;
+												}
+												return match;
+											}
+										);
+
+										// Fix import from statements
+										html = html.replace(
+											/import\s+[^"']*from\s*["'](\/[^"']*)["']/g,
+											(match, path) => {
+												if (
+													!path.startsWith(basePath)
+												) {
+													const newMatch =
+														match.replace(
+															path,
+															`${basePath}${path}`
+														);
+													console.log(
+														`[HTML FIX FROM] ${match} -> ${newMatch}`
+													);
+													return newMatch;
+												}
+												return match;
+											}
+										);
+
+										return html;
+									}
+
+									// Fix JavaScript module imports
+									if (
+										proxyRes.headers[
+											"content-type"
+										]?.includes("javascript") ||
+										req.url?.includes(".js") ||
+										req.url?.includes("@vite")
+									) {
+										let js =
+											responseBuffer.toString("utf8");
+										console.log(
+											`[JS REWRITER] Processing JS response for ${req.url}`
+										);
+
+										// Fix import statements in JS files (including node_modules paths)
+										const originalJs = js;
+										js = js.replace(
+											/import\s*\(["'](\/[^"']*)["']\)/g,
+											(match, path) => {
+												if (
+													!path.startsWith(
+														basePath
+													) &&
+													!path.startsWith("/@fs/")
+												) {
+													const newPath = `import("${basePath}${path}")`;
+													console.log(
+														`[JS FIX IMPORT] ${match} -> ${newPath}`
+													);
+													return newPath;
+												}
+												return match;
+											}
+										);
+
+										// Fix import from statements in JS files (including node_modules)
+										js = js.replace(
+											/import\s+[^"']*from\s*["'](\/[^"']*)["']/g,
+											(match, path) => {
+												if (
+													!path.startsWith(
+														basePath
+													) &&
+													!path.startsWith("/@fs/")
+												) {
+													const newMatch =
+														match.replace(
+															path,
+															`${basePath}${path}`
+														);
+													console.log(
+														`[JS FIX FROM] ${match} -> ${newMatch}`
+													);
+													return newMatch;
+												}
+												return match;
+											}
+										);
+
+										// Fix regular import statements (without quotes captured in previous regex)
+										js = js.replace(
+											/import\s+["'](\/[^"']*)["']/g,
+											(match, path) => {
+												if (
+													!path.startsWith(
+														basePath
+													) &&
+													!path.startsWith("/@fs/")
+												) {
+													const newMatch =
+														match.replace(
+															path,
+															`${basePath}${path}`
+														);
+													console.log(
+														`[JS FIX DIRECT] ${match} -> ${newMatch}`
+													);
+													return newMatch;
+												}
+												return match;
+											}
+										);
+
+										if (js !== originalJs) {
+											console.log(
+												`[JS REWRITER] Modified JS content for ${req.url}`
+											);
+											return js;
+										}
+									}
+
+									return responseBuffer;
+								}
+						  )
+						: (proxyRes, req, res) => {
+								// Simple handler for non-Vite servers
+								proxyRes.headers[
+									"access-control-allow-origin"
+								] = "*";
+								proxyRes.headers[
+									"access-control-allow-methods"
+								] = "GET, POST, PUT, DELETE, OPTIONS";
+								proxyRes.headers[
+									"access-control-allow-headers"
+								] = "Content-Type";
+								console.log(
+									`[PROXY RESPONSE] ${req.url} -> ${proxyRes.statusCode} (${proxyRes.headers["content-type"]})`
+								);
+						  },
+
+				// Handle proxy requests
 				proxyReq: (proxyReq, req, res) => {
+					// Extract the target path (remove base path)
+					const targetPath = req.url?.replace(basePath, "") || "/";
+
 					// Log for debugging
 					console.log(
-						`[PROXY] ${req.method} ${req.url} -> ${targetUrl}${req.url}`
+						`[PROXY] ${req.method} ${req.url} -> ${targetUrl}${targetPath}`
+					);
+					console.log(
+						`[PROXY HEADERS] Accept: ${req.headers.accept}`
+					);
+					console.log(
+						`[PROXY HEADERS] User-Agent: ${req.headers["user-agent"]}`
 					);
 
 					// Set proper headers for Vite
 					if (server.type === "vite") {
-						// Preserve the original host for Vite HMR
+						// Vite needs the correct Host header
+						proxyReq.setHeader("Host", `localhost:${server.port}`);
+
+						// Preserve original headers for HMR
 						proxyReq.setHeader(
 							"X-Forwarded-Host",
 							req.headers.host || ""
@@ -230,131 +527,24 @@ export function createPreviewProxy(io?: Server) {
 							"X-Forwarded-For",
 							(req as Request).ip || ""
 						);
-					}
-				},
 
-				proxyRes: (proxyRes, req, res) => {
-					// Add CORS headers if needed
-					proxyRes.headers["access-control-allow-origin"] = "*";
-					proxyRes.headers["access-control-allow-methods"] =
-						"GET, POST, PUT, DELETE, OPTIONS";
-					proxyRes.headers["access-control-allow-headers"] =
-						"Content-Type";
+						// Accept headers for proper content negotiation
+						if (!proxyReq.getHeader("Accept")) {
+							proxyReq.setHeader(
+								"Accept",
+								req.headers.accept ||
+									"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+							);
+						}
 
-					// Handle HTML responses for Vite
-					if (
-						server.type === "vite" &&
-						proxyRes.headers["content-type"]?.includes("text/html")
-					) {
-						// Mark that we need to modify this response
-						(proxyRes as any).__needsRewrite = true;
-
-						// Store the original pipe method
-						const originalPipe = proxyRes.pipe;
-						let chunks: Buffer[] = [];
-
-						// Override pipe to collect and modify the response
-						proxyRes.pipe = function (
-							destination: any,
-							options?: any
-						) {
-							// Collect all chunks
-							proxyRes.on("data", (chunk: Buffer) => {
-								chunks.push(chunk);
-							});
-
-							proxyRes.on("end", () => {
-								let html =
-									Buffer.concat(chunks).toString("utf-8");
-
-								// Inject Vite client configuration
-								const viteConfig = `
-									<script type="module">
-										// Store original fetch for later use
-										const originalFetch = window.fetch;
-										
-										// Override fetch to handle module requests
-										window.fetch = function(input, init) {
-											if (typeof input === 'string') {
-												// Handle absolute paths
-												if (input.startsWith('/') && !input.startsWith('${basePath}')) {
-													// Don't modify Vite internal paths
-													if (!input.startsWith('/@') && !input.includes('node_modules')) {
-														input = '${basePath}' + input;
-													}
-												}
-											}
-											return originalFetch.call(this, input, init);
-										};
-
-										// Fix dynamic imports
-										const originalImport = window.__import || ((id) => import(id));
-										window.__import = (id) => {
-											if (id.startsWith('/') && !id.startsWith('${basePath}')) {
-												if (!id.startsWith('/@') && !id.includes('node_modules')) {
-													id = '${basePath}' + id;
-												}
-											}
-											return originalImport(id);
-										};
-
-										// Configure base URL for the application
-										window.__BASE_URL__ = '${basePath}';
-									</script>
-								`;
-
-								// Fix Vite client script
-								html = html.replace(
-									'<script type="module" src="/@vite/client"></script>',
-									`<script type="module" src="${basePath}/@vite/client"></script>`
-								);
-
-								// Fix the main module script
-								html = html.replace(
-									/(<script[^>]*type="module"[^>]*src=")([^"]+)"/g,
-									(match, prefix, src) => {
-										// Don't modify Vite internal paths or absolute URLs
-										if (
-											src.startsWith("http") ||
-											src.startsWith("/@")
-										) {
-											if (src.startsWith("/@")) {
-												return `${prefix}${basePath}${src}"`;
-											}
-											return match;
-										}
-										// Add base path to relative paths
-										if (src.startsWith("/")) {
-											return `${prefix}${basePath}${src}"`;
-										}
-										return match;
-									}
-								);
-
-								// Inject our configuration
-								if (html.includes("</head>")) {
-									html = html.replace(
-										"</head>",
-										`${viteConfig}</head>`
-									);
-								} else {
-									html = viteConfig + html;
-								}
-
-								// Update content length
-								const newContent = Buffer.from(html, "utf-8");
-								res.setHeader(
-									"content-length",
-									newContent.length.toString()
-								);
-
-								// Send the modified response
-								destination.write(newContent);
-								destination.end();
-							});
-
-							return destination;
-						};
+						// User-Agent for compatibility
+						if (!proxyReq.getHeader("User-Agent")) {
+							proxyReq.setHeader(
+								"User-Agent",
+								req.headers["user-agent"] ||
+									"Code-Connect-Proxy/1.0"
+							);
+						}
 					}
 				},
 			},
