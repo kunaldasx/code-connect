@@ -10,16 +10,28 @@
 
 <p align="center">
   <a href="" target="_blank">
-      <img src="https://img.shields.io/badge/MERN-Stack-brightgreen?logo=react">
-  </a>
-  <a href="https://choosealicense.com/licenses/apache" target="_blank">
-      <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg">
+    <img src="https://img.shields.io/badge/Next.js_15-000000?logo=next.js&logoColor=white">
   </a>
   <a href="" target="_blank">
-      <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
+    <img src="https://img.shields.io/badge/React_19-20232A?logo=react&logoColor=61DAFB">
   </a>
   <a href="" target="_blank">
-    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
+    <img src="https://img.shields.io/badge/Liveblocks-FF4785?logo=liveblocks&logoColor=white">
+  </a>
+  <a href="" target="_blank">
+    <img src="https://img.shields.io/badge/Monaco_Editor-2C2C32?logo=visualstudiocode&logoColor=white">
+  </a>
+  <a href="" target="_blank">
+    <img src="https://img.shields.io/badge/Real--Time-Collaboration-blueviolet">
+  </a>
+  <a href="https://choosealicense.com/licenses/mit" target="_blank">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg">
+  </a>
+  <a href="" target="_blank">
+    <img src="https://img.shields.io/badge/Contributions-Welcome-brightgreen?logo=github">
+  </a>
+  <a href="" target="_blank">
+    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg">
   </a>
 </p>
 
@@ -67,7 +79,7 @@ code-connect/
 ├── backend/
 │   ├── server/        # Node.js/Express WebSocket server
 │   ├── database/      # Cloudflare D1 database worker
-│   └── storage/       # Cloudflare R2 storage worker
+└── └── storage/       # Cloudflare R2 storage worker
 ```
 
 ## How To Use
