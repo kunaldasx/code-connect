@@ -6,7 +6,9 @@
   <br>
 </h1>
 
-<h4 align="center">A live code editor powered by instant sync and seamless teamwork.</h4>
+<h4 align="center">
+  A real-time collaborative code editor where developers code, chat, and create together in perfect sync.
+</h4>
 
 <p align="center">
   <a href="" target="_blank">
