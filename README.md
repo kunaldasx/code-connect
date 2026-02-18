@@ -53,23 +53,23 @@
 
 ## Key Features
 
--   Real-Time Code Collaboration – Multiple users can edit the same codebase simultaneously with instant synchronization.
+- Real-Time Code Collaboration – Multiple users can edit the same codebase simultaneously with instant synchronization.
 
--   Live Video & Audio Chat – Built-in conferencing keeps communication seamless while coding together.
+- Live Video & Audio Chat – Built-in conferencing keeps communication seamless while coding together.
 
--   Multi-Language Code Editor – Supports popular programming languages with syntax highlighting and auto-completion.
+- Multi-Language Code Editor – Supports popular programming languages with syntax highlighting and auto-completion.
 
--   Session Rooms – Create and join coding sessions via unique project links for pair programming or group projects.
+- Session Rooms – Create and join coding sessions via unique project links for pair programming or group projects.
 
--   Role-Based Access – Manage permissions for hosts, participants, and viewers easily.
+- Role-Based Access – Manage permissions for hosts, participants, and viewers easily.
 
--   Integrated Terminal – Run commands directly inside the collaborative workspace.
+- Integrated Terminal – Run commands directly inside the collaborative workspace.
 
--   Live Preview – Instantly view code output and changes as you type, enabling faster debugging and iteration.
+- Live Preview – Instantly view code output and changes as you type, enabling faster debugging and iteration.
 
--   Responsive Interface – Works flawlessly on desktops, tablets, and mobile devices.
+- Responsive Interface – Works flawlessly on desktops, tablets, and mobile devices.
 
--   Secure & Scalable – Built with authentication, encrypted communication, and scalable backend architecture.
+- Secure & Scalable – Built with authentication, encrypted communication, and scalable backend architecture.
 
 ## Architecture
 
@@ -146,14 +146,15 @@ Crusto is an [emailware](https://en.wiktionary.org/wiki/emailware). Meaning, if 
 
 This software uses the following technologies:
 
--   **Frontend**: Next.js 15, React 19, TypeScript, TailwindCSS
--   **Backend**: Node.js, Express, Socket.IO for real-time communication
--   **Database**: Cloudflare D1 (SQLite) with Drizzle ORM
--   **Storage**: Cloudflare R2 for file storage
--   **Real-time Collaboration**: Liveblocks + Y.js for operational transforms
--   **Authentication**: Clerk
--   **Code Editor**: Monaco Editor with syntax highlighting
--   **Video/Audio**: WebRTC with Simple Peer
+- **Frontend**: Next.js 15, React 19, TypeScript, TailwindCSS
+- **Backend**: Node.js, Express, Socket.IO for real-time communication
+- **Database**: Cloudflare D1 (SQLite) with Drizzle ORM
+- **Storage**: Cloudflare R2 for file storage
+- **Real-time Collaboration**: Liveblocks + Y.js for operational transforms
+- **Authentication**: Clerk
+- **Code Editor**: Monaco Editor with syntax highlighting
+- **Video/Audio**: WebRTC with Simple Peer
+- **AI**: Cloudflare Workers AI (Llama 3) for code generation
 
 ## Support
 
