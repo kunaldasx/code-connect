@@ -6,7 +6,7 @@
  * - Base64 content handling
  * - File path management
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { cookies } from "next/headers";

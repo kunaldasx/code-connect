@@ -5,7 +5,7 @@
  * - Tree item icon mapping
  * - Type-safe conversion
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { GitBranch } from "lucide-react";

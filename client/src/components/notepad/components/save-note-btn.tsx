@@ -5,7 +5,7 @@
  * - Timestamped filenames
  * - Blob handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { ButtonWithTooltip, type MDXEditorMethods } from "@mdxeditor/editor";
@@ -28,7 +28,7 @@ const SaveNoteBtn = ({ markdownEditorRef }: MarkdownEditorProps) => (
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `codex-note-${new Date().toLocaleString("en-GB").replace(/[/:, ]/g, "-")}.md`;
+      a.download = `codeconnect-note-${new Date().toLocaleString("en-GB").replace(/[/:, ]/g, "-")}.md`;
       a.click();
       URL.revokeObjectURL(url);
     }}

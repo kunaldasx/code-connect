@@ -5,7 +5,7 @@
  * - Title case formatting
  * - Settings file handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type * as monaco from "monaco-editor";
@@ -32,7 +32,7 @@ export const exportSettings = (settings: Record<string, unknown>) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "codex-editor-settings.json";
+    a.download = "codeconnect-editor-settings.json";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

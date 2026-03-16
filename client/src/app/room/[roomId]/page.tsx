@@ -6,7 +6,7 @@
  * - Resizable panels for editor, terminal, preview
  * - Room-based collaboration
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 "use client";
@@ -306,11 +306,7 @@ export default function Room() {
       className="flex h-full min-w-[821px] flex-col overflow-hidden"
     >
       <RemotePointers />
-      <div
-        aria-label="Editor Controls"
-        className="h-9 flex-shrink-0"
-        role="toolbar"
-      >
+      <div aria-label="Editor Controls" className="h-9 shrink-0" role="toolbar">
         {monaco && editor && (
           <MemoizedToolbar
             editor={editor}
@@ -359,7 +355,7 @@ export default function Room() {
             <ResizablePanelGroup direction="vertical">
               <ResizablePanel
                 aria-label="Code Editor"
-                className="z-[1] animate-fade-in"
+                className="z-1 animate-fade-in"
                 defaultSize={75}
                 minSize={10}
                 role="region"

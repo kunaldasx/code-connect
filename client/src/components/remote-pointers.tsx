@@ -6,7 +6,7 @@
  * - Smooth fade animations
  * - Viewport scaling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { PointerServiceMsg } from "@/types/message";
@@ -146,7 +146,7 @@ const RemotePointers = () => {
         return (
           <div
             aria-hidden="true"
-            className="pointer-events-none fixed z-[100] translate-x-[-50%] translate-y-[-50%] transform-gpu transition-all duration-100 ease-out will-change-[left,top,opacity]"
+            className="pointer-events-none fixed z-100 translate-x-[-50%] translate-y-[-50%] transform-gpu transition-all duration-100 ease-out will-change-[left,top,opacity]"
             key={pointer.id}
             style={{
               left: `${scaledX}px`,
@@ -158,7 +158,7 @@ const RemotePointers = () => {
           >
             <div className="relative">
               <MousePointer2
-                className="absolute -top-[2px] -left-[2px] size-5 drop-shadow"
+                className="absolute -top-0.5 -left-0.5 size-5 drop-shadow"
                 style={{
                   color: backgroundColor,
                   fill: "currentColor",

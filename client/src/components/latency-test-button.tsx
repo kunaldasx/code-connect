@@ -5,7 +5,7 @@
  * - Route change handling
  * - Accessible label
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 "use client";

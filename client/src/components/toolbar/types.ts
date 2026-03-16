@@ -5,7 +5,7 @@
  * - Desktop/mobile specific props
  * - Menu action definitions
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 export interface MenuProps {

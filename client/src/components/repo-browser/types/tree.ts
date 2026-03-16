@@ -5,7 +5,7 @@
  * - Extended tree item interface
  * - Repository structure types
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { TreeDataItem } from "@/components/tree";

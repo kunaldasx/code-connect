@@ -6,7 +6,7 @@
  * - Loading states
  * - Error display
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import * as Form from "@radix-ui/react-form";

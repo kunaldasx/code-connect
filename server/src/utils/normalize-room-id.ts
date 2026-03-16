@@ -4,7 +4,7 @@
  * - Hyphen removal
  * - Room ID formatting
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 export const normalizeRoomId = (roomId: string): string => {

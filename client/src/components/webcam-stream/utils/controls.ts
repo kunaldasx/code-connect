@@ -5,7 +5,7 @@
  * - Camera rotation (mobile)
  * - Microphone toggle
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { StreamServiceMsg } from "@/types/message";

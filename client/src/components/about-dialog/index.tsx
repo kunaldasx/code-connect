@@ -6,7 +6,7 @@
  * - Preview image with loading state
  * - External links
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import Image from "next/image";
@@ -81,8 +81,17 @@ const AboutDialog = forwardRef<AboutDialogRef, AboutDialogProps>(
 
     if (isDesktop) {
       return (
-        <Dialog aria-label="About CodeX" onOpenChange={setIsOpen} open={isOpen}>
-          <DialogContent className={cn("max-w-2xl", forceDark && "dark")}>
+        <Dialog
+          aria-label="About CodeConnect"
+          onOpenChange={setIsOpen}
+          open={isOpen}
+        >
+          <DialogContent
+            className={cn(
+              "max-w-2xl h-[90vh] overflow-scroll scrollbar-none my-2",
+              forceDark && "dark",
+            )}
+          >
             <DialogHeader className="text-left text-foreground">
               <DialogTitle>{SITE_NAME}</DialogTitle>
               <DialogDescription className="pt-2 text-base">
@@ -92,12 +101,12 @@ const AboutDialog = forwardRef<AboutDialogRef, AboutDialogProps>(
             </DialogHeader>
 
             <div
-              aria-label="CodeX application preview"
+              aria-label="CodeConnect application preview"
               className="relative aspect-[600/315]"
               role="img"
             >
               <Image
-                alt="CodeX application interface preview"
+                alt="CodeConnect application interface preview"
                 aria-hidden={!isImgLoaded}
                 className="absolute rounded-md object-cover"
                 fill
@@ -142,7 +151,11 @@ const AboutDialog = forwardRef<AboutDialogRef, AboutDialogProps>(
     }
 
     return (
-      <Drawer aria-label="About CodeX" onOpenChange={setIsOpen} open={isOpen}>
+      <Drawer
+        aria-label="About CodeConnect"
+        onOpenChange={setIsOpen}
+        open={isOpen}
+      >
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle className="text-left">{SITE_NAME}</DrawerTitle>
@@ -153,13 +166,13 @@ const AboutDialog = forwardRef<AboutDialogRef, AboutDialogProps>(
           </DrawerHeader>
 
           <div
-            aria-label="CodeX application preview"
+            aria-label="CodeConnect application preview"
             className="w-full px-4"
             role="img"
           >
             <div className="relative aspect-[600/315] w-full max-w-full">
               <Image
-                alt="CodeX application interface preview"
+                alt="CodeConnect application interface preview"
                 aria-hidden={!isImgLoaded}
                 className="rounded-md object-cover"
                 fill

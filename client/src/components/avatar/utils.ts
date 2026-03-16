@@ -3,7 +3,7 @@
  * - Get initials from full name
  * - Format display name with "you" suffix
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { User } from "@/types/user";

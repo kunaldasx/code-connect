@@ -5,7 +5,7 @@
  * - Custom metadata description for room sharing
  * - Pass-through children rendering
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Metadata } from "next";
@@ -23,5 +23,5 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: LayoutProps<"/room/[roomId]">) {
-  return <div className="h-screen overflow-y-hidden">{children}</div>;
+  return <div className="h-full">{children}</div>;
 }

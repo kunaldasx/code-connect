@@ -2,7 +2,7 @@
  * GitHub footer information component.
  * Displays file path and disconnect instructions.
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { Settings } from "lucide-react";

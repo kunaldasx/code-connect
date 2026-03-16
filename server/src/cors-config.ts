@@ -5,16 +5,15 @@
  * - Vercel deployment detection
  * - Header generation
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 const ALLOWED_ORIGINS = [
-  // "",
-  "http://localhost:3000",
+  process.env.CLIENT_URL || "http://localhost:3000",
 ] as const;
 
 const VERCEL_DEPLOYMENT_PATTERN =
-  /^https:\/\/codex-client-[a-zA-Z0-9]+-[a-zA-Z0-9-]+\.vercel\.app$/;
+  /^https:\/\/codeconnect-client-[a-zA-Z0-9]+-[a-zA-Z0-9-]+\.vercel\.app$/;
 
 const isVercelDeployment = (origin: string): boolean => {
   return VERCEL_DEPLOYMENT_PATTERN.test(origin);

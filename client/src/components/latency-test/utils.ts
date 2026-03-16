@@ -5,7 +5,7 @@
  * - Median
  * - Standard deviation
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Stats } from "./types";

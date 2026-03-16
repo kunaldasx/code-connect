@@ -5,7 +5,7 @@
  * - Disabled state support
  * - Accessible button with label
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { ArrowLeft } from "lucide-react";

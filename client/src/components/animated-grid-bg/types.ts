@@ -5,7 +5,7 @@
  * - Light animation types
  * - Style definitions
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 export interface GridConfig {

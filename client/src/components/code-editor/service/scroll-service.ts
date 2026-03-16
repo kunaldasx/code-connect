@@ -5,7 +5,7 @@
  * - Follow mode support
  * - User-specific scroll syncing
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Scroll } from "@/types/scroll";

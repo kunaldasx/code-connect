@@ -5,7 +5,7 @@
  * - OAuth token handling
  * - User data types
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";

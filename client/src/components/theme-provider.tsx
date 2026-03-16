@@ -5,7 +5,7 @@
  * - Theme persistence
  * - Theme switching
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 "use client";

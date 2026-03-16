@@ -5,7 +5,7 @@
  * - Speaker status indicator
  * - Local/remote state handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { Mic, MicOff, Volume2, VolumeOff } from "lucide-react";

@@ -5,7 +5,7 @@
  * - Standard input handling
  * - Input validation
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { ChevronDown, X } from "lucide-react";

@@ -4,7 +4,7 @@
  * - Device ID and label
  * - WebRTC device types
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 export interface MediaDevice {

@@ -5,7 +5,7 @@
  * - Accessible tooltip
  * - Room ID handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { Share } from "lucide-react";

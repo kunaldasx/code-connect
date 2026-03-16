@@ -5,7 +5,7 @@
  * - Authentication status check
  * - Session cleanup
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { NextRequest } from "next/server";

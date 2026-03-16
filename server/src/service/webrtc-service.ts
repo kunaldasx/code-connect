@@ -5,15 +5,15 @@
  * - Camera state sync
  * - User notification
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
-import { StreamServiceMsg } from "../types/message";
+import { StreamServiceMsg } from "../types/message.js";
 import type { SignalData } from "simple-peer";
-import type { Socket } from "@/types";
+import type { Socket } from "@/types.js";
 
-import * as roomService from "./room-service";
-import * as userService from "./user-service";
+import * as roomService from "./room-service.js";
+import * as userService from "./user-service.js";
 
 // Notify all other users in the room that this user is ready to stream
 export const onStreamReady = (socket: Socket) => {

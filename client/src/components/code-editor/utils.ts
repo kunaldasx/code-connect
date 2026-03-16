@@ -1,7 +1,7 @@
 /**
  * Create a style for a cursor.
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 /**

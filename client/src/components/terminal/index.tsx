@@ -6,7 +6,7 @@
  * - Download/clear logs
  * - Welcome message
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { ExecutionResult } from "@/types/terminal";

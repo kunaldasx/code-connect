@@ -5,7 +5,7 @@
  * - Editor state management
  * - Change synchronization
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { EditOp } from "@/types/operation";

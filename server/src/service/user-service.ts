@@ -5,7 +5,7 @@
  * - Socket/user mapping
  * - Data persistence
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Socket } from "@/types.js";

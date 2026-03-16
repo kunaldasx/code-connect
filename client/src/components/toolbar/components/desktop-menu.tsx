@@ -5,7 +5,7 @@
  * - Panel toggle actions
  * - Editor command bindings
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { useEffect, useRef } from "react";

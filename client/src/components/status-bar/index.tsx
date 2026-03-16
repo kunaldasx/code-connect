@@ -5,7 +5,7 @@
  * - Cursor position tracking
  * - Selection feedback
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Monaco } from "@monaco-editor/react";
@@ -64,14 +64,14 @@ const StatusBar = memo(function StatusBar({
     <section
       aria-label="Editor status bar"
       className={cn(
-        "fixed inset-x-0 bottom-0 h-6 animate-fade-in bg-[color:var(--toolbar-bg-primary)] py-1",
+        "fixed inset-x-0 bottom-0 h-4 animate-fade-in bg-(--toolbar-bg-primary)",
         className,
       )}
       role="status"
     >
       <div
         className={
-          "flex items-center justify-end gap-x-2 px-2 text-[color:var(--status-bar-text)] text-xs"
+          "flex items-center justify-end gap-x-2 px-2 text-(--status-bar-text) text-xs"
         }
       >
         <div className="flex items-center">

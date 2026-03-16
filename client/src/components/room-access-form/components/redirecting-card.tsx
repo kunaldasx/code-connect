@@ -5,7 +5,7 @@
  * - Spinner indicator
  * - Accessible status message
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { Spinner } from "@/components/spinner";

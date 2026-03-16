@@ -5,7 +5,7 @@
  * - Editor settings access
  * - Accessible tooltip
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Monaco } from "@monaco-editor/react";
@@ -43,7 +43,7 @@ const SettingsButton = ({ monaco, editor }: SettingsButtonProps) => {
             aria-expanded="false"
             aria-haspopup="dialog"
             aria-label="Open Settings"
-            className="hover:!text-foreground size-7 animate-fade-in-top rounded-sm p-0 text-[color:var(--toolbar-foreground)]"
+            className="hover:text-foreground! size-7 animate-fade-in-top rounded-sm p-0 text-(--toolbar-foreground)"
             onClick={handleButtonClick}
             size="icon"
             variant="ghost"

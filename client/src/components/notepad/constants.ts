@@ -2,7 +2,7 @@
  * Map of supported code block languages for CodeMirror editor.
  * Source: https://codemirror.net/5/mode/
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 export const codeBlockLanguages: Record<string, string> = {

@@ -5,7 +5,7 @@
  * - Usage instructions
  * - Terminal formatting
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import Image from "next/image";
@@ -16,11 +16,11 @@ const WelcomeMsg = () => (
   <div className="mb-4 space-y-2">
     <div className="flex items-center gap-2 text-green-500">
       <Image
-        alt="CodeX Logo"
+        alt="CodeConnect Logo"
         className="size-5"
         height="16"
         loading="eager"
-        src="/images/codex-logo.svg"
+        src="/images/codeconnect-logo.svg"
         width="16"
       />
       <span>Welcome to {SITE_NAME}</span>

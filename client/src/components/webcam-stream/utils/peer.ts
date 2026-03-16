@@ -6,7 +6,7 @@
  * - Stream handling
  * - Error handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { StreamServiceMsg } from "@/types/message";

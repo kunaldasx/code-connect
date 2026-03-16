@@ -1,12 +1,12 @@
 /**
- * Socket.IO server entry point for CodeX.
+ * Socket.IO server entry point for CodeConnect.
  * Features:
  * - WebSocket server setup
  * - Service initialization
  * - Message handling
  * - CORS configuration
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { App } from "uWebSockets.js";
@@ -84,7 +84,7 @@ app.listen(PORT, (token) => {
   if (!token) {
     console.warn(`Port ${PORT} is already in use`);
   }
-  console.log(`codex-server listening on port: ${PORT}`);
+  console.log(`codeconnect-server listening on port: ${PORT}`);
 });
 
 app.get("/", (res, req) => {
@@ -97,7 +97,7 @@ app.get("/", (res, req) => {
   res.writeHeader("Content-Type", "text/plain");
 
   res.end(
-    "Hello from codex-server! Go to https://codex.kunaldasx.dev/ to start coding.",
+    `Hello from codeconnect-server! Go to ${process.env.CLIENT_URL} to start coding.`,
   );
 });
 

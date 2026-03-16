@@ -6,7 +6,7 @@
  * - Tree data transformation
  * - State updating
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Dispatch, SetStateAction } from "react";

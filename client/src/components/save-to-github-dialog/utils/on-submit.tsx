@@ -5,7 +5,7 @@
  * - Toast notifications
  * - Success/error messaging
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { ExternalLink } from "lucide-react";

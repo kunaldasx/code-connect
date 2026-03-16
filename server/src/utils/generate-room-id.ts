@@ -5,7 +5,7 @@
  * - Alphanumeric characters
  * - Uppercase letters only
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 export const generateRoomID = () => {

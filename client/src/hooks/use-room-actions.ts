@@ -5,7 +5,7 @@
  * - Navigation after leaving
  * - Error handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { useRouter } from "next/navigation";

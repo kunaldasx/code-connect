@@ -2,7 +2,7 @@
  * Custom hook for managing dialog open/close state with imperative handle.
  * Provides standardized dialog control interface.
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import {

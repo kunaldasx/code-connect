@@ -2,7 +2,7 @@
  * Responsive dialog component that renders as AlertDialog on desktop
  * and Drawer on mobile devices.
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { ReactNode } from "react";

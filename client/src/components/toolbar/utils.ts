@@ -5,7 +5,7 @@
  * - Menu command handlers
  * - Error handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Monaco } from "@monaco-editor/react";
@@ -158,7 +158,7 @@ export const openLocal = (
 export const saveLocal = (
   monaco: Monaco,
   editor: monaco.editor.IStandaloneCodeEditor | null,
-  filename = `codex-${new Date().toLocaleString("en-GB").replace(/[/:, ]/g, "-")}`,
+  filename = `codeconnect-${new Date().toLocaleString("en-GB").replace(/[/:, ]/g, "-")}`,
 ): void => {
   if (!editor) {
     throw new Error("Editor instance is required");

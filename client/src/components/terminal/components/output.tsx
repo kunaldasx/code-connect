@@ -6,7 +6,7 @@
  * - Execution time display
  * - Error output handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { ExecutionResult } from "@/types/terminal";

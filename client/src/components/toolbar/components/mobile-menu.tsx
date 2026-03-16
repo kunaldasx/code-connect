@@ -5,7 +5,7 @@
  * - Panel toggle actions
  * - Editor command access
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { Menu } from "lucide-react";

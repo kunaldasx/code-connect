@@ -4,7 +4,7 @@
  * - Create room form types
  * - Join room form types
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 export interface CreateRoomForm {

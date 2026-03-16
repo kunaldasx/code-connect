@@ -5,7 +5,7 @@
  * - Disallowed paths
  * - Host URL
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { MetadataRoute } from "next";

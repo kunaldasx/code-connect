@@ -1,7 +1,7 @@
 /**
  * GitHub save dialog component that handles file saving integration.
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import * as Form from "@radix-ui/react-form";

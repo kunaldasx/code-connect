@@ -5,15 +5,15 @@
  * - User identification
  * - Socket messaging
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
-import { ScrollServiceMsg } from "../types/message";
-import type { Scroll } from "../types/scroll";
-import type { Socket } from "@/types";
+import { ScrollServiceMsg } from "../types/message.js";
+import type { Scroll } from "../types/scroll.js";
+import type { Socket } from "@/types.js";
 
-import { getUserRoom } from "./room-service";
-import { getCustomId } from "./user-service";
+import { getUserRoom } from "./room-service.js";
+import { getCustomId } from "./user-service.js";
 
 export const updateScroll = (socket: Socket, scroll: Scroll) => {
   const roomID = getUserRoom(socket);

@@ -6,7 +6,7 @@
  * - Color-coded status indicators
  * - Status descriptions
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 "use client";

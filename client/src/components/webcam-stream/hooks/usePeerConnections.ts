@@ -2,7 +2,7 @@
  * Custom hook for managing WebRTC peer connections and remote streams.
  * Handles peer creation, cleanup, and signal processing.
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { useRef, useState } from "react";

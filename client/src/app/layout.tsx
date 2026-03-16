@@ -7,7 +7,7 @@
  * - Toast notifications
  * - Analytics
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { Geist, Geist_Mono } from "next/font/google";
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   referrer: "origin-when-cross-origin",
   keywords:
-    "codex, code collaboration, real-time coding, pair programming, remote collaboration, live coding, code sharing, collaborative editor, monaco editor, cursor sharing, live preview, video chat, collaborative terminal, shared terminal, code execution, GitHub integration, web IDE, online IDE, collaborative development, coding platform, programming tools",
+    "codeconnect, code collaboration, real-time coding, pair programming, remote collaboration, live coding, code sharing, collaborative editor, monaco editor, cursor sharing, live preview, video chat, collaborative terminal, shared terminal, code execution, GitHub integration, web IDE, online IDE, collaborative development, coding platform, programming tools",
   creator: NAME,
   publisher: NAME,
   authors: {

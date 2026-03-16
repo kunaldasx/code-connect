@@ -5,7 +5,7 @@
  * - CSS class merging
  * - Error parsing
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { RoomServiceMsg } from "@/types/message";

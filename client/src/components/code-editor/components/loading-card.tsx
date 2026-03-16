@@ -5,7 +5,7 @@
  * - Blurred backdrop
  * - Description message
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { memo } from "react";

@@ -6,18 +6,18 @@
  * - Room state management
  * - User data sync
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
-import { CodeServiceMsg, RoomServiceMsg } from "../types/message";
-import type { ExecutionResult } from "../types/terminal";
-import type { Server, Socket } from "@/types";
+import { CodeServiceMsg, RoomServiceMsg } from "../types/message.js";
+import type { ExecutionResult } from "../types/terminal.js";
+import type { Server, Socket } from "@/types.js";
 
-import { generateRoomID } from "@/utils/generate-room-id";
-import { normalizeRoomId } from "@/utils/normalize-room-id";
+import { generateRoomID } from "@/utils/generate-room-id.js";
+import { normalizeRoomId } from "@/utils/normalize-room-id.js";
 
-import * as codeService from "./code-service";
-import * as userService from "./user-service";
+import * as codeService from "./code-service.js";
+import * as userService from "./user-service.js";
 
 // Cache for room users to reduce repeated lookups
 const roomUsersCache = new Map<string, Record<string, string>>();

@@ -6,7 +6,7 @@
  * - Editor command access
  * - Dialog/sheet management
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Monaco } from "@monaco-editor/react";

@@ -2,7 +2,7 @@
  * Custom hook for managing Socket.IO events related to webcam streaming.
  * Handles signaling, state synchronization, and user connection events.
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { RoomServiceMsg, StreamServiceMsg } from "@/types/message";

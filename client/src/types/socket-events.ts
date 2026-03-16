@@ -2,7 +2,7 @@
  * Typed Socket.IO event interfaces for compile-time safety.
  * Shared between server and client to enforce event contracts.
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type {

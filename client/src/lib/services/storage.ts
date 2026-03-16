@@ -5,7 +5,7 @@
  * - User ID management
  * - Follow mode state
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 interface StorageData {

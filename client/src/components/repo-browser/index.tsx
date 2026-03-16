@@ -6,7 +6,7 @@
  * - File selection
  * - Loading states
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { Search } from "lucide-react";

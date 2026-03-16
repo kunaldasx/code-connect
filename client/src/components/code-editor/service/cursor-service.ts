@@ -5,7 +5,7 @@
  * - Viewport line visibility checks
  * - Cursor style handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Cursor } from "@/types/operation";

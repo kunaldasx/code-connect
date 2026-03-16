@@ -6,7 +6,7 @@
  * - Repository content retrieval
  * - Error handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { cookies } from "next/headers";

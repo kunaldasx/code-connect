@@ -5,7 +5,7 @@
  * - Accessible controls
  * - Styling customization
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { LogOut } from "lucide-react";

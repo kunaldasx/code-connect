@@ -6,7 +6,7 @@
  * - OAuth credentials
  * - App metadata
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 export const IS_DEV_ENV =
@@ -32,21 +32,21 @@ export const PISTON_API_URL = "https://emkc.org/api/v2/piston/execute";
 
 export const NAME_MAX_LENGTH = 64;
 
-export const SITE_NAME = "CodeX - Code Collaboration Platform";
+export const SITE_NAME = "CodeConnect - Code Collaboration Platform";
 export const SITE_DESCRIPTION =
-  "Your collaborative coding space, reimagined. Code together now on CodeX, no sign-up required.";
+  "Your collaborative coding space, reimagined. Code together now on CodeConnect, no sign-up required.";
 export const INVITED_DESCRIPTION =
   "You have been invited to a coding session. Happy coding!";
 export const LATENCY_TEST_TITLE = "Server Latency Test";
 export const LATENCY_TEST_DESCRIPTION =
-  "Test your latency to the CodeX server.";
+  "Test your latency to the CodeConnect server.";
 export const GITHUB_OAUTH_TITLE = "GitHub OAuth Callback";
 export const GITHUB_OAUTH_DESCRIPTION =
   "This page is used to handle the GitHub OAuth callback.";
 export const NAME = "Kunal Das";
 export const PORTFOLIO_URL = "https://kunaldasx.vercel.app";
 export const CONTACT_URL = "https://kunaldasx.vercel.app/contact";
-export const REPO_URL = "https://github.com/kunaldasx/codex";
+export const REPO_URL = "https://github.com/kunaldasx/CodeConnect";
 export const GITHUB_URL = "https://github.com/kunaldasx";
 
 export const EDITOR_SETTINGS_KEY = "editor-settings";

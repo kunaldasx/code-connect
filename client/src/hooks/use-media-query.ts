@@ -5,7 +5,7 @@
  * - Real-time updates
  * - Cleanup on unmount
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { useEffect, useState } from "react";

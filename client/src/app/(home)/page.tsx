@@ -6,7 +6,7 @@
  * - About and latency test buttons
  * - Server status indicator
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import Image from "next/image";
@@ -38,27 +38,27 @@ export default async function Page({ searchParams }: PageProps<"/">) {
       <div className="dark fixed inset-0 -z-10">
         <AnimatedGridBackground />
       </div>
-      <main className="dark relative flex min-h-full w-full flex-col overflow-hidden min-[1189px]:flex-row">
+      <main className="dark relative flex min-h-full w-full flex-col min-[1189px]:flex-row overflow-scroll">
         {/* Left Section - Form */}
         <div className="my-2 flex min-h-[700px] w-full flex-col justify-center p-4 min-[1189px]:w-5/12 min-[1189px]:items-center min-[560px]:p-8">
           <div className="w-full max-w-xl">
             <div className="mb-6 space-y-6">
               <h1 className="flex flex-row items-start gap-2 font-bold text-4xl text-foreground tracking-tight sm:text-5xl">
                 <Image
-                  alt="CodeX Logo"
+                  alt="CodeConnect Logo"
                   className="size-20 min-[1189px]:size-24"
                   fetchPriority="high"
                   height={96}
                   loading="eager"
-                  src="/images/codex-logo.svg"
+                  src="/images/codeconnect-logo.svg"
                   width={96}
                 />
                 <div className="flex flex-col items-start text-start">
                   <span>Code together</span>
                   <span className="flex items-end gap-2 min-[1189px]:items-baseline">
                     <span>now on</span>
-                    <span className="bg-gradient-to-r from-[#fb568a] to-[#e456fb] bg-clip-text text-transparent drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">
-                      CodeX
+                    <span className="bg-linear-to-r from-[#fb568a] to-[#e456fb] bg-clip-text text-transparent drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">
+                      CodeConnect
                     </span>
                   </span>
                 </div>

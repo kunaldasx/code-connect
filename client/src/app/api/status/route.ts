@@ -5,7 +5,7 @@
  * - Error handling
  * - Status response formatting
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { NextResponse } from "next/server";

@@ -6,7 +6,7 @@
  * - Theme-aware rendering
  * - Pre-installed CDN libraries cached by the browser
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 import { DISABLE_TAILWIND_CDN_WARN, PREVIEW_CDN } from "@/lib/constants";
 

@@ -6,7 +6,7 @@
  * - Event handling
  * - Socket integration
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { CodeServiceMsg, ScrollServiceMsg } from "@/types/message";

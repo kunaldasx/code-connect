@@ -5,7 +5,7 @@
  * - Pre-installed libraries list
  * - External links
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { CircleHelp } from "lucide-react";
@@ -74,7 +74,7 @@ const HelpPopover = () => (
                 <li>
                   <a
                     className="!transition-all inline-flex items-center gap-1 text-foreground underline underline-offset-2 hover:text-muted-foreground"
-                    href="https://github.com/kunaldasx/CodeX/blob/main/manual.md#live-preview-example"
+                    href="https://github.com/kunaldasx/CodeConnect/blob/main/manual.md#live-preview-example"
                     rel="noopener noreferrer"
                     target="_blank"
                   >

@@ -5,7 +5,7 @@
  * - Icon imports
  * - Keyboard shortcut mapping
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import {

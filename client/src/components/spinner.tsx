@@ -5,7 +5,7 @@
  * - Color variants: default, primary, secondary, destructive, muted
  * - Smooth animation
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { cva, type VariantProps } from "class-variance-authority";

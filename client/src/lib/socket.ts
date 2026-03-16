@@ -5,7 +5,7 @@
  * - Server URL configuration
  * - Connection management
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type {

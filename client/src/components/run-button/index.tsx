@@ -6,7 +6,7 @@
  * - Args/stdin input handling
  * - Status indication
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { CodeServiceMsg } from "@/types/message";

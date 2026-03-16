@@ -6,7 +6,7 @@
  * - Repository filtering
  * - Sorting and ordering
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { cookies } from "next/headers";

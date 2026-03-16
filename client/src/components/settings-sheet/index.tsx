@@ -6,7 +6,7 @@
  * - GitHub connection
  * - Settings import/export
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Monaco } from "@monaco-editor/react";

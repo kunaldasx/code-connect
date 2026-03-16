@@ -6,7 +6,7 @@
  * - Real-time sync
  * - Scroll synchronization
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import {

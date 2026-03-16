@@ -5,7 +5,7 @@
  * - Tree data item type checking
  * - Path normalization
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import {

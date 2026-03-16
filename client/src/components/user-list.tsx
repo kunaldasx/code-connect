@@ -5,7 +5,7 @@
  * - Scrollable interface
  * - Accessible markup
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { User } from "@/types/user";

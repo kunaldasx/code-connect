@@ -6,7 +6,7 @@
  * - Synchronized language state
  * - Mobile support
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { CodeServiceMsg } from "@/types/message";

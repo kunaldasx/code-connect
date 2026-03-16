@@ -6,7 +6,7 @@
  * - Responsive dialog/drawer
  * - Copy success feedback
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { Check, Copy } from "lucide-react";
@@ -172,7 +172,7 @@ const ShareDialog = forwardRef<ShareDialogRef, ShareDialogProps>(
           <QRCodeCanvas
             className="rounded-lg"
             imageSettings={{
-              src: "/images/codex-logo.svg",
+              src: "/images/codeconnect-logo.svg",
               height: 48,
               width: 48,
               excavate: true,

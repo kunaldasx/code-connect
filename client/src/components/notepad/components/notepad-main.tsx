@@ -6,7 +6,7 @@
  * - Markdown syntax support
  * - Image and table insertion
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 "use client";

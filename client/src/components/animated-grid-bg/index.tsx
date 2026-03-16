@@ -6,7 +6,7 @@
  * - Mouse-based parallax
  * - Dynamic sizing
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 "use client";

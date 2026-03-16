@@ -5,7 +5,7 @@
  * - Recovery options
  * - Development error details
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 "use client";

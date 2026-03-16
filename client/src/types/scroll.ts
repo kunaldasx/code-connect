@@ -4,6 +4,6 @@
  * Index 0: scrollLeft
  * Index 1: scrollTop
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 export type Scroll = [number, number];

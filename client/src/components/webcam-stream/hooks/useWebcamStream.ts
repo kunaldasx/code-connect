@@ -2,7 +2,7 @@
  * Custom hook for managing local webcam stream state and controls.
  * Handles camera/mic toggling and facial mode switching.
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { StreamServiceMsg } from "@/types/message";

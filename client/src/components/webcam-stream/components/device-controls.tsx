@@ -5,7 +5,7 @@
  * - Enable/disable toggle
  * - Permission handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { type ElementType, useCallback, useState } from "react";

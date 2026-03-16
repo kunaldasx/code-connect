@@ -5,7 +5,7 @@
  * - Dark/light mode detection
  * - Meta tag handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { useTheme } from "next-themes";

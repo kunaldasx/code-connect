@@ -5,7 +5,7 @@
  * - Branch path handling
  * - Directory/file path handling
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import {

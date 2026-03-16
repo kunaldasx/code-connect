@@ -6,7 +6,7 @@
  * - Branch fetching
  * - Tree data recursion
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { Dispatch, SetStateAction } from "react";

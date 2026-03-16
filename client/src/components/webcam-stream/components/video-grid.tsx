@@ -2,7 +2,7 @@
  * Video grid component that displays local and remote video streams.
  * Renders video elements with user avatars and control overlays.
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import type { User } from "@/types/user";

@@ -5,7 +5,7 @@
  * - External URL handling
  * - Accessibility support
  *
- * By Kunal Das (https://kunaldasx.vercel.app)
+ * By Kunal Das
  */
 
 import { Send } from "lucide-react";
@@ -39,7 +39,7 @@ const ExternalLink = ({ forceDark = false }: ExternalLinkProps) => {
             alt="Mirai logo"
             className="mr-2"
             height={16}
-            src="/images/codex-logo.svg"
+            src="/images/codeconnect-logo.svg"
             width={16}
           />
           My Portfolio
@@ -64,7 +64,7 @@ const ExternalLink = ({ forceDark = false }: ExternalLinkProps) => {
       </Button>
       <Button asChild size="sm" variant="outline">
         <a
-          aria-label="Visit CodeX GitHub repository (opens in new tab)"
+          aria-label="Visit CodeConnect GitHub repository (opens in new tab)"
           href={REPO_URL}
           rel="noopener noreferrer"
           target="_blank"
@@ -76,7 +76,7 @@ const ExternalLink = ({ forceDark = false }: ExternalLinkProps) => {
             src={`/images/${resolvedTheme === "light" && !forceDark ? "octocat" : "octocat-white"}.svg`}
             width={16}
           />
-          CodeX GitHub
+          CodeConnect GitHub
         </a>
       </Button>
       <Button asChild size="sm" variant="outline">
