@@ -57,7 +57,7 @@ export const loginWithGithub = () => {
     window.authWindow.focus();
   } else {
     window.authWindow = window.open(
-      `${GITHUB_OAUTH_URL}/authorize?client_id=Ov23lixzGmwIhnYzwy4w&scope=depo`,
+      `${GITHUB_OAUTH_URL}/authorize?client_id=Ov23lixzGmwIhnYzwy4w&scope=repo`,
       "_blank",
       `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,status=yes`,
     );

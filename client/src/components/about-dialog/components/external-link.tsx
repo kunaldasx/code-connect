@@ -39,7 +39,7 @@ const ExternalLink = ({ forceDark = false }: ExternalLinkProps) => {
             alt="Mirai logo"
             className="mr-2"
             height={16}
-            src="/images/codeconnect-logo.svg"
+            src="/images/codeconnect-logo.png"
             width={16}
           />
           My Portfolio

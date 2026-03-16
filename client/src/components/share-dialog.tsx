@@ -172,7 +172,7 @@ const ShareDialog = forwardRef<ShareDialogRef, ShareDialogProps>(
           <QRCodeCanvas
             className="rounded-lg"
             imageSettings={{
-              src: "/images/codeconnect-logo.svg",
+              src: "/images/codeconnect-logo.png",
               height: 48,
               width: 48,
               excavate: true,

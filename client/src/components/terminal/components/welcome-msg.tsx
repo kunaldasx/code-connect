@@ -20,7 +20,7 @@ const WelcomeMsg = () => (
         className="size-5"
         height="16"
         loading="eager"
-        src="/images/codeconnect-logo.svg"
+        src="/images/codeconnect-logo.png"
         width="16"
       />
       <span>Welcome to {SITE_NAME}</span>

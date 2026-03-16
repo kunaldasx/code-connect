@@ -18,6 +18,7 @@ import { LatencyTestButton } from "@/components/latency-test-button";
 import { RoomAccessForm } from "@/components/room-access-form";
 import { ShowcaseGrid } from "@/components/showcase-grid";
 import { Status } from "@/components/status";
+import { StarsBackground } from "@/components/animate-ui/components/backgrounds/stars";
 
 export default async function Page({ searchParams }: PageProps<"/">) {
   const params = await searchParams;
@@ -36,7 +37,7 @@ export default async function Page({ searchParams }: PageProps<"/">) {
         role="presentation"
       />
       <div className="dark fixed inset-0 -z-10">
-        <AnimatedGridBackground />
+        <StarsBackground />
       </div>
       <main className="dark relative flex min-h-full w-full flex-col min-[1189px]:flex-row overflow-scroll">
         {/* Left Section - Form */}
@@ -50,12 +51,12 @@ export default async function Page({ searchParams }: PageProps<"/">) {
                   fetchPriority="high"
                   height={96}
                   loading="eager"
-                  src="/images/codeconnect-logo.svg"
+                  src="/images/codeconnect-logo.png"
                   width={96}
                 />
                 <div className="flex flex-col items-start text-start">
                   <span>Code together</span>
-                  <span className="flex items-end gap-2 min-[1189px]:items-baseline">
+                  <span className="flex flex-col items-start min-[1189px]:items-baseline">
                     <span>now on</span>
                     <span className="bg-linear-to-r from-[#fb568a] to-[#e456fb] bg-clip-text text-transparent drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">
                       CodeConnect
