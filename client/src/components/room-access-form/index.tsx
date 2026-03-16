@@ -80,11 +80,7 @@ const RoomAccessForm = ({ roomId }: RoomAccessFormProps) => {
 	};
 
 	if (isSuccessful) {
-		return (
-			<div className="my-32 flex items-center justify-center">
-				<RedirectingCard />
-			</div>
-		);
+		return <RedirectingCard />;
 	}
 
 	const hasValidInvite = roomId && isRoomIdValid(roomId);
