@@ -76,7 +76,7 @@ const ShowcaseCard = ({ image }: { image: ShowcaseImage }) => {
 						{image.icon}
 					</div>
 
-					<h3 className="font-['Orbitron'] text-[12px] font-semibold tracking-wide text-[#DCF0FF]">
+					<h3 className="font-display text-[12px] font-semibold tracking-wide text-[#DCF0FF]">
 						{image.title}
 					</h3>
 				</div>

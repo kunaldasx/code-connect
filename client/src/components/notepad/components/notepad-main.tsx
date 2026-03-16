@@ -70,8 +70,7 @@ const darkModeStyles = `
     border-bottom: 1px solid #3a3d42 !important;
     flex-wrap: wrap !important;
     overflow: visible !important;
-    height: auto !important;
-    min-height: 40px !important;
+  
   }
 
   /* ── DiffSourceToggleWrapper inner div must also wrap ── */
