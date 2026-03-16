@@ -64,7 +64,7 @@ const StatusBar = memo(function StatusBar({
     <section
       aria-label="Editor status bar"
       className={cn(
-        "fixed inset-x-0 bottom-0 h-4 animate-fade-in bg-(--toolbar-bg-primary)",
+        "fixed inset-x-0 bottom-0 h-5 animate-fade-in bg-(--toolbar-bg-primary) py-0.5",
         className,
       )}
       role="status"

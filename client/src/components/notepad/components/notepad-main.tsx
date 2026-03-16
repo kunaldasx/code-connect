@@ -423,6 +423,7 @@ const MarkdownEditorMain = ({ markdown }: MarkdownEditorProps) => {
           : "dark:prose-invert",
       )}
       key={key}
+      // eslint-disable-next-line react-hooks/refs
       markdown={contentRef.current}
       onChange={onChange}
       placeholder="All participants can edit this note..."

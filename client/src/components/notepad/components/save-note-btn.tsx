@@ -19,7 +19,7 @@ interface MarkdownEditorProps {
 const SaveNoteBtn = ({ markdownEditorRef }: MarkdownEditorProps) => (
   <ButtonWithTooltip
     aria-label="Save note"
-    className="!ml-0 !flex !size-7 !items-center !justify-center [&>span]:flex [&>span]:w-fit"
+    className="ml-0! flex! size-7! items-center! justify-center!s [&>span]:flex [&>span]:w-fit"
     onClick={() => {
       const markdown = markdownEditorRef.current?.getMarkdown() ?? "";
       const blob = new Blob([markdown], {
@@ -34,7 +34,7 @@ const SaveNoteBtn = ({ markdownEditorRef }: MarkdownEditorProps) => (
     }}
     title="Save note"
   >
-    <Download className="size-[18px]" />
+    <Download className="size-4.5" />
   </ButtonWithTooltip>
 );
 

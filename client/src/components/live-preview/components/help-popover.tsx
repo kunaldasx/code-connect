@@ -73,7 +73,7 @@ const HelpPopover = () => (
                 </li>
                 <li>
                   <a
-                    className="!transition-all inline-flex items-center gap-1 text-foreground underline underline-offset-2 hover:text-muted-foreground"
+                    className="transition-all! inline-flex items-center gap-1 text-foreground underline underline-offset-2 hover:text-muted-foreground"
                     href="https://github.com/kunaldasx/CodeConnect/blob/main/manual.md#live-preview-example"
                     rel="noopener noreferrer"
                     target="_blank"

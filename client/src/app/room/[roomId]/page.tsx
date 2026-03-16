@@ -89,7 +89,7 @@ const MemoizedToolbar = memo(function MemoizedToolbar({
   setShowLivePreview: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
-    <div className="flex w-full items-center justify-between gap-x-2 bg-[color:var(--toolbar-bg-secondary)] p-1">
+    <div className="flex w-full items-center justify-between gap-x-2 bg-(--toolbar-bg-secondary) p-1">
       {/* biome-ignore lint/a11y/useSemanticElements: grouping toolbar controls without form semantics */}
       <div
         aria-label="Editor Toolbar"

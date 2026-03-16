@@ -95,7 +95,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <meta name="darkreader-lock" />
       </head>
-      <body className="h-dvh text-pretty antialiased">
+      <body className="h-full text-pretty antialiased">
         <ThemeProvider attribute="class" disableTransitionOnChange>
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster

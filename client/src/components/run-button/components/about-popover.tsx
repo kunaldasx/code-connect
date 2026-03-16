@@ -33,7 +33,7 @@ const AboutPopover = () => (
             size="icon"
             variant="ghost"
           >
-            <Info className="size-4 text-[color:var(--panel-text)]" />
+            <Info className="size-4 text-(--panel-text)" />
             <span className="sr-only">About code execution</span>
           </Button>
         </TooltipTrigger>
@@ -57,7 +57,7 @@ const AboutPopover = () => (
             <p>
               For a list of supported programming languages, refer to the{" "}
               <a
-                className="!transition-all font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground"
+                className="transition-all! font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground"
                 href="https://github.com/kunaldasx/CodeConnect/blob/main/manual.md#supported-execution-languages"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -76,7 +76,7 @@ const AboutPopover = () => (
           <p>
             Powered by{" "}
             <a
-              className="!transition-all font-medium text-foreground underline underline-offset-2 hover:text-muted-foreground"
+              className="transition-all! font-medium text-foreground underline underline-offset-2 hover:text-muted-foreground"
               href="https://github.com/engineer-man/piston"
               rel="noopener noreferrer"
               target="_blank"

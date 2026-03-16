@@ -102,7 +102,7 @@ const AboutDialog = forwardRef<AboutDialogRef, AboutDialogProps>(
 
             <div
               aria-label="CodeConnect application preview"
-              className="relative aspect-[600/315]"
+              className="relative aspect-600/315"
               role="img"
             >
               <Image
@@ -170,7 +170,7 @@ const AboutDialog = forwardRef<AboutDialogRef, AboutDialogProps>(
             className="w-full px-4"
             role="img"
           >
-            <div className="relative aspect-[600/315] w-full max-w-full">
+            <div className="relative aspect-600/315 w-full max-w-full">
               <Image
                 alt="CodeConnect application interface preview"
                 aria-hidden={!isImgLoaded}

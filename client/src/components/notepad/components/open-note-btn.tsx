@@ -26,7 +26,7 @@ const OpenNoteBtn = ({ markdownEditorRef }: MarkdownEditorProps) => {
   return (
     <ButtonWithTooltip
       aria-label="Open note"
-      className="!flex !size-7 !items-center !justify-center [&>span]:flex [&>span]:w-fit"
+      className="flex! size-7! items-center! justify-center! [&>span]:flex [&>span]:w-fit"
       onClick={() => {
         const input = document.createElement("input");
         input.type = "file";
@@ -48,7 +48,7 @@ const OpenNoteBtn = ({ markdownEditorRef }: MarkdownEditorProps) => {
       }}
       title="Open note"
     >
-      <Folder className="size-[18px]" />
+      <Folder className="size-4.5" />
     </ButtonWithTooltip>
   );
 };
