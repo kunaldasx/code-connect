@@ -3,32 +3,29 @@
  * Features:
  * - Click handling
  * - Disabled state support
- * - Accessible button with label
+ * - Space-themed styling
  *
  * By Kunal Das
  */
 
 import { ArrowLeft } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-
 interface BackButtonProps {
-  disabled: boolean;
-  onClick: () => void;
+	disabled: boolean;
+	onClick: () => void;
 }
 
 const BackButton = ({ onClick, disabled }: BackButtonProps) => (
-  <Button
-    aria-label="Back to create or join room page"
-    className="size-fit p-0 text-foreground"
-    disabled={disabled}
-    onClick={onClick}
-    size="sm"
-    variant="link"
-  >
-    <ArrowLeft aria-hidden="true" className="mr-2 size-4" />
-    <span>Back to create/join room</span>
-  </Button>
+	<button
+		aria-label="Back to create or join room page"
+		disabled={disabled}
+		onClick={onClick}
+		type="button"
+		className=" flex items-center gap-2 border-none bg-transparent p-0 font-mono text-[11px] tracking-[0.08em] text-cyan-300/55 transition-all duration-200 hover:opacity-80 disabled:pointer-events-none disabled:opacity-30"
+	>
+		<ArrowLeft aria-hidden="true" size={13} />
+		<span>BACK TO BASE</span>
+	</button>
 );
 
 export { BackButton };
