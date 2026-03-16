@@ -6,14 +6,14 @@
  * - Resizable panels for editor, terminal, preview
  * - Room-based collaboration
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 "use client";
 
-import { CodeServiceMsg, RoomServiceMsg } from "@codex/types/message";
-import type { ExecutionResult } from "@codex/types/terminal";
-import type { User } from "@codex/types/user";
+import type { User } from "@/types/user";
+import { CodeServiceMsg, RoomServiceMsg } from "@/types/message";
+import type { ExecutionResult } from "@/types/terminal";
 import type { Monaco } from "@monaco-editor/react";
 import type { editor as MonacoEditor } from "monaco-editor";
 import { useParams, useRouter } from "next/navigation";
@@ -197,7 +197,7 @@ export default function Room() {
       line: 1,
       column: 1,
       selected: 0,
-    }
+    },
   );
 
   const [users, setUsers] = useState<User[]>([]);
@@ -297,7 +297,7 @@ export default function Room() {
     (editorInstance: MonacoEditor.IStandaloneCodeEditor) => {
       setEditor(editorInstance);
     },
-    []
+    [],
   );
 
   return (
@@ -340,7 +340,7 @@ export default function Room() {
               "animate-fade-in-left [&>div]:h-full",
               monaco && editor && "border-muted-foreground border-t",
               !(monaco && editor) && "hidden",
-              !showNotepad && "hidden"
+              !showNotepad && "hidden",
             )}
             collapsible
             defaultSize={20}
@@ -354,7 +354,7 @@ export default function Room() {
             className={cn(
               "bg-muted-foreground",
               !(monaco && editor) && "hidden",
-              !showNotepad && "hidden"
+              !showNotepad && "hidden",
             )}
           />
 
@@ -369,7 +369,7 @@ export default function Room() {
               >
                 <ResizablePanelGroup
                   className={cn(
-                    monaco && editor && "border-muted-foreground border-t"
+                    monaco && editor && "border-muted-foreground border-t",
                   )}
                   direction="horizontal"
                 >
@@ -387,14 +387,14 @@ export default function Room() {
                     className={cn(
                       "bg-muted-foreground",
                       !(monaco && editor) && "hidden",
-                      !showLivePreview && "hidden"
+                      !showLivePreview && "hidden",
                     )}
                   />
                   <ResizablePanel
                     className={cn(
                       "animate-fade-in-right",
                       !(monaco && editor) && "hidden",
-                      !showLivePreview && "hidden"
+                      !showLivePreview && "hidden",
                     )}
                     collapsible
                     defaultSize={40}
@@ -413,7 +413,7 @@ export default function Room() {
                 className={cn(
                   "bg-muted-foreground",
                   !(monaco && editor) && "hidden",
-                  !showTerminal && "hidden"
+                  !showTerminal && "hidden",
                 )}
               />
               <ResizablePanel
@@ -421,7 +421,7 @@ export default function Room() {
                 className={cn(
                   "animate-fade-in-bottom",
                   !(monaco && editor) && "hidden",
-                  !showTerminal && "hidden"
+                  !showTerminal && "hidden",
                 )}
                 collapsible
                 defaultSize={25}
@@ -437,7 +437,7 @@ export default function Room() {
             className={cn(
               "bg-muted-foreground",
               !(monaco && editor) && "hidden",
-              !showWebcam && "hidden"
+              !showWebcam && "hidden",
             )}
           />
           <ResizablePanel
@@ -446,7 +446,7 @@ export default function Room() {
               "animate-fade-in-right",
               monaco && editor && "border-muted-foreground border-t",
               !(monaco && editor) && "hidden",
-              !showWebcam && "hidden"
+              !showWebcam && "hidden",
             )}
             collapsible
             defaultSize={15}

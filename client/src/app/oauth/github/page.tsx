@@ -6,7 +6,7 @@
  * - Parent window messaging
  * - Automatic window handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 "use client";
@@ -29,7 +29,7 @@ export default function Page() {
           type: "github-oauth",
           success: isSuccessful,
         },
-        "*"
+        "*",
       );
     }
   }, [isSuccessful]);

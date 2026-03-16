@@ -1,7 +1,7 @@
 /**
  * Create a style for a cursor.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 /**
@@ -20,7 +20,7 @@ export const createCursorStyle = (
   color: string,
   name: string,
   isFirstLine = false,
-  hasSelection = false
+  hasSelection = false,
 ): string => `
   .cursor-${userID} {
     background-color: ${bgColor} !important;

@@ -6,7 +6,7 @@
  * - Commit data formatting
  * - Error handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { CommitResponse } from "@/components/repo-browser/types/github";
@@ -15,14 +15,14 @@ import {
   itemType,
 } from "@/components/repo-browser/types/tree";
 
-import type { CommitForm } from "../types";
+import type { CommitForm } from "@/types";
 
 export const commitChanges = async (
   data: CommitForm,
   selectedItem: ExtendedTreeDataItem | null,
   repo: string,
   branch: string,
-  content: string
+  content: string,
 ): Promise<CommitResponse> => {
   try {
     if (!selectedItem) {

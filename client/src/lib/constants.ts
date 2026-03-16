@@ -6,7 +6,7 @@
  * - OAuth credentials
  * - App metadata
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 export const IS_DEV_ENV =
@@ -14,21 +14,16 @@ export const IS_DEV_ENV =
   process.env.NEXT_PUBLIC_ENV === "development" ||
   process.env.NODE_ENV === "development";
 
-export const BASE_CLIENT_URL = IS_DEV_ENV
-  ? "http://localhost:3000"
-  : "https://codex.dulapahv.dev";
-export const BASE_SERVER_URL = IS_DEV_ENV
-  ? "http://localhost:3001"
-  : "https://codex-server.dulapahv.dev";
+export const BASE_CLIENT_URL = IS_DEV_ENV ? "http://localhost:3000" : "";
+export const BASE_SERVER_URL = IS_DEV_ENV ? "http://localhost:3001" : "";
 
-export const STATUS_URL = "https://codex-status.dulapahv.dev";
+export const STATUS_URL = "";
 export const KASCA_SERVER_MONITOR_ID = "2887417";
 
 export const GITHUB_API_URL = "https://api.github.com";
 export const GITHUB_OAUTH_URL = "https://github.com/login/oauth";
-export const GITHUB_CLIENT_ID = IS_DEV_ENV
-  ? "Ov23liuy4d9jGnpy9t6j"
-  : "Ov23liIuxEK1vcaIKIxP";
+export const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+
 export const GITHUB_CLIENT_SECRET = IS_DEV_ENV
   ? process.env.GITHUB_CLIENT_SECRET_DEV
   : process.env.GITHUB_CLIENT_SECRET_PROD;
@@ -48,11 +43,11 @@ export const LATENCY_TEST_DESCRIPTION =
 export const GITHUB_OAUTH_TITLE = "GitHub OAuth Callback";
 export const GITHUB_OAUTH_DESCRIPTION =
   "This page is used to handle the GitHub OAuth callback.";
-export const NAME = "Dulapah Vibulsanti";
-export const PORTFOLIO_URL = "https://dulapahv.dev";
-export const CONTACT_URL = "https://dulapahv.dev/contact";
-export const REPO_URL = "https://github.com/dulapahv/codex";
-export const GITHUB_URL = "https://github.com/dulapahv";
+export const NAME = "Kunal Das";
+export const PORTFOLIO_URL = "https://kunaldasx.vercel.app";
+export const CONTACT_URL = "https://kunaldasx.vercel.app/contact";
+export const REPO_URL = "https://github.com/kunaldasx/codex";
+export const GITHUB_URL = "https://github.com/kunaldasx";
 
 export const EDITOR_SETTINGS_KEY = "editor-settings";
 

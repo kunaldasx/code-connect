@@ -2,20 +2,21 @@
  * Typed Socket.IO event interfaces for compile-time safety.
  * Shared between server and client to enforce event contracts.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
+import type { SignalData } from "simple-peer";
 import type {
   CodeServiceMsg,
   PointerServiceMsg,
   RoomServiceMsg,
   ScrollServiceMsg,
   StreamServiceMsg,
-} from "./message";
-import type { Cursor, EditOp } from "./operation";
-import type { Pointer } from "./pointer";
-import type { Scroll } from "./scroll";
-import type { ExecutionResult } from "./terminal";
+} from "./message.js";
+import type { Cursor, EditOp } from "./operation.js";
+import type { Pointer } from "./pointer.js";
+import type { Scroll } from "./scroll.js";
+import type { ExecutionResult } from "./terminal.js";
 
 /**
  * Events emitted from the client to the server.
@@ -47,7 +48,7 @@ export interface ClientToServerEvents {
   // Stream (WebRTC)
   [StreamServiceMsg.STREAM_READY]: () => void;
   [StreamServiceMsg.SIGNAL]: (data: {
-    signal: unknown;
+    signal: SignalData;
     targetUserID: string;
   }) => void;
   [StreamServiceMsg.CAMERA_OFF]: () => void;

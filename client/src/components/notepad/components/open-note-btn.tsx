@@ -5,10 +5,10 @@
  * - Markdown content reading
  * - Socket-based sync
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { RoomServiceMsg } from "@codex/types/message";
+import { RoomServiceMsg } from "@/types/message";
 
 import { ButtonWithTooltip, type MDXEditorMethods } from "@mdxeditor/editor";
 import { Folder } from "lucide-react";

@@ -5,10 +5,10 @@
  * - Camera rotation (mobile)
  * - Microphone toggle
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { StreamServiceMsg } from "@codex/types/message";
+import { StreamServiceMsg } from "@/types/message";
 import type { Dispatch, RefObject, SetStateAction } from "react";
 import { isMobile } from "react-device-detect";
 import type Peer from "simple-peer";
@@ -20,7 +20,7 @@ import { parseError } from "@/lib/utils";
 // Remove all tracks from peer connections before stopping them
 const removeTracksFromPeers = (
   stream: MediaStream,
-  peersRef: RefObject<Record<string, Peer.Instance>>
+  peersRef: RefObject<Record<string, Peer.Instance>>,
 ) => {
   const tracks = stream.getTracks();
   for (const peer of Object.values(peersRef.current)) {
@@ -40,7 +40,7 @@ const removeTracksFromPeers = (
 // Stop all tracks and clean up the local stream
 const stopLocalStream = (
   streamRef: RefObject<MediaStream | null>,
-  videoRef: RefObject<HTMLVideoElement | null>
+  videoRef: RefObject<HTMLVideoElement | null>,
 ) => {
   if (streamRef.current) {
     for (const track of streamRef.current.getTracks()) {
@@ -61,7 +61,7 @@ export const toggleCamera = async (
   streamRef: RefObject<MediaStream | null>,
   videoRef: RefObject<HTMLVideoElement | null>,
   peersRef: RefObject<Record<string, Peer.Instance>>,
-  getMedia: () => Promise<boolean>
+  getMedia: () => Promise<boolean>,
 ) => {
   const socket = getSocket();
 
@@ -93,7 +93,7 @@ export const rotateCamera = async (
   cameraFacingMode: string,
   setCameraFacingMode: Dispatch<SetStateAction<"user" | "environment">>,
   streamRef: RefObject<MediaStream | null>,
-  getMedia: () => Promise<boolean>
+  getMedia: () => Promise<boolean>,
 ) => {
   if (!isMobile) {
     return;
@@ -118,7 +118,7 @@ export const rotateCamera = async (
 export const toggleMic = (
   micOn: boolean,
   setMicOn: Dispatch<SetStateAction<boolean>>,
-  streamRef: RefObject<MediaStream | null>
+  streamRef: RefObject<MediaStream | null>,
 ) => {
   const socket = getSocket();
 

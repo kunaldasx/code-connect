@@ -5,13 +5,13 @@
  * - Server URL configuration
  * - Connection management
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type {
   ClientToServerEvents,
   ServerToClientEvents,
-} from "@codex/types/socket-events";
+} from "@/types/socket-events";
 import { io, type Socket } from "socket.io-client";
 
 import { BASE_SERVER_URL } from "./constants";

@@ -5,14 +5,13 @@
  * - Socket/user mapping
  * - Data persistence
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { CodeServiceMsg } from "@codex/types/message";
-import type { Cursor } from "@codex/types/operation";
-import type { Socket } from "@/types";
-
-import { getUserRoom } from "./room-service";
+import type { Socket } from "@/types.js";
+import { CodeServiceMsg } from "../types/message.js";
+import type { Cursor } from "../types/operation.js";
+import { getUserRoom } from "./room-service.js";
 
 // Use a single Map for user data to reduce memory overhead
 interface UserData {

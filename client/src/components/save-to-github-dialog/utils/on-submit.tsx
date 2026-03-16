@@ -5,7 +5,7 @@
  * - Toast notifications
  * - Success/error messaging
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { ExternalLink } from "lucide-react";
@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import type { ExtendedTreeDataItem } from "@/components/repo-browser/types/tree";
 import { parseError } from "@/lib/utils";
 
-import type { CommitForm } from "../types";
+import type { CommitForm } from "@/types";
 import { commitChanges } from "./commit-changes";
 
 export const onSubmit = (
@@ -22,7 +22,7 @@ export const onSubmit = (
   repo: string,
   branch: string,
   content: string,
-  closeDialog: () => void
+  closeDialog: () => void,
 ) => {
   return new Promise((resolve) => {
     const createPromise = commitChanges(
@@ -30,7 +30,7 @@ export const onSubmit = (
       selectedItem,
       repo,
       branch,
-      content
+      content,
     );
 
     toast.promise(createPromise, {

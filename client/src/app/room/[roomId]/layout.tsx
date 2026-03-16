@@ -5,7 +5,7 @@
  * - Custom metadata description for room sharing
  * - Pass-through children rendering
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Metadata } from "next";

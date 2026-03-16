@@ -4,7 +4,7 @@
  * - Test result data structure
  * - Statistical calculation types
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 export interface TestResult {

@@ -5,7 +5,7 @@
  * - Icon assignment
  * - Type-safe conversion
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { Folder } from "lucide-react";
@@ -14,7 +14,7 @@ import type { GithubRepo } from "../types/github";
 import { type ExtendedTreeDataItem, itemType } from "../types/tree";
 
 export const transformReposToTreeData = (
-  repos: GithubRepo[]
+  repos: GithubRepo[],
 ): ExtendedTreeDataItem[] => {
   if (!repos) {
     return [];

@@ -6,20 +6,20 @@
  * - Tree data transformation
  * - State updating
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Dispatch, SetStateAction } from "react";
 
 import { parseError } from "@/lib/utils";
 
-import type { ExtendedTreeDataItem } from "../types/tree";
+import type { ExtendedTreeDataItem } from "@/types/tree";
 import { transformContentsToTreeData } from "./transform-contents-to-tree";
 
 const mergeFolderContents = (
   existingChildren: ExtendedTreeDataItem[] | undefined,
   newContents: ExtendedTreeDataItem[],
-  currentPath: string
+  currentPath: string,
 ): ExtendedTreeDataItem[] => {
   if (!existingChildren) {
     return newContents;
@@ -31,7 +31,7 @@ const mergeFolderContents = (
   // Helper function to update children recursively
   const updateChildrenRecursively = (
     items: ExtendedTreeDataItem[],
-    targetPath: string
+    targetPath: string,
   ): ExtendedTreeDataItem[] => {
     return items.map((item) => {
       // If this is the target folder, update its children
@@ -79,9 +79,9 @@ export const fetchContents = async (
   setItemLoading: (
     itemId: string,
     isLoading: boolean,
-    setTreeData: Dispatch<SetStateAction<ExtendedTreeDataItem[]>>
+    setTreeData: Dispatch<SetStateAction<ExtendedTreeDataItem[]>>,
   ) => void,
-  setError: Dispatch<SetStateAction<string>>
+  setError: Dispatch<SetStateAction<string>>,
 ) => {
   if (!repo.full_name) {
     return;
@@ -90,7 +90,7 @@ export const fetchContents = async (
   // Find the ID of the folder being expanded
   const getFolderIdFromPath = (
     items: ExtendedTreeDataItem[],
-    targetPath: string
+    targetPath: string,
   ): string | undefined => {
     for (const item of items) {
       if (item.path === targetPath) {
@@ -122,8 +122,8 @@ export const fetchContents = async (
     const [owner, repoName] = repo.full_name.split("/");
     const response = await fetch(
       `/api/github/repos/contents/${owner}/${repoName}?path=${encodeURIComponent(
-        path
-      )}&ref=${encodeURIComponent(branch.name)}`
+        path,
+      )}&ref=${encodeURIComponent(branch.name)}`,
     );
 
     if (!response.ok) {
@@ -135,7 +135,7 @@ export const fetchContents = async (
     const contentData = transformContentsToTreeData(
       repo.id,
       branch.id,
-      contents
+      contents,
     );
 
     setTreeData((prevData) => {
@@ -148,7 +148,7 @@ export const fetchContents = async (
                 const mergedChildren = mergeFolderContents(
                   branchItem.children,
                   contentData,
-                  path
+                  path,
                 );
 
                 return {

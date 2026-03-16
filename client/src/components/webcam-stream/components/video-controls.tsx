@@ -5,7 +5,7 @@
  * - Speaker status indicator
  * - Local/remote state handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { Mic, MicOff, Volume2, VolumeOff } from "lucide-react";
@@ -37,7 +37,7 @@ const VideoControls = ({
       <div
         className={cn(
           "rounded px-1.5 py-0.5",
-          micState ? "bg-green-500/70" : "bg-red-500/70"
+          micState ? "bg-green-500/70" : "bg-red-500/70",
         )}
       >
         {micState ? (
@@ -49,7 +49,7 @@ const VideoControls = ({
       <div
         className={cn(
           "rounded px-1.5 py-0.5",
-          speakerState ? "bg-green-500/70" : "bg-red-500/70"
+          speakerState ? "bg-green-500/70" : "bg-red-500/70",
         )}
       >
         {speakerState ? (

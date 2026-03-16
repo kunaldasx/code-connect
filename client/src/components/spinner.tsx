@@ -5,7 +5,7 @@
  * - Color variants: default, primary, secondary, destructive, muted
  * - Smooth animation
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { cva, type VariantProps } from "class-variance-authority";
@@ -31,11 +31,12 @@ const spinnerVariants = cva(
       },
     },
     defaultVariants: { variant: "default", size: "default" },
-  }
+  },
 );
 
 export interface SpinnerProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     Omit<VariantProps<typeof spinnerVariants>, "size"> {
   className?: string;
   size?: VariantProps<typeof spinnerVariants>["size"] | number;
@@ -49,7 +50,7 @@ const Spinner = ({ className, variant, size = "default" }: SpinnerProps) => (
       typeof size === "string"
         ? spinnerVariants({ variant, size })
         : spinnerVariants({ variant }),
-      className
+      className,
     )}
     role="status"
     style={typeof size === "number" ? { width: size, height: size } : undefined}

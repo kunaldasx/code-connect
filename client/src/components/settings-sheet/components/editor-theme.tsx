@@ -5,12 +5,11 @@
  * - Theme preview with CSS variable updates
  * - Theme persistence
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Monaco } from "@monaco-editor/react";
 import { Check, ChevronsUpDown } from "lucide-react";
-import themeList from "monaco-themes/themes/themelist.json";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -34,6 +33,7 @@ import {
   registerMonaco,
 } from "@/lib/init-editor-theme";
 import { cn } from "@/lib/utils";
+import { MONACO_THEMES } from "@/lib/monaco-themes";
 
 interface EditorThemeSettingsProps {
   monaco: Monaco;
@@ -112,11 +112,12 @@ const EditorThemeSettings = ({ monaco }: EditorThemeSettingsProps) => {
         setTheme("light");
       } else {
         try {
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
-          const themeData = require(
-            `monaco-themes/themes/${themeList[savedTheme as keyof typeof themeList]}.json`
-          );
-          setTheme(themeData.base === "vs-dark" ? "dark" : "light");
+          const themeData =
+            MONACO_THEMES[savedTheme as keyof typeof MONACO_THEMES];
+
+          if (themeData) {
+            setTheme(themeData.base === "vs-dark" ? "dark" : "light");
+          }
         } catch (error) {
           console.error("Failed to sync theme:", error);
         }
@@ -129,12 +130,12 @@ const EditorThemeSettings = ({ monaco }: EditorThemeSettingsProps) => {
     }
   }, [setTheme]);
 
-  const handleThemeChange = (key: string, value: string) => {
+  const handleThemeChange = (key: string) => {
     setEditorTheme(key);
     setOpen(false);
 
     // Apply the theme and get the appropriate next-theme value
-    const nextTheme = applyEditorTheme(key, value);
+    const nextTheme = applyEditorTheme(key);
 
     // Update next-themes
     setTheme(nextTheme);
@@ -144,7 +145,7 @@ const EditorThemeSettings = ({ monaco }: EditorThemeSettingsProps) => {
   const themes = Object.entries({
     ...DEFAULT_THEMES,
     ...Object.fromEntries(
-      Object.entries(themeList).map(([key, value]) => [key, { name: value }])
+      Object.keys(MONACO_THEMES).map((key) => [key, { name: key }]),
     ),
   });
 
@@ -173,13 +174,13 @@ const EditorThemeSettings = ({ monaco }: EditorThemeSettingsProps) => {
                 {themes.map(([key, themeData]) => (
                   <CommandItem
                     key={key}
-                    onSelect={() => handleThemeChange(key, themeData.name)}
+                    onSelect={() => handleThemeChange(key)}
                     value={key}
                   >
                     <Check
                       className={cn(
                         "mr-2 size-4",
-                        key === editorTheme ? "opacity-100" : "opacity-0"
+                        key === editorTheme ? "opacity-100" : "opacity-0",
                       )}
                     />
                     {themeData.name}

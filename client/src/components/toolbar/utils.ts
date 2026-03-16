@@ -5,7 +5,7 @@
  * - Menu command handlers
  * - Error handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Monaco } from "@monaco-editor/react";
@@ -84,7 +84,7 @@ function getFileExtension(languageId: string, monaco: Monaco): string {
         alias: language.aliases?.[0] ?? "Unknown",
         extensions: language.extensions ?? [],
         id: language.id,
-      })
+      }),
     );
   }
 
@@ -102,7 +102,7 @@ function getFileExtension(languageId: string, monaco: Monaco): string {
  */
 export const openLocal = (
   monaco: Monaco,
-  editor: monaco.editor.IStandaloneCodeEditor | null
+  editor: monaco.editor.IStandaloneCodeEditor | null,
 ): void => {
   // Create input element
   const input = document.createElement("input");
@@ -125,7 +125,7 @@ export const openLocal = (
       const extension = file.name.split(".").pop() || "";
       const languages = monaco.languages.getLanguages();
       const language = languages.find((lang) =>
-        lang.extensions?.some((ext) => ext.replace(".", "") === extension)
+        lang.extensions?.some((ext) => ext.replace(".", "") === extension),
       );
 
       // Set content and language (default to plaintext)
@@ -158,7 +158,7 @@ export const openLocal = (
 export const saveLocal = (
   monaco: Monaco,
   editor: monaco.editor.IStandaloneCodeEditor | null,
-  filename = `codex-${new Date().toLocaleString("en-GB").replace(/[/:, ]/g, "-")}`
+  filename = `codex-${new Date().toLocaleString("en-GB").replace(/[/:, ]/g, "-")}`,
 ): void => {
   if (!editor) {
     throw new Error("Editor instance is required");

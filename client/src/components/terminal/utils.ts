@@ -5,13 +5,10 @@
  * - Timestamp formatting
  * - Message type coloring
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import {
-  type ExecutionResult,
-  ExecutionResultType,
-} from "@codex/types/terminal";
+import { type ExecutionResult, ExecutionResultType } from "@/types/terminal";
 
 export const formatExecutionTime = (ms: number) => {
   if (ms < 1000) {

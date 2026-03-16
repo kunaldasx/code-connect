@@ -6,7 +6,7 @@
  * - Menu separators
  * - Keyboard shortcuts
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import {
@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/menubar";
 
 import type { MenuItem } from "../menu-config";
-import type { ToolbarActions } from "../types";
+import type { ToolbarActions } from "@/types";
 
 interface SharedMenuItemProps {
   actions: ToolbarActions;

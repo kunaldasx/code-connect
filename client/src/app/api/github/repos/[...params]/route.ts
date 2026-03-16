@@ -6,7 +6,7 @@
  * - Authentication validation
  * - Error handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { cookies } from "next/headers";
@@ -24,7 +24,7 @@ import {
 
 export async function GET(
   req: NextRequest,
-  props: RouteContext<"/api/github/repos/[...params]">
+  props: RouteContext<"/api/github/repos/[...params]">,
 ) {
   const params = await props.params;
   try {
@@ -56,7 +56,7 @@ export async function GET(
         if (!(validateGitHubPath(path) && validateGitHubBranch(ref))) {
           return Response.json(
             { error: "Invalid path or ref" },
-            { status: 400 }
+            { status: 400 },
           );
         }
         const encodedPath = path.split("/").map(encodeURIComponent).join("/");
@@ -80,7 +80,7 @@ export async function GET(
       console.error("GitHub API Error:", error);
       return Response.json(
         { error: `GitHub API error: ${response.status}` },
-        { status: response.status }
+        { status: response.status },
       );
     }
 

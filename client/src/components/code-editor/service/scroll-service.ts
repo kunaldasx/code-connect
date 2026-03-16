@@ -5,10 +5,10 @@
  * - Follow mode support
  * - User-specific scroll syncing
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import type { Scroll } from "@codex/types/scroll";
+import type { Scroll } from "@/types/scroll";
 
 import type * as monaco from "monaco-editor";
 import type { RefObject } from "react";
@@ -18,7 +18,7 @@ import { storage } from "@/lib/services/storage";
 export const updateScroll = (
   editorInstanceRef: RefObject<monaco.editor.IStandaloneCodeEditor | null>,
   userID: string,
-  scroll: Scroll
+  scroll: Scroll,
 ): void => {
   const editor = editorInstanceRef.current;
   if (!editor) {

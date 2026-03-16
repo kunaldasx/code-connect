@@ -6,7 +6,7 @@
  * - Preview image with loading state
  * - External links
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import Image from "next/image";
@@ -119,7 +119,7 @@ const AboutDialog = forwardRef<AboutDialogRef, AboutDialogProps>(
 
             <div className="space-y-2 text-foreground">
               <p className="text-center">
-                Made with 💕 by <span className="font-medium">dulapahv</span>
+                Made with 💕 by <span className="font-medium">kunaldasx</span>
               </p>
               <nav
                 aria-label="External links"
@@ -184,7 +184,7 @@ const AboutDialog = forwardRef<AboutDialogRef, AboutDialogProps>(
 
           <div className="mx-4 space-y-2">
             <p className="text-center">
-              Made with 💕 by <span className="font-medium">dulapahv</span>
+              Made with 💕 by <span className="font-medium">kunaldasx</span>
             </p>
             <nav aria-label="External links" className="grid grid-cols-2 gap-2">
               <ExternalLink forceDark={forceDark} />
@@ -201,7 +201,7 @@ const AboutDialog = forwardRef<AboutDialogRef, AboutDialogProps>(
         </DrawerContent>
       </Drawer>
     );
-  }
+  },
 );
 
 AboutDialog.displayName = "OpenPromptDialog";

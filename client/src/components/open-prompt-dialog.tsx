@@ -5,7 +5,7 @@
  * - File open confirmation
  * - Unsaved changes warning
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
@@ -104,7 +104,7 @@ const OpenPromptDialog = forwardRef<OpenPromptDialogRef, PromptSaveDialogProps>(
         </DrawerContent>
       </Drawer>
     );
-  }
+  },
 );
 
 OpenPromptDialog.displayName = "OpenPromptDialog";

@@ -5,7 +5,7 @@
  * - Return to home button
  * - Responsive layout
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 "use client";

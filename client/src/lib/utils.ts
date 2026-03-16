@@ -5,10 +5,10 @@
  * - CSS class merging
  * - Error parsing
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { RoomServiceMsg } from "@codex/types/message";
+import { RoomServiceMsg } from "@/types/message";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -58,7 +58,7 @@ export const loginWithGithub = () => {
     window.authWindow = window.open(
       `${GITHUB_OAUTH_URL}/authorize?client_id=${GITHUB_CLIENT_ID}&scope=repo`,
       "_blank",
-      `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,status=yes`
+      `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,status=yes`,
     );
   }
 };

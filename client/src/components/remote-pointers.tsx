@@ -6,11 +6,11 @@
  * - Smooth fade animations
  * - Viewport scaling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { PointerServiceMsg } from "@codex/types/message";
-import type { Pointer } from "@codex/types/pointer";
+import { PointerServiceMsg } from "@/types/message";
+import type { Pointer } from "@/types/pointer";
 import { MousePointer2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -31,7 +31,7 @@ const THROTTLE_MS = 16; // Approximately 60fps for smoother updates
 const RemotePointers = () => {
   const socket = getSocket();
   const [pointers, setPointers] = useState<Map<string, RemotePointer>>(
-    new Map()
+    new Map(),
   );
   const [lastEmit, setLastEmit] = useState<number>(0);
   const [viewport, setViewport] = useState({
@@ -62,10 +62,10 @@ const RemotePointers = () => {
 
       // Calculate relative positions as percentages and round to 2 decimal places
       const relativeX = Number(
-        ((event.clientX / window.innerWidth) * 100).toFixed(2)
+        ((event.clientX / window.innerWidth) * 100).toFixed(2),
       );
       const relativeY = Number(
-        ((event.clientY / window.innerHeight) * 100).toFixed(2)
+        ((event.clientY / window.innerHeight) * 100).toFixed(2),
       );
 
       const pointer: Pointer = [relativeX, relativeY];
@@ -73,7 +73,7 @@ const RemotePointers = () => {
       socket.emit(PointerServiceMsg.POINTER, pointer);
       setLastEmit(now);
     },
-    [socket, lastEmit]
+    [socket, lastEmit],
   );
 
   useEffect(() => {

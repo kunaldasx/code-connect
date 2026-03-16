@@ -6,7 +6,7 @@
  * - Branch fetching
  * - Tree data recursion
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Dispatch, SetStateAction } from "react";
@@ -20,7 +20,7 @@ import { fetchContents } from "./fetch-contents";
 // Helper function to find item's parent repo and branch
 const findParents = (
   treeData: ExtendedTreeDataItem[],
-  itemId: string
+  itemId: string,
 ): {
   parentRepo: ExtendedTreeDataItem | undefined;
   parentBranch: ExtendedTreeDataItem | undefined;
@@ -62,11 +62,11 @@ export const handleSelectItem = async (
   setItemLoading: (
     itemId: string,
     isLoading: boolean,
-    setTreeData: Dispatch<SetStateAction<ExtendedTreeDataItem[]>>
+    setTreeData: Dispatch<SetStateAction<ExtendedTreeDataItem[]>>,
   ) => void,
   setError: Dispatch<SetStateAction<string>>,
   setRepo: Dispatch<SetStateAction<string>>,
-  setBranch: Dispatch<SetStateAction<string>>
+  setBranch: Dispatch<SetStateAction<string>>,
 ) => {
   const extendedItem = item as ExtendedTreeDataItem;
   setSelectedItem(extendedItem);
@@ -86,7 +86,7 @@ export const handleSelectItem = async (
 
     if (!item.children) {
       const parentRepo = treeData.find((repo) =>
-        repo.children?.some((branch) => branch.id === item.id)
+        repo.children?.some((branch) => branch.id === item.id),
       );
       if (parentRepo) {
         await fetchContents(
@@ -95,7 +95,7 @@ export const handleSelectItem = async (
           "",
           setTreeData,
           setItemLoading,
-          setError
+          setError,
         );
       }
     }
@@ -117,7 +117,7 @@ export const handleSelectItem = async (
         extendedItem.path,
         setTreeData,
         setItemLoading,
-        setError
+        setError,
       );
     }
   }

@@ -6,10 +6,10 @@
  * - Synchronized language state
  * - Mobile support
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { CodeServiceMsg } from "@codex/types/message";
+import { CodeServiceMsg } from "@/types/message";
 
 import type { Monaco } from "@monaco-editor/react";
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -70,7 +70,7 @@ const LanguageSelection = memo(
             alias: language.aliases?.[0] || "Unknown",
             extensions: language.extensions || [],
             id: language.id,
-          }) as Language
+          }) as Language,
       );
     }, [monaco]);
 
@@ -88,7 +88,7 @@ const LanguageSelection = memo(
         const selectedLang = languages.find((l) => l.alias === newLanguage);
         monaco.editor.setModelLanguage(model, selectedLang?.id || "plaintext");
       },
-      [editor, monaco, languages]
+      [editor, monaco, languages],
     );
 
     // Sync with editor's current language
@@ -150,7 +150,7 @@ const LanguageSelection = memo(
             aria-label="Select programming language"
             className={cn(
               "size-fit justify-between gap-x-1 rounded-sm p-0 pr-1 pl-2 text-xs",
-              className
+              className,
             )}
             role="combobox"
             variant="ghost"
@@ -193,7 +193,7 @@ const LanguageSelection = memo(
                         "ml-2 size-4 flex-shrink-0 transition-opacity",
                         selectedLanguage === language.alias
                           ? "opacity-100"
-                          : "opacity-0"
+                          : "opacity-0",
                       )}
                     />
                   </CommandItem>
@@ -204,7 +204,7 @@ const LanguageSelection = memo(
         </PopoverContent>
       </Popover>
     );
-  }
+  },
 );
 
 LanguageSelection.displayName = "LanguageSelection";

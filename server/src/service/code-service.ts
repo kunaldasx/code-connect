@@ -6,15 +6,15 @@
  * - Language state sync
  * - Real-time broadcast
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { CodeServiceMsg } from "@codex/types/message";
-import type { EditOp } from "@codex/types/operation";
-import type { Server, Socket } from "@/types";
+import { CodeServiceMsg } from "../types/message.js";
+import type { EditOp } from "../types/operation.js";
+import type { Server, Socket } from "@/types.js";
 
-import { getUserRoom } from "./room-service";
-import { getCustomId } from "./user-service";
+import { getUserRoom } from "./room-service.js";
+import { getCustomId } from "./user-service.js";
 
 // Use a single Map for all room data to reduce memory overhead
 interface RoomData {
@@ -120,7 +120,7 @@ export const updateLang = (socket: Socket, langId: string): void => {
 const positionToOffset = (
   code: string,
   line: number,
-  column: number
+  column: number,
 ): number => {
   let offset = 0;
   let currentLine = 1;

@@ -5,7 +5,7 @@
  * - Cursor position tracking
  * - Selection feedback
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Monaco } from "@monaco-editor/react";
@@ -65,7 +65,7 @@ const StatusBar = memo(function StatusBar({
       aria-label="Editor status bar"
       className={cn(
         "fixed inset-x-0 bottom-0 h-6 animate-fade-in bg-[color:var(--toolbar-bg-primary)] py-1",
-        className
+        className,
       )}
       role="status"
     >

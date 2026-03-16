@@ -6,12 +6,12 @@
  * - Markdown syntax support
  * - Image and table insertion
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 "use client";
 
-import { RoomServiceMsg } from "@codex/types/message";
+import { RoomServiceMsg } from "@/types/message";
 
 import {
   AdmonitionDirectiveDescriptor,
@@ -129,7 +129,7 @@ const MarkdownEditorMain = ({ markdown }: MarkdownEditorProps) => {
         ),
       }),
     ],
-    [resolvedTheme, markdown]
+    [resolvedTheme, markdown],
   );
 
   useEffect(() => {
@@ -161,7 +161,7 @@ const MarkdownEditorMain = ({ markdown }: MarkdownEditorProps) => {
       autoFocus={false}
       className={cn(
         `!bg-[color:var(--panel-background)] !font-sans [&>div>div[role="dialog"]]:!bg-[color:var(--toolbar-bg-secondary)] [&>div>div]:!ml-0 [&>div[role="dialog"]]:!bg-[color:var(--toolbar-bg-secondary)] [&>div[role="toolbar"]]:!bg-[color:var(--toolbar-bg-secondary)] first:[&>div]:!rounded-none flex w-full flex-col [&:not(.mdxeditor-popup-container)>*:nth-child(2)>div>div>div]:h-full [&:not(.mdxeditor-popup-container)>*:nth-child(2)>div>div]:h-full [&:not(.mdxeditor-popup-container)>*:nth-child(2)>div]:h-full [&:not(.mdxeditor-popup-container)>*:nth-child(2)]:h-full [&>*:nth-child(2)]:overflow-auto first:[&>div]:flex first:[&>div]:min-h-fit first:[&>div]:flex-wrap`,
-        resolvedTheme === "dark" && "!dark-editor !dark-theme"
+        resolvedTheme === "dark" && "!dark-editor !dark-theme",
       )}
       contentEditableClassName={cn(
         `prose h-full max-w-none dark:prose-invert
@@ -185,7 +185,7 @@ const MarkdownEditorMain = ({ markdown }: MarkdownEditorProps) => {
         prose-hr:border-foreground/30 prose-hr:my-4
         prose-table:my-0
         prose-th:!py-0
-        prose-td:!py-0 prose-td:align-middle`
+        prose-td:!py-0 prose-td:align-middle`,
       )}
       key={key}
       markdown={contentRef.current}

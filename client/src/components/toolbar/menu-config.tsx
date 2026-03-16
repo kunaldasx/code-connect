@@ -5,7 +5,7 @@
  * - Icon imports
  * - Keyboard shortcut mapping
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import {
@@ -77,7 +77,7 @@ export const createMenuConfig = (
   notepad: boolean,
   terminal: boolean,
   webcam: boolean,
-  livePreview: boolean
+  livePreview: boolean,
 ) => {
   const menuConfig: MenuGroup[] = [
     {

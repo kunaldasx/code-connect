@@ -5,7 +5,7 @@
  * - Usage instructions
  * - Terminal formatting
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import Image from "next/image";

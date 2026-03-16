@@ -6,14 +6,14 @@
  * - Error handling
  * - Tree data transformation
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Dispatch, SetStateAction } from "react";
 
 import { parseError } from "@/lib/utils";
 
-import type { ExtendedTreeDataItem } from "../types/tree";
+import type { ExtendedTreeDataItem } from "@/types/tree";
 import { transformBranchesToTreeData } from "./transform-branches-to-tree";
 
 export const fetchBranches = async (
@@ -22,9 +22,9 @@ export const fetchBranches = async (
   setItemLoading: (
     itemId: string,
     isLoading: boolean,
-    setTreeData: Dispatch<SetStateAction<ExtendedTreeDataItem[]>>
+    setTreeData: Dispatch<SetStateAction<ExtendedTreeDataItem[]>>,
   ) => void,
-  setError: Dispatch<SetStateAction<string>>
+  setError: Dispatch<SetStateAction<string>>,
 ) => {
   if (!repo.full_name) {
     return;
@@ -35,7 +35,7 @@ export const fetchBranches = async (
   try {
     const [owner, repoName] = repo.full_name.split("/");
     const response = await fetch(
-      `/api/github/repos/branches/${owner}/${repoName}`
+      `/api/github/repos/branches/${owner}/${repoName}`,
     );
 
     if (!response.ok) {
@@ -50,8 +50,8 @@ export const fetchBranches = async (
       prevData.map((item) =>
         item.id === repo.id
           ? { ...item, children: branchData, isLoading: false }
-          : item
-      )
+          : item,
+      ),
     );
   } catch (err) {
     setError(parseError(err));

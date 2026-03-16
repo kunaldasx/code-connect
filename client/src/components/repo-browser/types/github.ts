@@ -6,7 +6,7 @@
  * - Content metadata
  * - Commit response
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { itemType } from "./tree";

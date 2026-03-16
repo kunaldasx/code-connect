@@ -5,7 +5,7 @@
  * - Connection status display
  * - Results visualization
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Metadata } from "next";

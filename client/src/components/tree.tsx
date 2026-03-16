@@ -6,7 +6,7 @@
  * - Loading states
  * - Scrollable interface
  *
- * Modified by Dulapah Vibulsanti (https://github.com/dulapahv) from a comment
+ * Modified by Kunal Das (https://github.com/kunaldasx) from a comment
  * on an issue in shadcn-ui/ui by WangLarry (https://github.com/WangLarry).
  * Reference: https://github.com/shadcn-ui/ui/issues/355#issuecomment-1703767574
  */
@@ -23,11 +23,11 @@ import {
   useCallback,
   useState,
 } from "react";
-import useResizeObserver from "use-resize-observer";
 import { itemType } from "@/components/repo-browser/types/tree";
 import { Spinner } from "@/components/spinner";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { useResizeObserver } from "@/hooks/use-resize-observer";
 
 // Base interface for tree items
 interface TreeDataItem {
@@ -48,10 +48,10 @@ interface TreeProps extends HTMLAttributes<HTMLDivElement> {
 const Tree = forwardRef<HTMLDivElement, TreeProps>(
   (
     { data, initialSelectedItemId, onSelectChange, className, ...props },
-    ref
+    ref,
   ) => {
     const [selectedItemId, setSelectedItemId] = useState<string | undefined>(
-      initialSelectedItemId
+      initialSelectedItemId,
     );
     const [expandedIds, setExpandedIds] = useState<string[]>([]);
 
@@ -62,7 +62,7 @@ const Tree = forwardRef<HTMLDivElement, TreeProps>(
           onSelectChange(item);
         }
       },
-      [onSelectChange]
+      [onSelectChange],
     );
 
     const handleExpand = useCallback((itemId: string) => {
@@ -74,11 +74,11 @@ const Tree = forwardRef<HTMLDivElement, TreeProps>(
       });
     }, []);
 
-    const { ref: refRoot, width, height } = useResizeObserver();
+    const { ref: refRoot, size } = useResizeObserver();
 
     return (
       <div className={cn("overflow-hidden", className)} ref={refRoot}>
-        <ScrollArea style={{ width, height }}>
+        <ScrollArea style={{ width: size.width, height: size.height }}>
           <div className="relative p-2">
             <TreeItem
               data={data}
@@ -95,7 +95,7 @@ const Tree = forwardRef<HTMLDivElement, TreeProps>(
         </ScrollArea>
       </div>
     );
-  }
+  },
 );
 Tree.displayName = "Tree";
 
@@ -121,7 +121,7 @@ const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
       ItemIcon,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <div className={className} ref={ref} role="tree" {...props}>
@@ -145,7 +145,7 @@ const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
                         className={cn(
                           "px-2 before:absolute before:left-1 before:-z-10 before:h-[1.75rem] before:w-[calc(100%-8px)] before:rounded before:bg-secondary before:opacity-0 before:transition-opacity hover:before:opacity-50",
                           selectedItemId === item.id &&
-                            "text-accent-foreground before:border-l-4 before:border-l-accent-foreground/50 before:bg-accent before:opacity-50"
+                            "text-accent-foreground before:border-l-4 before:border-l-accent-foreground/50 before:bg-accent before:opacity-50",
                         )}
                         onClick={() => handleSelectChange(item)}
                       >
@@ -204,7 +204,7 @@ const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
         </ul>
       </div>
     );
-  }
+  },
 );
 TreeItem.displayName = "TreeItem";
 
@@ -221,7 +221,7 @@ const Leaf = forwardRef<
       "flex cursor-pointer items-center px-2 py-2 before:absolute before:right-1 before:left-1 before:-z-10 before:h-[1.75rem] before:w-[calc(100%-8px)] before:rounded before:bg-secondary before:opacity-0 before:transition-opacity hover:before:opacity-50",
       className,
       isSelected &&
-        "text-accent-foreground before:border-l-4 before:border-l-accent-foreground/50 before:bg-accent before:opacity-50"
+        "text-accent-foreground before:border-l-4 before:border-l-accent-foreground/50 before:bg-accent before:opacity-50",
     )}
     ref={ref}
     {...props}
@@ -251,7 +251,7 @@ const AccordionTrigger = forwardRef<
     <AccordionPrimitive.Trigger
       className={cn(
         "flex w-full flex-1 items-center py-2 transition-all last:[&[data-state=open]>svg]:rotate-90",
-        className
+        className,
       )}
       ref={ref}
       {...props}
@@ -270,7 +270,7 @@ const AccordionContent = forwardRef<
   <AccordionPrimitive.Content
     className={cn(
       "left-3 overflow-hidden border-foreground/10 border-l text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
-      className
+      className,
     )}
     ref={ref}
     {...props}

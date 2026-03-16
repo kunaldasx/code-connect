@@ -5,7 +5,7 @@
  * - Enable/disable toggle
  * - Permission handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { type ElementType, useCallback, useState } from "react";
@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
-import type { MediaDevice } from "../types";
+import type { MediaDevice } from "@/types";
 
 interface DeviceButtonProps {
   devices: MediaDevice[];
@@ -35,7 +35,7 @@ interface DeviceButtonProps {
   isEnabled: boolean;
   label: string;
   onDevicePermissionGranted?: (
-    kind: "videoinput" | "audioinput" | "audiooutput"
+    kind: "videoinput" | "audioinput" | "audiooutput",
   ) => Promise<void>;
   onDeviceSelect: (deviceId: string) => void;
   onToggle: () => void;
@@ -83,7 +83,7 @@ const DeviceControls = ({
         const devices = await navigator.mediaDevices.enumerateDevices();
         const hasOutputDevices = devices.some(
           (device) =>
-            device.kind === "audiooutput" && device.deviceId && device.label
+            device.kind === "audiooutput" && device.deviceId && device.label,
         );
 
         if (!hasOutputDevices) {
@@ -116,7 +116,7 @@ const DeviceControls = ({
     } catch (error) {
       console.error("Error requesting permissions:", error);
       toast.error(
-        `Please grant ${label.toLowerCase()} permissions to see available devices`
+        `Please grant ${label.toLowerCase()} permissions to see available devices`,
       );
       return false;
     }
@@ -143,7 +143,7 @@ const DeviceControls = ({
                 ? "bg-[color:var(--toolbar-accent)] text-[color:var(--panel-text-accent)] hover:bg-[color:var(--toolbar-accent)]"
                 : "bg-black/70 hover:bg-black/80 dark:bg-white/10 dark:hover:bg-white/20",
               "rounded-r-none",
-              (disabled || disableToggle) && "opacity-50"
+              (disabled || disableToggle) && "opacity-50",
             )}
             disabled={disabled || disableToggle}
             onClick={onToggle}
@@ -180,7 +180,7 @@ const DeviceControls = ({
               aria-label={`Select ${label} device`}
               className={cn(
                 "h-10 w-5 rounded-l-none border-0 p-0 transition-all hover:bg-foreground/20 [&>svg]:w-full [&>svg]:rotate-180",
-                disabled && "cursor-not-allowed opacity-50"
+                disabled && "cursor-not-allowed opacity-50",
               )}
             />
           </TooltipTrigger>

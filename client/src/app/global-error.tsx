@@ -5,21 +5,28 @@
  * - Recovery options
  * - Development error details
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 "use client";
 
-import * as Sentry from "@sentry/nextjs";
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
+import { Geist, Geist_Mono } from "next/font/google";
 import { Bug, RefreshCcw } from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
-import { useEffect } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { CONTACT_URL } from "@/lib/constants";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export default function GlobalError({
   error,
@@ -28,10 +35,6 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    Sentry.captureException(error);
-  }, [error]);
-
   const generateErrorReport = () => {
     const timestamp = new Date().toISOString();
     const errorMessage = `Error Details:
@@ -43,7 +46,7 @@ URL: ${window.location.href}`;
   };
 
   return (
-    <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
+    <html className={`${geistSans.variable} ${geistMono.variable}`} lang="en">
       <body>
         <div className="flex min-h-screen flex-col items-center justify-center p-4">
           <Alert className="max-w-lg">

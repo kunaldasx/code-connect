@@ -5,7 +5,7 @@
  * - Accessible controls
  * - Styling customization
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { LogOut } from "lucide-react";
@@ -44,7 +44,7 @@ const LeaveButton = ({ className }: LeaveButtonProps) => {
             aria-label="Leave room"
             className={cn(
               "size-7 animate-fade-in-top rounded-sm p-0",
-              className
+              className,
             )}
             onClick={handleButtonClick}
             size="icon"

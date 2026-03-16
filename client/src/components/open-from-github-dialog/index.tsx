@@ -1,7 +1,7 @@
 /**
  * Open from GitHub dialog component that handles file browsing and loading.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Monaco } from "@monaco-editor/react";
@@ -38,7 +38,7 @@ const OpenFromGithubDialog = forwardRef<
   OpenFromGithubDialogProps
 >(({ monaco, editor }, ref) => {
   const [selectedItem, setSelectedItem] = useState<ExtendedTreeDataItem | null>(
-    null
+    null,
   );
   const [repo, setRepo] = useState("");
   const [branch, setBranch] = useState("");
@@ -77,7 +77,7 @@ const OpenFromGithubDialog = forwardRef<
       const path = (selectedItem.path ?? "").split("/").slice(0, -1).join("/");
 
       const response = await fetch(
-        `/api/github/content?repo=${repo}&branch=${branch}&path=${path}&filename=${fileName}`
+        `/api/github/content?repo=${repo}&branch=${branch}&path=${path}&filename=${fileName}`,
       );
 
       if (!response.ok) {
@@ -91,7 +91,7 @@ const OpenFromGithubDialog = forwardRef<
       const extension = fileName.split(".").pop() || "";
       const languages = monaco.languages.getLanguages();
       const language = languages.find((lang) =>
-        lang.extensions?.some((ext) => ext.replace(".", "") === extension)
+        lang.extensions?.some((ext) => ext.replace(".", "") === extension),
       );
 
       // Set content and language (default to plaintext)
@@ -109,7 +109,7 @@ const OpenFromGithubDialog = forwardRef<
     } catch (error) {
       console.error("Error opening file:", error);
       toast.error(
-        error instanceof Error ? error.message : "Failed to open file"
+        error instanceof Error ? error.message : "Failed to open file",
       );
     } finally {
       setIsFetchingContent(false);
@@ -143,7 +143,7 @@ const OpenFromGithubDialog = forwardRef<
           githubUser,
           branch,
           selectedItem,
-          fileName
+          fileName,
         )}
         githubUser={githubUser}
       />

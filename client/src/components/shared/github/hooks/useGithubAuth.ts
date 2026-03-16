@@ -2,7 +2,7 @@
  * Custom hook for managing GitHub authentication state.
  * Handles OAuth flow and user authentication checks.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { useEffect, useLayoutEffect, useState } from "react";

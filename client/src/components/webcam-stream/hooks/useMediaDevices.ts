@@ -2,7 +2,7 @@
  * Custom hook for managing media devices (camera, microphone, speaker).
  * Handles device enumeration, selection, and permission management.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { useCallback, useEffect, useState } from "react";
@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 import { parseError } from "@/lib/utils";
 
-import type { MediaDevice } from "../types";
+import type { MediaDevice } from "@/types";
 import {
   enumerateDevices,
   handleDevicePermissionGranted,
@@ -22,7 +22,7 @@ export const useMediaDevices = () => {
   const [videoDevices, setVideoDevices] = useState<MediaDevice[]>([]);
   const [audioInputDevices, setAudioInputDevices] = useState<MediaDevice[]>([]);
   const [audioOutputDevices, setAudioOutputDevices] = useState<MediaDevice[]>(
-    []
+    [],
   );
   const [selectedVideoDevice, setSelectedVideoDevice] = useState<string>("");
   const [selectedAudioInput, setSelectedAudioInput] = useState<string>("");
@@ -40,7 +40,7 @@ export const useMediaDevices = () => {
         selectedAudioInput,
         setSelectedAudioInput,
         selectedAudioOutput,
-        setSelectedAudioOutput
+        setSelectedAudioOutput,
       );
     };
 
@@ -48,7 +48,7 @@ export const useMediaDevices = () => {
     return () => {
       navigator.mediaDevices.removeEventListener(
         "devicechange",
-        handleDeviceChange
+        handleDeviceChange,
       );
     };
   }, [selectedVideoDevice, selectedAudioInput, selectedAudioOutput]);
@@ -59,16 +59,16 @@ export const useMediaDevices = () => {
         kind,
         setVideoDevices,
         setAudioInputDevices,
-        setAudioOutputDevices
+        setAudioOutputDevices,
       );
     },
-    []
+    [],
   );
 
   const handleAudioOutputSelect = useCallback(
     async (
       deviceId: string,
-      videoRef: React.RefObject<HTMLVideoElement | null>
+      videoRef: React.RefObject<HTMLVideoElement | null>,
     ) => {
       setSelectedAudioOutput(deviceId);
       if (videoRef.current && "setSinkId" in videoRef.current) {
@@ -83,7 +83,7 @@ export const useMediaDevices = () => {
         }
       }
     },
-    []
+    [],
   );
 
   return {

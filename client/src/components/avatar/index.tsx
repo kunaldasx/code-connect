@@ -6,10 +6,10 @@
  * - Animated scaling
  * - Device-specific interaction
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import type { User } from "@codex/types/user";
+import type { User } from "@/types/user";
 import { isMobile } from "react-device-detect";
 import {
   Popover,
@@ -60,7 +60,7 @@ const Avatar = ({
         "flex cursor-default items-center justify-center rounded-full border-[1.5px] border-white/50 font-medium text-[#fff] dark:border-black/50",
         animate && "animate-scale-up-center",
         sizeClasses[size],
-        className
+        className,
       )}
       data-testid="avatar"
       role="img"

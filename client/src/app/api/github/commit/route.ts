@@ -6,7 +6,7 @@
  * - Base64 content handling
  * - File path management
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { cookies } from "next/headers";
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     if (!accessToken) {
       return NextResponse.json(
         { error: "Authentication required" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     ) {
       return NextResponse.json(
         { error: "Invalid parameter value" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
               Authorization: `Bearer ${accessToken}`,
               "X-GitHub-Api-Version": "2022-11-28",
             },
-          }
+          },
         );
 
         if (response.status === 404) {
@@ -118,14 +118,14 @@ export async function POST(request: Request) {
           "X-GitHub-Api-Version": "2022-11-28",
         },
         body: JSON.stringify(commitBody),
-      }
+      },
     );
 
     if (!response.ok) {
       const error = await response.json();
       return NextResponse.json(
         { error: "Failed to commit file", details: error },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -135,7 +135,7 @@ export async function POST(request: Request) {
     console.error("Error in commit route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

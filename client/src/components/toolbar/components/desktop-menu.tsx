@@ -5,7 +5,7 @@
  * - Panel toggle actions
  * - Editor command bindings
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { useEffect, useRef } from "react";
@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/menubar";
 
 import { createMenuConfig } from "../menu-config";
-import type { MenuProps } from "../types";
+import type { MenuProps } from "@/types";
 import { SharedMenuItem } from "./shared-menu-item";
 
 const DesktopMenu = ({
@@ -34,7 +34,7 @@ const DesktopMenu = ({
     notepad,
     terminal,
     webcam,
-    livePreview
+    livePreview,
   );
 
   const menubarRef = useRef<HTMLDivElement>(null);

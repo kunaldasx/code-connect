@@ -5,7 +5,7 @@
  * - Dark/light mode detection
  * - Meta tag handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { useTheme } from "next-themes";
@@ -22,7 +22,7 @@ export function useThemeColor() {
       // Update the color based on theme
       themeColorMeta.setAttribute(
         "content",
-        resolvedTheme === "dark" ? "#0a0a0a" : "#eef1f7"
+        resolvedTheme === "dark" ? "#0a0a0a" : "#eef1f7",
       );
     }
   }, [resolvedTheme]);

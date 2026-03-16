@@ -5,10 +5,10 @@
  * - Color generation and caching
  * - Bulk operations support
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import type { User } from "@codex/types/user";
+import type { User } from "@/types/user";
 
 import { getBackgroundColor, getTextColor } from "@/lib/utils";
 

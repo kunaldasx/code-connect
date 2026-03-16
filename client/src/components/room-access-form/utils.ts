@@ -6,10 +6,10 @@
  * - Room ID formatting
  * - Socket communications
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { RoomServiceMsg } from "@codex/types/message";
+import { RoomServiceMsg } from "@/types/message";
 import type { ChangeEvent } from "react";
 
 import { storage } from "@/lib/services/storage";

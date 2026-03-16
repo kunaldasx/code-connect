@@ -3,10 +3,10 @@
  * - Get initials from full name
  * - Format display name with "you" suffix
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import type { User } from "@codex/types/user";
+import type { User } from "@/types/user";
 
 const WHITESPACE_PATTERN = /\s+/;
 

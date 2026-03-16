@@ -5,21 +5,21 @@
  * - Loading state management
  * - Immutable state updates
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Dispatch, SetStateAction } from "react";
 
-import type { ExtendedTreeDataItem } from "../types/tree";
+import type { ExtendedTreeDataItem } from "@/types/tree";
 
 export const setItemLoading = (
   itemId: string,
   isLoading: boolean,
-  setTreeData: Dispatch<SetStateAction<ExtendedTreeDataItem[]>>
+  setTreeData: Dispatch<SetStateAction<ExtendedTreeDataItem[]>>,
 ) => {
   setTreeData((prevData) => {
     const updateChildren = (
-      items: ExtendedTreeDataItem[]
+      items: ExtendedTreeDataItem[],
     ): ExtendedTreeDataItem[] => {
       return items.map((item) => {
         if (item.id === itemId) {

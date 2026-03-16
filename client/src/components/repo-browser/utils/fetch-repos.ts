@@ -6,21 +6,21 @@
  * - Error handling
  * - Tree data transformation
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Dispatch, SetStateAction } from "react";
 
 import { parseError } from "@/lib/utils";
 
-import type { ExtendedTreeDataItem } from "../types/tree";
+import type { ExtendedTreeDataItem } from "@/types/tree";
 import { transformReposToTreeData } from "../utils/transform-repos-to-tree";
 
 export const fetchRepos = async (
   setLoading: Dispatch<SetStateAction<boolean>>,
   setError: Dispatch<SetStateAction<string>>,
   setTreeData: Dispatch<SetStateAction<ExtendedTreeDataItem[]>>,
-  query?: string
+  query?: string,
 ) => {
   const sanitizedQuery = query?.trim() === "" ? undefined : query;
 

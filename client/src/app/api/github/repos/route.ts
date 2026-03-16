@@ -6,7 +6,7 @@
  * - Repository filtering
  * - Sorting and ordering
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { cookies } from "next/headers";
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
     if (!accessToken) {
       return NextResponse.json(
         { error: "Unauthorized - No access token found" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -49,7 +49,7 @@ export async function GET(request: Request) {
       const error = await response.json();
       return NextResponse.json(
         { error: error.message || "Failed to fetch repositories" },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -65,7 +65,7 @@ export async function GET(request: Request) {
     console.error("Error fetching repositories:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -5,10 +5,10 @@
  * - Camera state sync
  * - User notification
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { StreamServiceMsg } from "@codex/types/message";
+import { StreamServiceMsg } from "../types/message";
 import type { SignalData } from "simple-peer";
 import type { Socket } from "@/types";
 
@@ -27,7 +27,7 @@ export const onStreamReady = (socket: Socket) => {
 // Forward the WebRTC signal to the specific target user only
 export const handleSignal = (
   socket: Socket,
-  data: { signal: SignalData; targetUserID: string }
+  data: { signal: SignalData; targetUserID: string },
 ) => {
   const customId = userService.getCustomId(socket.id);
   if (!customId) {

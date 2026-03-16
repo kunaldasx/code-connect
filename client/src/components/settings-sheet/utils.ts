@@ -5,7 +5,7 @@
  * - Title case formatting
  * - Settings file handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type * as monaco from "monaco-editor";
@@ -45,7 +45,7 @@ export const exportSettings = (settings: Record<string, unknown>) => {
 export const importSettings = (
   editor: monaco.editor.IStandaloneCodeEditor,
   setSettings: (settings: Record<string, unknown>) => void,
-  event: ChangeEvent<HTMLInputElement>
+  event: ChangeEvent<HTMLInputElement>,
 ) => {
   const file = event.target.files?.[0];
   if (!file) {

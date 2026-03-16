@@ -7,13 +7,11 @@
  * - Toast notifications
  * - Analytics
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
+import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@/components/analytics";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -26,6 +24,16 @@ import {
 } from "@/lib/constants";
 
 import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 // export const runtime = 'edge';
 
@@ -61,7 +69,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@dulapahv",
+    creator: "@kunaldasx",
   },
   alternates: {
     canonical: BASE_CLIENT_URL,
@@ -80,7 +88,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
       lang="en"
       suppressHydrationWarning
     >
@@ -88,13 +96,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <meta name="darkreader-lock" />
       </head>
       <body className="h-dvh text-pretty antialiased">
-        <Analytics />
         <ThemeProvider attribute="class" disableTransitionOnChange>
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster
             className="whitespace-pre-line"
             containerAriaLabel="Toast Notifications"
-            pauseWhenPageIsHidden
             richColors
           />
         </ThemeProvider>

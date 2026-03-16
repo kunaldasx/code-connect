@@ -6,7 +6,7 @@
  * - GitHub connection
  * - Settings import/export
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Monaco } from "@monaco-editor/react";
@@ -82,7 +82,7 @@ const SettingsSheet = forwardRef<SettingsSheetRef, SettingsSheetProps>(
                 username: data.username,
                 avatarUrl: data.avatarUrl,
               })
-            : null
+            : null,
         )
         .catch(console.error)
         .finally(() => setIsLoading(false));
@@ -189,7 +189,7 @@ const SettingsSheet = forwardRef<SettingsSheetRef, SettingsSheetProps>(
                             aria-hidden={!imageLoaded}
                             className={cn(
                               "object-cover transition-opacity",
-                              imageLoaded ? "opacity-100" : "opacity-0"
+                              imageLoaded ? "opacity-100" : "opacity-0",
                             )}
                             fill
                             loading="eager"
@@ -273,7 +273,7 @@ const SettingsSheet = forwardRef<SettingsSheetRef, SettingsSheetProps>(
         </SheetContent>
       </Sheet>
     );
-  }
+  },
 );
 
 SettingsSheet.displayName = "SettingsSheet";

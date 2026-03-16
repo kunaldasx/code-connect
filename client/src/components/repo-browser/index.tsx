@@ -6,7 +6,7 @@
  * - File selection
  * - Loading states
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { Search } from "lucide-react";
@@ -51,7 +51,7 @@ const RepoBrowser = memo(
 
     const handleSearchChange = useCallback(
       (event: ChangeEvent<HTMLInputElement>) => setText(event.target.value),
-      []
+      [],
     );
 
     const fetchReposCallback = useCallback(() => {
@@ -76,10 +76,10 @@ const RepoBrowser = memo(
           setItemLoading,
           setError,
           setRepo,
-          setBranch
+          setBranch,
         );
       },
-      [treeData, setSelectedItem, setRepo, setBranch]
+      [treeData, setSelectedItem, setRepo, setBranch],
     );
 
     const memoizedTree = useMemo(
@@ -90,7 +90,7 @@ const RepoBrowser = memo(
           onSelectChange={handleSelectChangeCallback}
         />
       ),
-      [treeData, handleSelectChangeCallback]
+      [treeData, handleSelectChangeCallback],
     );
 
     return (
@@ -141,7 +141,7 @@ const RepoBrowser = memo(
         })()}
       </section>
     );
-  }
+  },
 );
 
 RepoBrowser.displayName = "RepoBrowser";

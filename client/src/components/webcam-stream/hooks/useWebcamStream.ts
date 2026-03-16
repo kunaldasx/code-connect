@@ -2,10 +2,10 @@
  * Custom hook for managing local webcam stream state and controls.
  * Handles camera/mic toggling and facial mode switching.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { StreamServiceMsg } from "@codex/types/message";
+import { StreamServiceMsg } from "@/types/message";
 import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useRef, useState } from "react";
 import type Peer from "simple-peer";
@@ -48,7 +48,7 @@ export const useWebcamStream = ({
       setRemoteStreams: React.Dispatch<
         React.SetStateAction<Record<string, MediaStream | null>>
       >,
-      pendingSignalsRef: React.RefObject<Record<string, Peer.SignalData[]>>
+      pendingSignalsRef: React.RefObject<Record<string, Peer.SignalData[]>>,
     ) => {
       return getMedia(
         selectedVideoDevice,
@@ -60,7 +60,7 @@ export const useWebcamStream = ({
         videoRef,
         peersRef,
         setRemoteStreams,
-        pendingSignalsRef
+        pendingSignalsRef,
       );
     },
     [
@@ -69,7 +69,7 @@ export const useWebcamStream = ({
       selectedAudioOutput,
       cameraFacingMode,
       micOn,
-    ]
+    ],
   );
 
   const handleToggleCamera = useCallback(
@@ -78,7 +78,7 @@ export const useWebcamStream = ({
       setRemoteStreams: React.Dispatch<
         React.SetStateAction<Record<string, MediaStream | null>>
       >,
-      pendingSignalsRef: React.RefObject<Record<string, Peer.SignalData[]>>
+      pendingSignalsRef: React.RefObject<Record<string, Peer.SignalData[]>>,
     ) => {
       await toggleCamera(
         cameraOn,
@@ -87,10 +87,10 @@ export const useWebcamStream = ({
         streamRef,
         videoRef,
         peersRef,
-        () => handleGetMedia(peersRef, setRemoteStreams, pendingSignalsRef)
+        () => handleGetMedia(peersRef, setRemoteStreams, pendingSignalsRef),
       );
     },
-    [cameraOn, handleGetMedia, setMicOn]
+    [cameraOn, handleGetMedia, setMicOn],
   );
 
   const handleToggleMic = useCallback(() => {
@@ -111,7 +111,7 @@ export const useWebcamStream = ({
         }
       }
     },
-    [socket]
+    [socket],
   );
 
   const handleRotateCamera = useCallback(
@@ -120,17 +120,17 @@ export const useWebcamStream = ({
       setRemoteStreams: React.Dispatch<
         React.SetStateAction<Record<string, MediaStream | null>>
       >,
-      pendingSignalsRef: React.RefObject<Record<string, Peer.SignalData[]>>
+      pendingSignalsRef: React.RefObject<Record<string, Peer.SignalData[]>>,
     ) => {
       await rotateCamera(
         cameraOn,
         cameraFacingMode,
         setCameraFacingMode,
         streamRef,
-        () => handleGetMedia(peersRef, setRemoteStreams, pendingSignalsRef)
+        () => handleGetMedia(peersRef, setRemoteStreams, pendingSignalsRef),
       );
     },
-    [cameraOn, cameraFacingMode, handleGetMedia]
+    [cameraOn, cameraFacingMode, handleGetMedia],
   );
 
   const handleVideoDeviceSwitch = useCallback(
@@ -141,7 +141,7 @@ export const useWebcamStream = ({
         React.SetStateAction<Record<string, MediaStream | null>>
       >,
       pendingSignalsRef: React.RefObject<Record<string, Peer.SignalData[]>>,
-      setSelectedVideoDevice: (value: string) => void
+      setSelectedVideoDevice: (value: string) => void,
     ) => {
       // Always store the preference
       setSelectedVideoDevice(deviceId);
@@ -163,13 +163,19 @@ export const useWebcamStream = ({
           micOn,
           selectedAudioInput,
           selectedAudioOutput,
-          cameraFacingMode
+          cameraFacingMode,
         );
       } catch (error) {
         toast.error(`Failed to switch video device: ${parseError(error)}`);
       }
     },
-    [cameraOn, micOn, selectedAudioInput, selectedAudioOutput, cameraFacingMode]
+    [
+      cameraOn,
+      micOn,
+      selectedAudioInput,
+      selectedAudioOutput,
+      cameraFacingMode,
+    ],
   );
 
   const handleAudioDeviceSwitch = useCallback(
@@ -180,7 +186,7 @@ export const useWebcamStream = ({
         React.SetStateAction<Record<string, MediaStream | null>>
       >,
       pendingSignalsRef: React.RefObject<Record<string, Peer.SignalData[]>>,
-      setSelectedAudioInput: (value: string) => void
+      setSelectedAudioInput: (value: string) => void,
     ) => {
       // Always store the preference
       setSelectedAudioInput(deviceId);
@@ -202,7 +208,7 @@ export const useWebcamStream = ({
           micOn,
           selectedVideoDevice,
           selectedAudioOutput,
-          cameraFacingMode
+          cameraFacingMode,
         );
       } catch (error) {
         toast.error(`Failed to switch audio device: ${parseError(error)}`);
@@ -214,7 +220,7 @@ export const useWebcamStream = ({
       selectedVideoDevice,
       selectedAudioOutput,
       cameraFacingMode,
-    ]
+    ],
   );
 
   return {

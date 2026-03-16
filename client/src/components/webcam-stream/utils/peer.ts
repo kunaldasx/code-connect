@@ -6,10 +6,10 @@
  * - Stream handling
  * - Error handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { StreamServiceMsg } from "@codex/types/message";
+import { StreamServiceMsg } from "@/types/message";
 import type { Dispatch, RefObject, SetStateAction } from "react";
 import Peer from "simple-peer";
 import { toast } from "sonner";
@@ -26,7 +26,7 @@ export const createPeer = (
   setRemoteStreams: Dispatch<
     SetStateAction<Record<string, MediaStream | null>>
   >,
-  pendingSignalsRef: RefObject<Record<string, Peer.SignalData[]>>
+  pendingSignalsRef: RefObject<Record<string, Peer.SignalData[]>>,
 ) => {
   const socket = getSocket();
   try {
@@ -73,7 +73,7 @@ export const createPeer = (
         peer.signal(signal);
       } catch (error) {
         console.warn(
-          `Error processing pending signal for ${userID}:\n${error}`
+          `Error processing pending signal for ${userID}:\n${error}`,
         );
       }
     }
@@ -95,7 +95,7 @@ export const handleSignal = (
   setRemoteStreams: Dispatch<
     SetStateAction<Record<string, MediaStream | null>>
   >,
-  pendingSignalsRef: RefObject<Record<string, Peer.SignalData[]>>
+  pendingSignalsRef: RefObject<Record<string, Peer.SignalData[]>>,
 ) => {
   try {
     const existingPeer = peersRef.current[userID];
@@ -128,7 +128,7 @@ export const handleSignal = (
         streamRef,
         peersRef,
         setRemoteStreams,
-        pendingSignalsRef
+        pendingSignalsRef,
       );
       return;
     }
@@ -144,7 +144,9 @@ export const handleSignal = (
 export const cleanupPeer = (
   userID: string,
   peersRef: RefObject<Record<string, Peer.Instance>>,
-  setRemoteStreams: Dispatch<SetStateAction<Record<string, MediaStream | null>>>
+  setRemoteStreams: Dispatch<
+    SetStateAction<Record<string, MediaStream | null>>
+  >,
 ) => {
   const peer = peersRef.current[userID];
   if (peer) {
@@ -153,7 +155,7 @@ export const cleanupPeer = (
         peer.destroy();
       } catch (error) {
         console.warn(
-          `Error destroying peer connection for ${userID}.\n${error}`
+          `Error destroying peer connection for ${userID}.\n${error}`,
         );
       }
     }

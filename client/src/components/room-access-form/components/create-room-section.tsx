@@ -6,7 +6,7 @@
  * - Loading states
  * - Error display
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import * as Form from "@radix-ui/react-form";
@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { NAME_MAX_LENGTH } from "@/lib/constants";
 
-import type { CreateRoomForm } from "../types";
+import type { CreateRoomForm } from "@/types";
 
 interface CreateRoomSectionProps {
   isJoining: boolean;

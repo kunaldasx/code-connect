@@ -5,13 +5,11 @@
  * - Vercel deployment detection
  * - Header generation
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 const ALLOWED_ORIGINS = [
-  "https://codex.dulapahv.dev",
-  "https://codex.vercel.app",
-  "https://dev-codex.dulapahv.dev",
+  // "",
   "http://localhost:3000",
 ] as const;
 
@@ -43,8 +41,10 @@ const getAllowedOrigin = (origin: string | undefined): string => {
 };
 
 const getCorsHeaders = (origin: string | undefined) => ({
-  "Access-Control-Allow-Origin": getAllowedOrigin(origin),
-  "Access-Control-Allow-Methods": "GET",
+  // "Access-Control-Allow-Origin": ["http://localhost:3000"],
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+  // "Access-Control-Allow-Credentials": "true",
   Vary: "Origin",
 });
 

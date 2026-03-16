@@ -6,10 +6,10 @@
  * - Active follower indicator
  * - Mobile support
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import type { User } from "@codex/types/user";
+import type { User } from "@/types/user";
 
 import { Check, Navigation, NavigationOff } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -52,7 +52,7 @@ const FollowUser = ({ users }: UserListProps) => {
     const followedUserId = storage.getFollowUserId();
     if (followedUserId) {
       const isUserStillPresent = users.some(
-        (user) => user.id === followedUserId
+        (user) => user.id === followedUserId,
       );
       if (!isUserStillPresent) {
         setValue(null);

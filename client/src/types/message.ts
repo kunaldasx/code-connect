@@ -6,7 +6,7 @@
  * - Scroll sync messages
  * - Video stream messages
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 export enum RoomServiceMsg {

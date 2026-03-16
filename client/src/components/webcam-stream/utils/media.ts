@@ -5,7 +5,7 @@
  * - Peer connection recreation on stream change
  * - Device switching
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Dispatch, RefObject, SetStateAction } from "react";
@@ -31,7 +31,7 @@ export const getMedia = async (
   setRemoteStreams: Dispatch<
     SetStateAction<Record<string, MediaStream | null>>
   >,
-  pendingSignalsRef: RefObject<Record<string, Peer.SignalData[]>>
+  pendingSignalsRef: RefObject<Record<string, Peer.SignalData[]>>,
 ) => {
   try {
     // Stop any existing tracks before requesting new ones
@@ -106,7 +106,7 @@ export const getMedia = async (
         streamRef,
         peersRef,
         setRemoteStreams,
-        pendingSignalsRef
+        pendingSignalsRef,
       );
     }
 
@@ -130,7 +130,7 @@ export const switchVideoDevice = (
   micOn: boolean,
   selectedAudioInput: string,
   selectedAudioOutput: string,
-  cameraFacingMode: "user" | "environment"
+  cameraFacingMode: "user" | "environment",
 ) => {
   return getMedia(
     deviceId,
@@ -142,7 +142,7 @@ export const switchVideoDevice = (
     videoRef,
     peersRef,
     setRemoteStreams,
-    pendingSignalsRef
+    pendingSignalsRef,
   );
 };
 
@@ -159,7 +159,7 @@ export const switchAudioDevice = (
   micOn: boolean,
   selectedVideoDevice: string,
   selectedAudioOutput: string,
-  cameraFacingMode: "user" | "environment"
+  cameraFacingMode: "user" | "environment",
 ) => {
   return getMedia(
     selectedVideoDevice,
@@ -171,6 +171,6 @@ export const switchAudioDevice = (
     videoRef,
     peersRef,
     setRemoteStreams,
-    pendingSignalsRef
+    pendingSignalsRef,
   );
 };

@@ -5,10 +5,10 @@
  * - Viewport line visibility checks
  * - Cursor style handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import type { Cursor } from "@codex/types/operation";
+import type { Cursor } from "@/types/operation";
 
 import type { Monaco } from "@monaco-editor/react";
 import type * as monaco from "monaco-editor";
@@ -28,7 +28,7 @@ const isLineInViewport = (
   monaco: Monaco,
   editor: monaco.editor.IStandaloneCodeEditor,
   lineNumber: number,
-  padding: number = VIEWPORT_PADDING
+  padding: number = VIEWPORT_PADDING,
 ): boolean => {
   const visibleRanges = editor.getVisibleRanges();
   if (!visibleRanges.length) {
@@ -66,7 +66,7 @@ export const updateCursor = (
   cursorDecorationsRef: RefObject<
     Record<string, monaco.editor.IEditorDecorationsCollection>
   >,
-  cleanupTimeoutsRef: RefObject<Record<string, NodeJS.Timeout>>
+  cleanupTimeoutsRef: RefObject<Record<string, NodeJS.Timeout>>,
 ): void => {
   const editor = editorInstanceRef.current;
   const monacoInstance = monacoInstanceRef.current;
@@ -159,7 +159,7 @@ export const updateCursor = (
     color,
     name,
     isFirstLine,
-    hasSelection
+    hasSelection,
   );
 
   // Store decoration
@@ -181,14 +181,14 @@ export const removeCursor = (
   userID: string,
   cursorDecorationsRef: RefObject<
     Record<string, monaco.editor.IEditorDecorationsCollection>
-  >
+  >,
 ): void => {
   const cursorElements = document.querySelectorAll(`.cursor-${userID}`);
   for (const el of cursorElements) {
     el.remove();
   }
   const selectionElements = document.querySelectorAll(
-    `.cursor-${userID}-selection`
+    `.cursor-${userID}-selection`,
   );
   for (const el of selectionElements) {
     el.remove();

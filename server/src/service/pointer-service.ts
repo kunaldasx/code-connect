@@ -5,11 +5,11 @@
  * - Room-based updates
  * - User identity handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { PointerServiceMsg } from "@codex/types/message";
-import type { Pointer } from "@codex/types/pointer";
+import { PointerServiceMsg } from "../types/message";
+import type { Pointer } from "../types/pointer";
 import type { Socket } from "@/types";
 
 import { getUserRoom } from "./room-service";

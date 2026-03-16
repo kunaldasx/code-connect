@@ -5,10 +5,10 @@
  * - Scrollable interface
  * - Accessible markup
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import type { User } from "@codex/types/user";
+import type { User } from "@/types/user";
 import { useTheme } from "next-themes";
 import { Avatar } from "@/components/avatar";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -42,7 +42,7 @@ const UserList = ({ users }: UserListProps) => {
             "h-1.5",
             resolvedTheme === "dark"
               ? "[&>div]:bg-foreground"
-              : "[&>div]:bg-primary"
+              : "[&>div]:bg-primary",
           )}
           color="white"
           orientation="horizontal"

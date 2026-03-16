@@ -5,7 +5,7 @@
  * - Standard input handling
  * - Input validation
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { ChevronDown, X } from "lucide-react";
@@ -70,7 +70,7 @@ const ArgsInputPopover = ({
               aria-label="Program arguments and input"
               className={cn(
                 "hover:!opacity-80 disabled:!opacity-50 relative size-7 rounded-l-none border-l border-l-[color:var(--panel-text-accent)] bg-[color:var(--toolbar-accent)] text-[color:var(--panel-text-accent)] transition-opacity hover:bg-[color:var(--toolbar-accent)] hover:text-[color:var(--panel-text-accent)]",
-                disabled && "bg-red-600"
+                disabled && "bg-red-600",
               )}
               disabled={disabled}
               size="icon"

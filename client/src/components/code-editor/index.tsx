@@ -6,16 +6,16 @@
  * - Real-time sync
  * - Scroll synchronization
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import {
   CodeServiceMsg,
   RoomServiceMsg,
   ScrollServiceMsg,
-} from "@codex/types/message";
-import type { Cursor, EditOp } from "@codex/types/operation";
-import type { Scroll } from "@codex/types/scroll";
+} from "@/types/message";
+import type { Cursor, EditOp } from "@/types/operation";
+import type { Scroll } from "@/types/scroll";
 import Editor, { type Monaco } from "@monaco-editor/react";
 import type * as monaco from "monaco-editor";
 import { useTheme } from "next-themes";
@@ -60,7 +60,7 @@ const CodeEditor = memo(function CodeEditor({
   const [isMonacoReady, setIsMonacoReady] = useState(false);
 
   const editorInstanceRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(
-    null
+    null,
   );
   const monacoInstanceRef = useRef<Monaco | null>(null);
   const skipUpdateRef = useRef(false);
@@ -101,18 +101,18 @@ const CodeEditor = memo(function CodeEditor({
         editorInstanceRef,
         monacoInstanceRef,
         cursorDecorationsRef,
-        cleanupTimeoutsRef
-      )
+        cleanupTimeoutsRef,
+      ),
     );
 
     socket.on(
       ScrollServiceMsg.UPDATE_SCROLL,
       (userID: string, scroll: Scroll) =>
-        scrollService.updateScroll(editorInstanceRef, userID, scroll)
+        scrollService.updateScroll(editorInstanceRef, userID, scroll),
     );
 
     socket.on(RoomServiceMsg.LEAVE, (userID: string) =>
-      cursorService.removeCursor(userID, cursorDecorationsRef)
+      cursorService.removeCursor(userID, cursorDecorationsRef),
     );
 
     // Cleanup socket listeners
@@ -149,7 +149,7 @@ const CodeEditor = memo(function CodeEditor({
 
   const handleEditorMount = (
     editor: monaco.editor.IStandaloneCodeEditor,
-    monaco: Monaco
+    monaco: Monaco,
   ) => {
     // Set up refs first
     editorInstanceRef.current = editor;
@@ -165,7 +165,7 @@ const CodeEditor = memo(function CodeEditor({
       monaco,
       disposablesRef,
       cursorPosition,
-      defaultCode
+      defaultCode,
     );
 
     // Mark Monaco as ready
@@ -179,7 +179,7 @@ const CodeEditor = memo(function CodeEditor({
       loading={<LoadingCard />}
       onChange={(
         value: string | undefined,
-        ev: monaco.editor.IModelContentChangedEvent
+        ev: monaco.editor.IModelContentChangedEvent,
       ) => {
         editorService.handleOnChange(value, ev, skipUpdateRef);
         setCode(value || "");

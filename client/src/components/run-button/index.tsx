@@ -6,11 +6,11 @@
  * - Args/stdin input handling
  * - Status indication
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { CodeServiceMsg } from "@codex/types/message";
-import type { ExecutionResult } from "@codex/types/terminal";
+import { CodeServiceMsg } from "@/types/message";
+import type { ExecutionResult } from "@/types/terminal";
 import type { Monaco } from "@monaco-editor/react";
 import { OctagonX, Play } from "lucide-react";
 import type * as monaco from "monaco-editor";
@@ -50,7 +50,7 @@ const RunButton = ({
 
   useEffect(() => {
     socket.on(CodeServiceMsg.EXEC, (isExecuting: boolean) =>
-      setIsRunning(isExecuting)
+      setIsRunning(isExecuting),
     );
 
     return () => {
@@ -67,7 +67,7 @@ const RunButton = ({
           className={cn(
             "hover:!opacity-80 disabled:!opacity-50 h-7 rounded-r-none bg-[color:var(--toolbar-accent)] px-2 py-0 text-[color:var(--panel-text-accent)] transition-opacity hover:bg-[color:var(--toolbar-accent)]",
             isRunning && "bg-red-600 hover:bg-red-700",
-            className
+            className,
           )}
           disabled={!editor}
           onClick={
@@ -82,7 +82,7 @@ const RunButton = ({
                     setIsRunning,
                     abortControllerRef,
                     args,
-                    stdin
+                    stdin,
                   )
           }
         >

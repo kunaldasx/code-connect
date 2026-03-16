@@ -1,7 +1,7 @@
 /**
  * GitHub save dialog component that handles file saving integration.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import * as Form from "@radix-ui/react-form";
@@ -44,7 +44,7 @@ const SaveToGithubDialog = forwardRef<
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [selectedItem, setSelectedItem] = useState<ExtendedTreeDataItem | null>(
-    null
+    null,
   );
   const [repo, setRepo] = useState("");
   const [branch, setBranch] = useState("");
@@ -82,7 +82,7 @@ const SaveToGithubDialog = forwardRef<
         repo,
         branch,
         editor?.getModel()?.getValue() || "",
-        closeDialog
+        closeDialog,
       );
     } finally {
       setIsSubmitting(false);
@@ -164,7 +164,7 @@ const SaveToGithubDialog = forwardRef<
           githubUser,
           branch,
           selectedItem,
-          fileName
+          fileName,
         )}
         githubUser={githubUser}
       />

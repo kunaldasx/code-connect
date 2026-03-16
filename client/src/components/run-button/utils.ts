@@ -5,14 +5,11 @@
  * - Output formatting
  * - Socket messaging
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { CodeServiceMsg } from "@codex/types/message";
-import {
-  type ExecutionResult,
-  ExecutionResultType,
-} from "@codex/types/terminal";
+import { CodeServiceMsg } from "@/types/message";
+import { type ExecutionResult, ExecutionResultType } from "@/types/terminal";
 import type { Monaco } from "@monaco-editor/react";
 import type * as monaco from "monaco-editor";
 import type { Dispatch, RefObject, SetStateAction } from "react";
@@ -24,7 +21,7 @@ import { parseError } from "@/lib/utils";
 export const cancelExecution = (
   abortControllerRef: RefObject<AbortController | null>,
   setIsRunning: Dispatch<SetStateAction<boolean>>,
-  setOutput: Dispatch<SetStateAction<ExecutionResult[]>>
+  setOutput: Dispatch<SetStateAction<ExecutionResult[]>>,
 ) => {
   const socket = getSocket();
   if (abortControllerRef.current) {
@@ -59,7 +56,7 @@ export const executeCode = async (
   setIsRunning: Dispatch<SetStateAction<boolean>>,
   abortControllerRef: RefObject<AbortController | null>,
   args: string[],
-  stdin: string
+  stdin: string,
 ) => {
   if (!(monaco && editor)) {
     return;

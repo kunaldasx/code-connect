@@ -5,7 +5,7 @@
  * - External URL handling
  * - Accessibility support
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { Send } from "lucide-react";

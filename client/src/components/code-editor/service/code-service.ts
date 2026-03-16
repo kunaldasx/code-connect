@@ -5,10 +5,10 @@
  * - Editor state management
  * - Change synchronization
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import type { EditOp } from "@codex/types/operation";
+import type { EditOp } from "@/types/operation";
 
 import type * as monaco from "monaco-editor";
 import type { RefObject } from "react";
@@ -29,12 +29,12 @@ import type { RefObject } from "react";
  * ```
  *
  * @remarks
- * Uses [`EditOp`](@codex/types/operation.ts) type for operation data
+ * Uses [`EditOp`](@/types/operation.ts) type for operation data
  */
 export const updateCode = (
   op: EditOp,
   editorInstanceRef: RefObject<monaco.editor.IStandaloneCodeEditor | null>,
-  skipUpdateRef: RefObject<boolean>
+  skipUpdateRef: RefObject<boolean>,
 ): void => {
   const editor = editorInstanceRef.current;
   if (!editor) {
@@ -58,7 +58,7 @@ export const updateCode = (
           },
         },
       ],
-      () => []
+      () => [],
     );
   }
   skipUpdateRef.current = false;

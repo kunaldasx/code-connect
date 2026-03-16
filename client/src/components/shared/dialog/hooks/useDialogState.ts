@@ -2,7 +2,7 @@
  * Custom hook for managing dialog open/close state with imperative handle.
  * Provides standardized dialog control interface.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import {
@@ -24,7 +24,7 @@ interface UseDialogStateOptions {
 
 export const useDialogState = (
   ref: ForwardedRef<DialogRef>,
-  options: UseDialogStateOptions = {}
+  options: UseDialogStateOptions = {},
 ) => {
   const [isOpen, setIsOpen] = useState(false);
 

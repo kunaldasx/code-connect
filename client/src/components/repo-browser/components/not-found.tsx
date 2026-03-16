@@ -5,7 +5,7 @@
  * - Query highlight
  * - Return to search button
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { FolderSearch } from "lucide-react";

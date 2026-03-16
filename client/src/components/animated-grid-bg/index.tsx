@@ -6,7 +6,7 @@
  * - Mouse-based parallax
  * - Dynamic sizing
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 "use client";
@@ -62,7 +62,7 @@ const AnimatedGridBackground = () => {
       mouseX.set(x);
       mouseY.set(y);
     },
-    [mouseX, mouseY]
+    [mouseX, mouseY],
   );
 
   // Generate a random light
@@ -92,7 +92,7 @@ const AnimatedGridBackground = () => {
       setLights((prevLights) => {
         const now = Date.now();
         const filteredLights = prevLights.filter(
-          (light) => now - light.key < 8000
+          (light) => now - light.key < 8000,
         );
 
         const maxLights = isDesktop ? 10 : 8;

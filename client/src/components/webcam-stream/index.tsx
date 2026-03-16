@@ -1,10 +1,10 @@
 /**
  * Webcam streaming component that enables video/audio communication.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import type { User } from "@codex/types/user";
+import type { User } from "@/types/user";
 
 import {
   Mic,
@@ -90,7 +90,7 @@ const WebcamStream = ({ users }: WebcamStreamProps) => {
   });
 
   return (
-    <div className="relative flex h-full flex-col bg-[color:var(--panel-background)] p-2">
+    <div className="relative flex h-full flex-col bg-(--panel-background) p-2">
       <VideoGrid
         cameraOn={cameraOn}
         micOn={micOn}
@@ -117,7 +117,7 @@ const WebcamStream = ({ users }: WebcamStreamProps) => {
                 peersRef,
                 setRemoteStreams,
                 pendingSignalsRef,
-                setSelectedVideoDevice
+                setSelectedVideoDevice,
               )
             }
             onToggle={() =>
@@ -134,7 +134,7 @@ const WebcamStream = ({ users }: WebcamStreamProps) => {
                 handleRotateCamera(
                   peersRef,
                   setRemoteStreams,
-                  pendingSignalsRef
+                  pendingSignalsRef,
                 )
               }
               size="icon"
@@ -158,7 +158,7 @@ const WebcamStream = ({ users }: WebcamStreamProps) => {
               peersRef,
               setRemoteStreams,
               pendingSignalsRef,
-              setSelectedAudioInput
+              setSelectedAudioInput,
             )
           }
           onToggle={handleToggleMic}

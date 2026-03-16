@@ -5,7 +5,7 @@
  * - Tree item icon mapping
  * - Type-safe conversion
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { GitBranch } from "lucide-react";
@@ -15,7 +15,7 @@ import { type ExtendedTreeDataItem, itemType } from "../types/tree";
 
 export const transformBranchesToTreeData = (
   repoID: string,
-  branches: GithubBranch[]
+  branches: GithubBranch[],
 ): ExtendedTreeDataItem[] => {
   if (!branches) {
     return [];

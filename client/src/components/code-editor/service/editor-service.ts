@@ -6,30 +6,28 @@
  * - Event handling
  * - Socket integration
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { CodeServiceMsg, ScrollServiceMsg } from "@codex/types/message";
-import type { Cursor, EditOp } from "@codex/types/operation";
+import { CodeServiceMsg, ScrollServiceMsg } from "@/types/message";
+import type { Cursor, EditOp } from "@/types/operation";
 import type { Monaco } from "@monaco-editor/react";
 import type * as monaco from "monaco-editor";
-import themeList from "monaco-themes/themes/themelist.json";
 import type { Dispatch, RefObject, SetStateAction } from "react";
 import type { StatusBarCursorPosition } from "@/components/status-bar";
 import { EDITOR_SETTINGS_KEY } from "@/lib/constants";
 import { storage } from "@/lib/services/storage";
 import { getSocket } from "@/lib/socket";
+import { MONACO_THEMES } from "@/lib/monaco-themes";
 
 /**
  * Handle the Monaco editor before mounting.
  * @param monaco Monaco instance.
  */
-export const handleBeforeMount = (monaco: Monaco): void => {
-  for (const [key, value] of Object.entries(themeList)) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const themeData = require(`monaco-themes/themes/${value}.json`);
-    monaco.editor.defineTheme(key, themeData);
-  }
+export const handleBeforeMount = async (monaco: Monaco): Promise<void> => {
+  Object.entries(MONACO_THEMES).forEach(([name, theme]) => {
+    monaco.editor.defineTheme(name, theme as never);
+  });
 };
 
 /**
@@ -45,7 +43,7 @@ export const handleOnMount = (
   monaco: Monaco,
   disposablesRef: RefObject<monaco.IDisposable[]>,
   setCursorPosition: Dispatch<SetStateAction<StatusBarCursorPosition>>,
-  defaultCode?: string
+  defaultCode?: string,
 ): void => {
   const socket = getSocket();
 
@@ -129,7 +127,7 @@ export const handleOnMount = (
 export const handleOnChange = (
   _value: string | undefined,
   ev: monaco.editor.IModelContentChangedEvent,
-  skipUpdateRef: RefObject<boolean>
+  skipUpdateRef: RefObject<boolean>,
 ): void => {
   if (skipUpdateRef.current) {
     return;

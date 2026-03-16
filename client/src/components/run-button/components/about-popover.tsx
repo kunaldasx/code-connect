@@ -5,7 +5,7 @@
  * - Accessible tooltip
  * - Animated icon button
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { Info } from "lucide-react";
@@ -58,7 +58,7 @@ const AboutPopover = () => (
               For a list of supported programming languages, refer to the{" "}
               <a
                 className="!transition-all font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground"
-                href="https://github.com/dulapahv/CodeX/blob/main/manual.md#supported-execution-languages"
+                href="https://github.com/kunaldasx/CodeX/blob/main/manual.md#supported-execution-languages"
                 rel="noopener noreferrer"
                 target="_blank"
               >

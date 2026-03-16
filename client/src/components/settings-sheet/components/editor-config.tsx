@@ -6,7 +6,7 @@
  * - Real-time setting updates
  * - Settings persistence
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Monaco } from "@monaco-editor/react";
@@ -33,7 +33,7 @@ import { EDITOR_SETTINGS_KEY } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import { SELECT_OPTIONS } from "../constants";
-import type { EditorOption } from "../types";
+import type { EditorOption } from "@/types";
 import { exportSettings, formatTitle, importSettings } from "../utils";
 
 interface EditorConfigProps {
@@ -80,7 +80,7 @@ export function EditorConfig({ monaco, editor, className }: EditorConfigProps) {
     const currentValues = (editor.getOptions() as EditorOptionsInternal)
       ._values;
     const optionKeys = Object.keys(monaco.editor.EditorOption).filter((key) =>
-      Number.isNaN(Number(key))
+      Number.isNaN(Number(key)),
     );
 
     // Merge stored settings with current editor values
@@ -106,7 +106,7 @@ export function EditorConfig({ monaco, editor, className }: EditorConfigProps) {
 
         return acc;
       },
-      { ...storedSettings }
+      { ...storedSettings },
     );
 
     setSettings(mergedSettings);
@@ -185,7 +185,7 @@ export function EditorConfig({ monaco, editor, className }: EditorConfigProps) {
   const filteredSettings = useMemo(() => {
     const searchLower = search.toLowerCase();
     return Object.entries(editorOptions).filter(([_key, option]) =>
-      option.title.toLowerCase().includes(searchLower)
+      option.title.toLowerCase().includes(searchLower),
     );
   }, [search, editorOptions]);
 
@@ -218,7 +218,7 @@ export function EditorConfig({ monaco, editor, className }: EditorConfigProps) {
       setSettings(newSettings);
       localStorage.setItem(EDITOR_SETTINGS_KEY, JSON.stringify(newSettings));
     },
-    [editor, settings]
+    [editor, settings],
   );
 
   const handleImportClick = useCallback(() => {
@@ -327,7 +327,7 @@ export function EditorConfig({ monaco, editor, className }: EditorConfigProps) {
           );
       }
     },
-    [settings, updateSetting]
+    [settings, updateSetting],
   );
 
   return (

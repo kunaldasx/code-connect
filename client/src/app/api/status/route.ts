@@ -5,7 +5,7 @@
  * - Error handling
  * - Status response formatting
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { NextResponse } from "next/server";
@@ -22,7 +22,7 @@ export async function GET() {
         headers: {
           Authorization: `Bearer ${process.env.BETTERSTACK_API_KEY}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
@@ -35,7 +35,7 @@ export async function GET() {
     console.error("Error fetching server status:", error);
     return NextResponse.json(
       { error: "Failed to fetch server status" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

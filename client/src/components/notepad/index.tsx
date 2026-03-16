@@ -6,7 +6,7 @@
  * - Markdown syntax support
  * - Image and table insertion
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 "use client";
@@ -22,7 +22,7 @@ const DynamicNotepadMain = dynamic(
   {
     ssr: false,
     loading: () => <EditorSkeleton />,
-  }
+  },
 );
 
 const Notepad = ({ markdown }: { markdown: string }) => (

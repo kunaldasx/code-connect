@@ -1,13 +1,13 @@
 /**
  * Typed Socket.IO server types for compile-time event safety.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type {
   ClientToServerEvents,
   ServerToClientEvents,
-} from "@codex/types/socket-events";
+} from "./types/socket-events.js";
 import type { Server as IOServer, Socket as IOSocket } from "socket.io";
 
 export type Server = IOServer<ClientToServerEvents, ServerToClientEvents>;

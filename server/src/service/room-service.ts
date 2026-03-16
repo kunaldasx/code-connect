@@ -6,11 +6,11 @@
  * - Room state management
  * - User data sync
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { CodeServiceMsg, RoomServiceMsg } from "@codex/types/message";
-import type { ExecutionResult } from "@codex/types/terminal";
+import { CodeServiceMsg, RoomServiceMsg } from "../types/message";
+import type { ExecutionResult } from "../types/terminal";
 import type { Server, Socket } from "@/types";
 
 import { generateRoomID } from "@/utils/generate-room-id";
@@ -104,7 +104,7 @@ export const join = async (
   socket: Socket,
   io: Server,
   roomID: string,
-  name: string
+  name: string,
 ): Promise<void> => {
   const normalizedRoomID = normalizeRoomId(roomID);
 
@@ -213,7 +213,7 @@ export const terminate = (socket: Socket, io: Server): void => {
 export const getUsersInRoom = (
   socket: Socket,
   io: Server,
-  roomID: string = getUserRoom(socket) ?? ""
+  roomID: string = getUserRoom(socket) ?? "",
 ): Record<string, string> => {
   // Return empty object if no room
   if (!roomID) {

@@ -2,10 +2,10 @@
  * Custom hook for managing Socket.IO events related to webcam streaming.
  * Handles signaling, state synchronization, and user connection events.
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { RoomServiceMsg, StreamServiceMsg } from "@codex/types/message";
+import { RoomServiceMsg, StreamServiceMsg } from "@/types/message";
 import { useEffect, useRef } from "react";
 import type Peer from "simple-peer";
 
@@ -61,7 +61,7 @@ export const useSocketEvents = ({
         streamRef,
         peersRef,
         setRemoteStreams,
-        pendingSignalsRef
+        pendingSignalsRef,
       );
       socket.emit(StreamServiceMsg.SPEAKER_STATE, speakerOnRef.current);
     });
@@ -74,7 +74,7 @@ export const useSocketEvents = ({
         streamRef,
         peersRef,
         setRemoteStreams,
-        pendingSignalsRef
+        pendingSignalsRef,
       );
     });
 
@@ -83,7 +83,7 @@ export const useSocketEvents = ({
       StreamServiceMsg.MIC_STATE,
       ({ userID, micOn }: { userID: string; micOn: boolean }) => {
         setRemoteMicStates((prev) => ({ ...prev, [userID]: micOn }));
-      }
+      },
     );
 
     // Track remote speaker states
@@ -91,7 +91,7 @@ export const useSocketEvents = ({
       StreamServiceMsg.SPEAKER_STATE,
       ({ userID, speakersOn }: { userID: string; speakersOn: boolean }) => {
         setRemoteSpeakerStates((prev) => ({ ...prev, [userID]: speakersOn }));
-      }
+      },
     );
 
     // Remote user turned off their camera - remove their stream but keep peer

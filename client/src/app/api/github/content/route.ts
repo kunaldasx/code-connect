@@ -6,7 +6,7 @@
  * - Repository content retrieval
  * - Error handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { cookies } from "next/headers";
@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     if (!accessToken) {
       return NextResponse.json(
         { error: "Authentication required" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     if (!(repo && branch && filename)) {
       return NextResponse.json(
         { error: "Missing required parameters" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -58,7 +58,7 @@ export async function GET(request: Request) {
     ) {
       return NextResponse.json(
         { error: "Invalid parameter value" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -80,7 +80,7 @@ export async function GET(request: Request) {
           Accept: "application/vnd.github.v3.raw",
           "X-GitHub-Api-Version": "2022-11-28",
         },
-      }
+      },
     );
 
     if (!response.ok) {
@@ -90,7 +90,7 @@ export async function GET(request: Request) {
       const error = await response.json();
       return NextResponse.json(
         { error: "Failed to fetch file content", details: error },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -105,7 +105,7 @@ export async function GET(request: Request) {
           Authorization: `Bearer ${accessToken}`,
           "X-GitHub-Api-Version": "2022-11-28",
         },
-      }
+      },
     );
 
     if (!metadataResponse.ok) {
@@ -127,7 +127,7 @@ export async function GET(request: Request) {
     console.error("Error in content route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

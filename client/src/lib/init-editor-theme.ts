@@ -6,11 +6,11 @@
  * - CSS variable handling for consistent theming
  * - System/dark mode synchronization
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Monaco } from "@monaco-editor/react";
-import themeList from "monaco-themes/themes/themelist.json";
+import { MONACO_THEMES } from "./monaco-themes";
 
 const DEFAULT_THEMES = {
   "vs-dark": {
@@ -113,10 +113,8 @@ export const initEditorTheme = () => {
     } else {
       // For custom themes
       try {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        const themeData = require(
-          `monaco-themes/themes/${themeList[savedTheme as keyof typeof themeList]}.json`
-        );
+        const themeData =
+          MONACO_THEMES[savedTheme as keyof typeof MONACO_THEMES];
 
         // Set document classes for dark mode
         if (themeData.base === "vs-dark") {
@@ -136,19 +134,19 @@ export const initEditorTheme = () => {
           ].slice(0, 7),
           "--toolbar-foreground": themeData.colors["editor.foreground"].slice(
             0,
-            7
+            7,
           ),
           "--toolbar-accent": themeData.colors["editorCursor.foreground"].slice(
             0,
-            7
+            7,
           ),
           "--panel-text-accent": themeData.colors["editor.background"].slice(
             0,
-            7
+            7,
           ),
           "--panel-background": themeData.colors["editor.background"].slice(
             0,
-            7
+            7,
           ),
           "--status-bar-text": themeData.base === "vs-dark" ? "dark" : "light",
         });
@@ -196,7 +194,7 @@ if (typeof window !== "undefined") {
 }
 
 // Export a utility function that components can use to apply a theme
-export const applyEditorTheme = (key: string, value: string) => {
+export const applyEditorTheme = (key: string) => {
   localStorage.setItem("editorTheme", key);
 
   if (key in DEFAULT_THEMES) {
@@ -214,8 +212,7 @@ export const applyEditorTheme = (key: string, value: string) => {
     }
   } else {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const themeData = require(`monaco-themes/themes/${value}.json`);
+      const themeData = MONACO_THEMES[key as keyof typeof MONACO_THEMES];
 
       // Set document classes
       if (themeData.base === "vs-dark") {
@@ -235,15 +232,15 @@ export const applyEditorTheme = (key: string, value: string) => {
         ].slice(0, 7),
         "--toolbar-foreground": themeData.colors["editor.foreground"].slice(
           0,
-          7
+          7,
         ),
         "--toolbar-accent": themeData.colors["editorCursor.foreground"].slice(
           0,
-          7
+          7,
         ),
         "--panel-text-accent": themeData.colors["editor.background"].slice(
           0,
-          7
+          7,
         ),
         "--panel-background": themeData.colors["editor.background"].slice(0, 7),
         "--status-bar-text": themeData.base === "vs-dark" ? "dark" : "light",
@@ -265,8 +262,7 @@ export const applyEditorTheme = (key: string, value: string) => {
     return "light";
   }
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const themeData = require(`monaco-themes/themes/${value}.json`);
+    const themeData = MONACO_THEMES[key as keyof typeof MONACO_THEMES];
     return themeData.base === "vs-dark" ? "dark" : "light";
   } catch (error) {
     console.error("Failed to determine theme mode:", error);

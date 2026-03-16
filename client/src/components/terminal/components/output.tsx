@@ -6,10 +6,10 @@
  * - Execution time display
  * - Error output handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import type { ExecutionResult } from "@codex/types/terminal";
+import type { ExecutionResult } from "@/types/terminal";
 
 import { cn } from "@/lib/utils";
 

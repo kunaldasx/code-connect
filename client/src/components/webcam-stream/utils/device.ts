@@ -6,7 +6,7 @@
  * - Permission management
  * - Device selection state
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { Dispatch, SetStateAction } from "react";
@@ -15,7 +15,7 @@ import { toast } from "sonner";
 
 import { parseError } from "@/lib/utils";
 
-import type { MediaDevice } from "../types";
+import type { MediaDevice } from "@/types";
 
 export const initDevices = async (handleDeviceChange: () => Promise<void>) => {
   // Only enumerate devices without requesting permissions
@@ -34,27 +34,27 @@ export const enumerateDevices = async (
   selectedAudioInput: string,
   setSelectedAudioInput: Dispatch<SetStateAction<string>>,
   selectedAudioOutput: string,
-  setSelectedAudioOutput: Dispatch<SetStateAction<string>>
+  setSelectedAudioOutput: Dispatch<SetStateAction<string>>,
 ) => {
   try {
     const devices = await navigator.mediaDevices.enumerateDevices();
 
     // Group devices by kind and ensure they have valid deviceIds
     const videoInputs = devices.filter(
-      (device) => device.kind === "videoinput" && device.deviceId !== ""
+      (device) => device.kind === "videoinput" && device.deviceId !== "",
     );
     const audioInputs = devices.filter(
-      (device) => device.kind === "audioinput" && device.deviceId !== ""
+      (device) => device.kind === "audioinput" && device.deviceId !== "",
     );
     const audioOutputs = devices.filter(
-      (device) => device.kind === "audiooutput" && device.deviceId !== ""
+      (device) => device.kind === "audiooutput" && device.deviceId !== "",
     );
 
     // Function to get a generic label if permissions haven't been granted
     const getDeviceLabel = (
       device: MediaDeviceInfo,
       type: string,
-      index: number
+      index: number,
     ) => {
       return device.label || `${type} ${index + 1}`;
     };
@@ -64,19 +64,19 @@ export const enumerateDevices = async (
       videoInputs.map((device, index) => ({
         deviceId: device.deviceId,
         label: getDeviceLabel(device, "Camera", index),
-      }))
+      })),
     );
     setAudioInputDevices(
       audioInputs.map((device, index) => ({
         deviceId: device.deviceId,
         label: getDeviceLabel(device, "Microphone", index),
-      }))
+      })),
     );
     setAudioOutputDevices(
       audioOutputs.map((device, index) => ({
         deviceId: device.deviceId,
         label: getDeviceLabel(device, "Speaker", index),
-      }))
+      })),
     );
 
     // Set default devices if not already set
@@ -109,33 +109,33 @@ export const enumerateDevices = async (
 export const updateDeviceLabels = async (
   setVideoDevices: Dispatch<SetStateAction<MediaDevice[]>>,
   setAudioInputDevices: Dispatch<SetStateAction<MediaDevice[]>>,
-  setAudioOutputDevices: Dispatch<SetStateAction<MediaDevice[]>>
+  setAudioOutputDevices: Dispatch<SetStateAction<MediaDevice[]>>,
 ) => {
   const devices = await navigator.mediaDevices.enumerateDevices();
 
   const videoInputs = devices.filter((device) => device.kind === "videoinput");
   const audioInputs = devices.filter((device) => device.kind === "audioinput");
   const audioOutputs = devices.filter(
-    (device) => device.kind === "audiooutput"
+    (device) => device.kind === "audiooutput",
   );
 
   setVideoDevices(
     videoInputs.map((device) => ({
       deviceId: device.deviceId,
       label: device.label || `Camera ${device.deviceId.slice(0, 4)}`,
-    }))
+    })),
   );
   setAudioInputDevices(
     audioInputs.map((device) => ({
       deviceId: device.deviceId,
       label: device.label || `Microphone ${device.deviceId.slice(0, 4)}`,
-    }))
+    })),
   );
   setAudioOutputDevices(
     audioOutputs.map((device) => ({
       deviceId: device.deviceId,
       label: device.label || `Speaker ${device.deviceId.slice(0, 4)}`,
-    }))
+    })),
   );
 };
 
@@ -143,7 +143,7 @@ export const handleDevicePermissionGranted = async (
   deviceKind: "videoinput" | "audioinput" | "audiooutput",
   setVideoDevices: Dispatch<SetStateAction<MediaDevice[]>>,
   setAudioInputDevices: Dispatch<SetStateAction<MediaDevice[]>>,
-  setAudioOutputDevices: Dispatch<SetStateAction<MediaDevice[]>>
+  setAudioOutputDevices: Dispatch<SetStateAction<MediaDevice[]>>,
 ) => {
   const devices = await navigator.mediaDevices.enumerateDevices();
 
@@ -156,7 +156,7 @@ export const handleDevicePermissionGranted = async (
           .map((device) => ({
             deviceId: device.deviceId,
             label: device.label || `Camera ${device.deviceId.slice(0, 4)}`,
-          }))
+          })),
       );
       break;
     case "audioinput":
@@ -166,7 +166,7 @@ export const handleDevicePermissionGranted = async (
           .map((device) => ({
             deviceId: device.deviceId,
             label: device.label || `Microphone ${device.deviceId.slice(0, 4)}`,
-          }))
+          })),
       );
       break;
     case "audiooutput":
@@ -176,7 +176,7 @@ export const handleDevicePermissionGranted = async (
           .map((device) => ({
             deviceId: device.deviceId,
             label: device.label || `Speaker ${device.deviceId.slice(0, 4)}`,
-          }))
+          })),
       );
       break;
     default:

@@ -5,7 +5,7 @@
  * - Timestamped filenames
  * - Blob handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { ButtonWithTooltip, type MDXEditorMethods } from "@mdxeditor/editor";

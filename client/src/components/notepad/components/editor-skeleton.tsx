@@ -5,7 +5,7 @@
  * - Animated content placeholders
  * - Responsive layout matching editor
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { Skeleton } from "@/components/ui/skeleton";

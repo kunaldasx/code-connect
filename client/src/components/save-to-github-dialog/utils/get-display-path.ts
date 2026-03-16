@@ -5,7 +5,7 @@
  * - Branch path handling
  * - Directory/file path handling
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import {
@@ -18,7 +18,7 @@ export const getDisplayPath = (
   githubUser: string | null,
   branch: string,
   selectedItem: ExtendedTreeDataItem | null,
-  fileName: string
+  fileName: string,
 ) => {
   // Start with repo or githubUser
   let path = repo || githubUser || "";

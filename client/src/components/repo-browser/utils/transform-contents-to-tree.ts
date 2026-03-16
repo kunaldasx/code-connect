@@ -6,7 +6,7 @@
  * - Path handling
  * - Type-safe conversion
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { FileCode, Folder } from "lucide-react";
@@ -17,7 +17,7 @@ import { type ExtendedTreeDataItem, itemType } from "../types/tree";
 export const transformContentsToTreeData = (
   repoID: string,
   branchID: string,
-  contents: GithubContent[]
+  contents: GithubContent[],
 ): ExtendedTreeDataItem[] => {
   if (!contents) {
     return [];

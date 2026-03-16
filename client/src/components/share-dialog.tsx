@@ -6,7 +6,7 @@
  * - Responsive dialog/drawer
  * - Copy success feedback
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { Check, Copy } from "lucide-react";
@@ -248,7 +248,7 @@ const ShareDialog = forwardRef<ShareDialogRef, ShareDialogProps>(
         </DrawerContent>
       </Drawer>
     );
-  }
+  },
 );
 
 ShareDialog.displayName = "ShareDialog";

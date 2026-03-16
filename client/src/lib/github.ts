@@ -5,7 +5,7 @@
  * - OAuth token handling
  * - User data types
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import type { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
@@ -122,7 +122,7 @@ export const githubAuthHandlers = {
         {
           method: "POST",
           headers: { Accept: "application/json" },
-        }
+        },
       );
 
       const data = await response.json();

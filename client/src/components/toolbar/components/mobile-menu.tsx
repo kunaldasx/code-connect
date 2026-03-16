@@ -5,7 +5,7 @@
  * - Panel toggle actions
  * - Editor command access
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 import { Menu } from "lucide-react";
@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/menubar";
 
 import { createMenuConfig } from "../menu-config";
-import type { MenuProps } from "../types";
+import type { MenuProps } from "@/types";
 import { SharedMenuItem } from "./shared-menu-item";
 
 const MobileMenu = ({
@@ -38,7 +38,7 @@ const MobileMenu = ({
     notepad,
     terminal,
     webcam,
-    livePreview
+    livePreview,
   );
 
   const menubarRef = useRef<HTMLDivElement>(null);

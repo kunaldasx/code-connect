@@ -5,11 +5,11 @@
  * - User identification
  * - Socket messaging
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
-import { ScrollServiceMsg } from "@codex/types/message";
-import type { Scroll } from "@codex/types/scroll";
+import { ScrollServiceMsg } from "../types/message";
+import type { Scroll } from "../types/scroll";
 import type { Socket } from "@/types";
 
 import { getUserRoom } from "./room-service";

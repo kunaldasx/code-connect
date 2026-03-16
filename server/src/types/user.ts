@@ -4,7 +4,7 @@
  * - User ID
  * - Username
  *
- * By Dulapah Vibulsanti (https://dulapahv.dev)
+ * By Kunal Das (https://kunaldasx.vercel.app)
  */
 
 export interface User {
