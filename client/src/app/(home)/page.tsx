@@ -32,7 +32,7 @@ export default async function Page({ searchParams }: PageProps<"/">) {
       />
       <div
         aria-hidden="true"
-        className="fixed inset-0 -z-10 bg-gradient-to-tr from-[#fb568a]/50 via-[#c240ff]/50 to-90% to-[#3b77fd]/50"
+        className="fixed inset-0 -z-10 bg-linear-to-tr from-[#fb568a]/50 via-[#c240ff]/50 to-90% to-[#3b77fd]/50"
         role="presentation"
       />
       <div className="dark fixed inset-0 -z-10">

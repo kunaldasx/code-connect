@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/menubar";
 
 import { createMenuConfig } from "../menu-config";
-import type { MenuProps } from "@/types";
+import type { MenuProps } from "../types";
 import { SharedMenuItem } from "./shared-menu-item";
 
 const DesktopMenu = ({
@@ -58,7 +58,7 @@ const DesktopMenu = ({
     >
       {menuConfig.map((group) => (
         <MenubarMenu key={group.label}>
-          <MenubarTrigger className="px-2 py-1 font-normal transition-colors hover:bg-accent hover:text-accent-foreground">
+          <MenubarTrigger className="px-2 py-1 font-normal transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer">
             {group.label}
           </MenubarTrigger>
           <MenubarContent className="ml-1" loop>
