@@ -33,14 +33,8 @@ export default async function Page({ searchParams }: PageProps<"/">) {
 
 			<StarCanvas />
 
-			<div style={{ width: "100%", height: "600px", position: "fixed" }}>
-				<Orb
-					hoverIntensity={2}
-					rotateOnHover
-					hue={0}
-					forceHoverState={false}
-					backgroundColor="#000000"
-				/>
+			<div style={{ width: "100%", height: "100%", position: "fixed" }}>
+				<Orb hue={0} forceHoverState={false} backgroundColor="#000000" />
 			</div>
 
 			<main className="dark relative flex min-h-full w-full flex-col min-[1189px]:flex-row">
@@ -82,7 +76,7 @@ export default async function Page({ searchParams }: PageProps<"/">) {
 				</div>
 
 				{/* Right Section - Showcase Grid */}
-				<div className="dark relative flex w-full max-w-5xl flex-1 items-center justify-center min-[1189px]:w-7/12 min-[1189px]:pr-8">
+				<div className="dark relative flex w-full max-w-5xl flex-1 items-start justify-center min-[1189px]:py-14 min-[1189px]:w-7/12 min-[1189px]:pr-8">
 					<ShowcaseGrid />
 				</div>
 
