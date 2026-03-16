@@ -101,7 +101,7 @@ app.get("/", (res, req) => {
   );
 });
 
-app.get("/status", (res, req) => {
+app.get("/api/status", (res, req) => {
   const origin = req.getHeader("origin");
   const headers = getCorsHeaders(origin);
 
