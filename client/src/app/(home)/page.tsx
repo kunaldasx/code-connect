@@ -54,13 +54,10 @@ export default async function Page({ searchParams }: PageProps<"/">) {
                   src="/images/codeconnect-logo.png"
                   width={96}
                 />
-                <div className="flex flex-col items-start text-start">
-                  <span>Code together</span>
-                  <span className="flex flex-col items-start min-[1189px]:items-baseline">
-                    <span>now on</span>
-                    <span className="bg-linear-to-r from-[#fb568a] to-[#e456fb] bg-clip-text text-transparent drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">
-                      CodeConnect
-                    </span>
+                <div className="flex flex-col items-start justify-start text-start">
+                  <span className="text-2xl">Code together now on</span>
+                  <span className="bg-linear-to-r from-[#b7dff3] via-[#c287d6] to-[#8611ad] bg-clip-text text-transparent drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">
+                    CodeConnect
                   </span>
                 </div>
               </h1>
