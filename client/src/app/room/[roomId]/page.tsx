@@ -89,7 +89,7 @@ const MemoizedToolbar = memo(function MemoizedToolbar({
   setShowLivePreview: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
-    <div className="fixed flex w-full items-center justify-between gap-x-2 bg-[color:var(--toolbar-bg-secondary)] p-1">
+    <div className="flex w-full items-center justify-between gap-x-2 bg-[color:var(--toolbar-bg-secondary)] p-1">
       {/* biome-ignore lint/a11y/useSemanticElements: grouping toolbar controls without form semantics */}
       <div
         aria-label="Editor Toolbar"
@@ -303,7 +303,7 @@ export default function Room() {
   return (
     <main
       aria-label="Code Editor Workspace"
-      className="flex h-full min-w-[821px] flex-col"
+      className="flex h-full min-w-[821px] flex-col overflow-hidden"
     >
       <RemotePointers />
       <div
@@ -330,10 +330,7 @@ export default function Room() {
         )}
       </div>
       {defaultCode !== null && mdContent !== null ? (
-        <ResizablePanelGroup
-          className="!h-[calc(100%-54px)]"
-          direction="horizontal"
-        >
+        <ResizablePanelGroup className="flex-1" direction="horizontal">
           <ResizablePanel
             aria-label="Notepad"
             className={cn(

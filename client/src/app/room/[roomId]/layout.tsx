@@ -23,5 +23,5 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: LayoutProps<"/room/[roomId]">) {
-  return <div className="h-full overflow-y-hidden">{children}</div>;
+  return <div className="h-screen overflow-y-hidden">{children}</div>;
 }

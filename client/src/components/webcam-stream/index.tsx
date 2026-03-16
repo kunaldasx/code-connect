@@ -103,7 +103,7 @@ const WebcamStream = ({ users }: WebcamStreamProps) => {
       />
 
       {/* Controls */}
-      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-4">
+      <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 items-center gap-4">
         <div className="flex items-center gap-2">
           <DeviceControls
             devices={videoDevices}
