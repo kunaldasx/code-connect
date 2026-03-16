@@ -167,14 +167,14 @@ const RoomAccessForm = ({ roomId }: RoomAccessFormProps) => {
 								<TabsList className="mb-7 grid h-auto! w-full grid-cols-2 rounded-[15px] border-0 bg-black/45 p-1">
 									<TabsTrigger
 										value="create"
-										className="rounded-xl border border-transparent py-3 font-display text-[10px] font-bold tracking-[0.22em] text-[rgba(220,240,255,0.28)] transition-all duration-300 data-[state=active]:border-cyan-400/25 data-[state=active]:bg-linear-to-br data-[state=active]:from-cyan-400/11 data-[state=active]:to-violet-500/[0.07] data-[state=active]:text-cyan-300 data-[state=active]:shadow-[0_0_20px_rgba(77,244,255,0.07)]"
+										className="rounded-xl border border-transparent py-3 font-display text-[8px] font-bold tracking-[0.22em] text-[rgba(220,240,255,0.28)] transition-all duration-300 data-[state=active]:border-cyan-400/25 data-[state=active]:bg-linear-to-br data-[state=active]:from-cyan-400/11 data-[state=active]:to-violet-500/[0.07] data-[state=active]:text-cyan-300 data-[state=active]:shadow-[0_0_20px_rgba(77,244,255,0.07)]"
 									>
 										⊕ CREATE
 									</TabsTrigger>
 
 									<TabsTrigger
 										value="join"
-										className="rounded-xl border border-transparent py-3 font-display text-[10px] font-bold tracking-[0.22em] text-[rgba(220,240,255,0.28)] transition-all duration-300 data-[state=active]:border-violet-400/25 data-[state=active]:bg-linear-to-br data-[state=active]:from-violet-400/11 data-[state=active]:to-fuchsia-500/[0.07] data-[state=active]:text-violet-300 data-[state=active]:shadow-[0_0_20px_rgba(176,122,255,0.07)]"
+										className="rounded-xl border border-transparent py-3 font-display text-[8px] font-bold tracking-[0.22em] text-[rgba(220,240,255,0.28)] transition-all duration-300 data-[state=active]:border-violet-400/25 data-[state=active]:bg-linear-to-br data-[state=active]:from-violet-400/11 data-[state=active]:to-fuchsia-500/[0.07] data-[state=active]:text-violet-300 data-[state=active]:shadow-[0_0_20px_rgba(176,122,255,0.07)]"
 									>
 										⤳ JOIN
 									</TabsTrigger>

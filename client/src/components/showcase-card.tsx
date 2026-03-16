@@ -62,10 +62,10 @@ const ShowcaseCard = ({ image }: { image: ShowcaseImage }) => {
 				<div className="absolute inset-0 bg-linear-to-t from-[#040816] via-transparent to-transparent" />
 			</div>
 
-			<div className="relative p-6">
-				<div className="mb-4 flex items-center gap-3">
+			<div className="relative p-4">
+				<div className="mb-2 flex items-center gap-2">
 					<div
-						className="flex size-10 items-center justify-center rounded-xl border transition-all duration-500 group-hover:scale-110"
+						className="flex size-8 items-center justify-center rounded-xl border transition-all duration-500 group-hover:scale-110"
 						style={{
 							color: image.color,
 							background: `rgba(${r},${g},${b},0.12)`,
@@ -76,12 +76,12 @@ const ShowcaseCard = ({ image }: { image: ShowcaseImage }) => {
 						{image.icon}
 					</div>
 
-					<h3 className="font-['Orbitron'] text-lg max-w-[70%] font-semibold tracking-wide text-[#DCF0FF]">
+					<h3 className="font-['Orbitron'] text-[12px] font-semibold tracking-wide text-[#DCF0FF]">
 						{image.title}
 					</h3>
 				</div>
 
-				<p className="text-sm leading-relaxed text-[#DCF0FF]/55">
+				<p className="text-xs leading-relaxed text-[#DCF0FF]/55">
 					{image.description}
 				</p>
 			</div>

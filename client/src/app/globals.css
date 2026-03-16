@@ -151,14 +151,22 @@
 		--sidebar-border: oklch(1 0 0 / 10%);
 		--sidebar-ring: oklch(0.556 0 0);
 
-		/* Editor panel variables */
-		--toolbar-bg-primary: #2678ca;
-		--toolbar-bg-secondary: #3c3c3c;
-		--toolbar-foreground: #ffffff;
+		/* ── Editor panel variables (space-themed) ─────────────────────
+		   These are consumed exclusively by editor-page components
+		   (toolbar, terminal, webcam, notepad) — not by the landing page.
+		─────────────────────────────────────────────────────────────── */
+		--toolbar-bg-primary: #1d56c5;
+		--toolbar-bg-secondary: #080d20;
+		--toolbar-foreground: #c8d8ff;
 		--toolbar-accent: #2678ca;
-		--panel-text-accent: #ffffff;
-		--panel-background: #1e1e1e;
-		--status-bar-text: #ffffff;
+		--panel-text-accent: #c8d8ff;
+		--panel-background: #080c1a;
+		--status-bar-text: #8aabda;
+
+		/* Space accent tokens used in panel borders / handles */
+		--space-accent-cyan: rgba(77, 244, 255, 0.22);
+		--space-accent-cyan-hover: rgba(77, 244, 255, 0.42);
+		--space-panel-border: rgba(77, 244, 255, 0.13);
 	}
 
 	/* Element resets */
@@ -202,11 +210,11 @@
 	}
 
 	.dark ::-webkit-scrollbar-thumb {
-		background: #404040;
+		background: #1e2a4a;
 	}
 
 	.dark ::-webkit-scrollbar-thumb:hover {
-		background: #525252;
+		background: #2a3a60;
 	}
 }
 
@@ -475,7 +483,7 @@
 
 	._toolbarButton_uazmk_237:hover,
 	._toolbarToggleItem_uazmk_206:hover {
-		background: rgb(255 255 255 / 0.1) !important;
+		background: rgb(77 244 255 / 0.08) !important;
 	}
 
 	._toolbarToggleItem_uazmk_206[data-state="on"] {
@@ -542,7 +550,7 @@
 		text-wrap: balance;
 	}
 
-	/* Space/nebula background */
+	/* Space/nebula background — landing page */
 	.bg-space {
 		background: radial-gradient(
 			circle at 50% 20%,
@@ -552,6 +560,88 @@
 			#0c1c34 85%,
 			#17345c 100%
 		);
+	}
+
+	/* ── Space editor background ─────────────────────────────────────
+	   Applied to the <main> wrapper of the room/editor page.
+	   Three layered radial gradients create a deep-space atmosphere:
+	   1. Purple nebula in the top-right quadrant
+	   2. Blue nebula in the bottom-left quadrant
+	   3. Faint cyan core at centre
+	   4. True-black base underneath
+	──────────────────────────────────────────────────────────────── */
+	.bg-editor-space {
+		background:
+			radial-gradient(
+				ellipse at 74% 12%,
+				rgba(118, 48, 220, 0.17) 0%,
+				transparent 52%
+			),
+			radial-gradient(
+				ellipse at 16% 88%,
+				rgba(32, 98, 220, 0.12) 0%,
+				transparent 48%
+			),
+			radial-gradient(
+				ellipse at 46% 52%,
+				rgba(77, 244, 255, 0.04) 0%,
+				transparent 38%
+			),
+			radial-gradient(circle at 50% 50%, #06091a 0%, #030810 50%, #010204 100%);
+	}
+
+	/* ── Nebula overlay blobs ────────────────────────────────────────
+	   Absolutely-positioned soft glows that float behind the panels.
+	   The `nebula` keyframe (already defined above) gives them a slow
+	   organic drift so the background feels alive.
+	──────────────────────────────────────────────────────────────── */
+	.editor-nebula {
+		position: absolute;
+		border-radius: 9999px;
+		pointer-events: none;
+		will-change: transform;
+	}
+
+	.editor-nebula-purple {
+		width: 55%;
+		height: 90%;
+		top: -22%;
+		right: -18%;
+		background: radial-gradient(
+			circle,
+			rgba(108, 42, 215, 0.22) 0%,
+			transparent 65%
+		);
+		filter: blur(100px);
+		animation: nebula 22s ease-in-out infinite;
+	}
+
+	.editor-nebula-blue {
+		width: 42%;
+		height: 68%;
+		bottom: -14%;
+		left: -14%;
+		background: radial-gradient(
+			circle,
+			rgba(30, 96, 220, 0.15) 0%,
+			transparent 65%
+		);
+		filter: blur(115px);
+		animation: nebula 30s ease-in-out infinite reverse;
+	}
+
+	.editor-nebula-cyan {
+		width: 28%;
+		height: 42%;
+		top: 32%;
+		left: 30%;
+		background: radial-gradient(
+			circle,
+			rgba(77, 244, 255, 0.08) 0%,
+			transparent 65%
+		);
+		filter: blur(85px);
+		animation: nebula 19s ease-in-out infinite 8s;
 	}
 
 	/* Room card ambient glow */

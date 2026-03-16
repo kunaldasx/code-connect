@@ -370,7 +370,7 @@ const MarkdownEditorMain = ({ markdown }: MarkdownEditorProps) => {
 	return (
 		<MDXEditor
 			autoFocus={false}
-			className="dark-editor flex h-full w-full flex-col !dark-theme [&]:bg-[#161819] [&]:text-[#e2e4e9]"
+			className="dark-editor flex h-full w-full flex-col !dark-theme [&]:bg-[#161819] [&]:text-[#e2e4e9] overflow-y-scroll"
 			contentEditableClassName={cn(
 				`prose h-full max-w-none
         first:prose-headings:mt-0

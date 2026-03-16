@@ -9,8 +9,8 @@
  */
 
 import type {
-  ClientToServerEvents,
-  ServerToClientEvents,
+	ClientToServerEvents,
+	ServerToClientEvents,
 } from "@/types/socket-events";
 import { io, type Socket } from "socket.io-client";
 
@@ -24,17 +24,17 @@ let socketInstance: TypedSocket | null = null;
  * Returns a singleton typed socket instance
  */
 export const getSocket = (): TypedSocket => {
-  if (!socketInstance?.connected) {
-    socketInstance = io(BASE_SERVER_URL, {
-      transports: ["websocket", "polling"],
-      autoConnect: false,
-      timestampRequests: false,
-    }) as TypedSocket;
-  }
+	if (!socketInstance) {
+		socketInstance = io(BASE_SERVER_URL, {
+			transports: ["websocket", "polling"],
+			autoConnect: false,
+			timestampRequests: false,
+		}) as TypedSocket;
+	}
 
-  if (!socketInstance.connected) {
-    socketInstance.connect();
-  }
+	if (!socketInstance.connected && !socketInstance.active) {
+		socketInstance.connect();
+	}
 
-  return socketInstance;
+	return socketInstance;
 };

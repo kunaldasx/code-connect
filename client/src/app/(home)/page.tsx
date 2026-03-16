@@ -42,7 +42,7 @@ export default async function Page({ searchParams }: PageProps<"/">) {
 				<div className="my-2 flex min-h-[700px] w-full flex-col justify-center p-4 min-[1189px]:w-5/12 min-[1189px]:items-center min-[560px]:p-8">
 					<div className="w-full max-w-xl">
 						<div className="mb-6 space-y-6">
-							<h1 className="mb-[22px] font-['Orbitron',sans-serif] text-[clamp(30px,5vw,56px)] font-black leading-[1.06] tracking-[-0.8px]">
+							<h1 className="mb-[22px] font-['Orbitron',sans-serif] text-[clamp(30px,4vw,48px)] font-black leading-[1.06] tracking-[-0.8px]">
 								<span
 									className="bg-[linear-gradient(128deg,#DCF0FF_0%,#4DF4FF_35%,#9966FF_70%,#FF5599_100%)] bg-size-[200%_100%] bg-clip-text text-transparent"
 									style={{ animation: "shimmer 7s linear infinite" }}
@@ -56,19 +56,19 @@ export default async function Page({ searchParams }: PageProps<"/">) {
 
 								<br />
 
-								<span className="text-[clamp(20px,3.5vw,38px)] font-normal text-[rgba(220,240,255,0.45)]">
+								<span className="text-[clamp(20px,3vw,30px)] font-normal text-[rgba(220,240,255,0.45)]">
 									Reimagined.
 								</span>
 							</h1>
 
-							<p className="mb-[38px] max-w-[440px] text-[16px] leading-[1.85] text-[rgba(220,240,255,0.46)]">
+							<p className="mb-[38px] max-w-[440px] text-[14px] leading-[1.85] text-[rgba(220,240,255,0.46)]">
 								No sign-up. No installs. Share a Room ID and start coding with
 								your team instantly — directly in your browser.
 							</p>
 						</div>
 
 						<Suspense fallback={null}>
-							<div className="h-125 ">
+							<div className="h-80">
 								<RoomAccessForm roomId={roomId} />
 							</div>
 						</Suspense>
