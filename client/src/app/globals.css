@@ -109,7 +109,6 @@
 ========================================= */
 
 :root {
-
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
 
@@ -569,4 +568,15 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+.bg-space {
+  background: radial-gradient(
+    circle at 50% 20%,
+    #010204 0%,
+    #030814 35%,
+    #071120 60%,
+    #0c1c34 85%,
+    #17345c 100%
+  );
 }
