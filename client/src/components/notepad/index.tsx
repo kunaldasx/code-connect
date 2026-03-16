@@ -17,18 +17,18 @@ import { Suspense } from "react";
 import { EditorSkeleton } from "./components/editor-skeleton";
 
 const DynamicNotepadMain = dynamic(
-  () =>
-    import("./components/notepad-main").then((mod) => mod.MarkdownEditorMain),
-  {
-    ssr: false,
-    loading: () => <EditorSkeleton />,
-  },
+	() =>
+		import("./components/notepad-main").then((mod) => mod.MarkdownEditorMain),
+	{
+		ssr: false,
+		loading: () => <EditorSkeleton />,
+	},
 );
 
 const Notepad = ({ markdown }: { markdown: string }) => (
-  <Suspense fallback={null}>
-    <DynamicNotepadMain markdown={markdown} />
-  </Suspense>
+	<Suspense fallback={null}>
+		<DynamicNotepadMain markdown={markdown} />
+	</Suspense>
 );
 
 export { Notepad };
