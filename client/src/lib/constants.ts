@@ -28,8 +28,7 @@ export const GITHUB_CLIENT_SECRET = IS_DEV_ENV
 	? process.env.GITHUB_CLIENT_SECRET_DEV
 	: process.env.GITHUB_CLIENT_SECRET_PROD;
 
-// export const PISTON_API_URL = "http://localhost:2000/api/v2/execute";
-export const PISTON_API_URL = "";
+export const PISTON_API_URL = process.env.PISTON_API_URL ?? "";
 
 export const NAME_MAX_LENGTH = 64;
 
