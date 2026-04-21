@@ -10,9 +10,9 @@
  */
 
 export const IS_DEV_ENV =
-  process.env.VERCEL_ENV === "development" ||
-  process.env.NEXT_PUBLIC_ENV === "development" ||
-  process.env.NODE_ENV === "development";
+	process.env.VERCEL_ENV === "development" ||
+	process.env.NEXT_PUBLIC_ENV === "development" ||
+	process.env.NODE_ENV === "development";
 
 export const BASE_CLIENT_URL = IS_DEV_ENV ? "http://localhost:3000" : "";
 export const BASE_SERVER_URL = IS_DEV_ENV ? "http://localhost:3001" : "";
@@ -25,24 +25,25 @@ export const GITHUB_OAUTH_URL = "https://github.com/login/oauth";
 export const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 
 export const GITHUB_CLIENT_SECRET = IS_DEV_ENV
-  ? process.env.GITHUB_CLIENT_SECRET_DEV
-  : process.env.GITHUB_CLIENT_SECRET_PROD;
+	? process.env.GITHUB_CLIENT_SECRET_DEV
+	: process.env.GITHUB_CLIENT_SECRET_PROD;
 
-export const PISTON_API_URL = "https://emkc.org/api/v2/piston/execute";
+// export const PISTON_API_URL = "http://localhost:2000/api/v2/execute";
+export const PISTON_API_URL = "";
 
 export const NAME_MAX_LENGTH = 64;
 
 export const SITE_NAME = "CodeConnect - Code Collaboration Platform";
 export const SITE_DESCRIPTION =
-  "Your collaborative coding space, reimagined. Code together now on CodeConnect, no sign-up required.";
+	"Your collaborative coding space, reimagined. Code together now on CodeConnect, no sign-up required.";
 export const INVITED_DESCRIPTION =
-  "You have been invited to a coding session. Happy coding!";
+	"You have been invited to a coding session. Happy coding!";
 export const LATENCY_TEST_TITLE = "Server Latency Test";
 export const LATENCY_TEST_DESCRIPTION =
-  "Test your latency to the CodeConnect server.";
+	"Test your latency to the CodeConnect server.";
 export const GITHUB_OAUTH_TITLE = "GitHub OAuth Callback";
 export const GITHUB_OAUTH_DESCRIPTION =
-  "This page is used to handle the GitHub OAuth callback.";
+	"This page is used to handle the GitHub OAuth callback.";
 export const NAME = "Kunal Das";
 export const PORTFOLIO_URL = "https://kunaldasx.vercel.app";
 export const CONTACT_URL = "https://kunaldasx.vercel.app/contact";
@@ -75,22 +76,22 @@ export const PREVIEW_CDN = `<link rel="stylesheet" href="https://cdn.jsdelivr.ne
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" crossorigin="anonymous"></script>`;
 
 export const PRE_INSTALLED_LIBS = [
-  { name: "Tailwind CSS", version: "4.x" },
-  { name: "Animate.css", version: "4.x" },
-  { name: "AOS", version: "2.x" },
-  { name: "Swiper", version: "11.x" },
-  { name: "HTMX", version: "2.x" },
-  { name: "Lucide Icons", version: "0.x" },
-  { name: "Alpine.js", version: "3.x" },
-  { name: "GSAP", version: "3.x" },
-  { name: "Popper", version: "2.x" },
-  { name: "Tippy.js", version: "6.x" },
-  { name: "React", version: "18.x" },
-  { name: "React DOM", version: "18.x" },
-  { name: "PropTypes", version: "15.x" },
-  { name: "Recharts", version: "2.x" },
-  { name: "Chart.js", version: "4.x" },
-  { name: "Lodash", version: "4.x" },
-  { name: "Day.js", version: "1.x" },
-  { name: "Sortable.js", version: "1.x" },
+	{ name: "Tailwind CSS", version: "4.x" },
+	{ name: "Animate.css", version: "4.x" },
+	{ name: "AOS", version: "2.x" },
+	{ name: "Swiper", version: "11.x" },
+	{ name: "HTMX", version: "2.x" },
+	{ name: "Lucide Icons", version: "0.x" },
+	{ name: "Alpine.js", version: "3.x" },
+	{ name: "GSAP", version: "3.x" },
+	{ name: "Popper", version: "2.x" },
+	{ name: "Tippy.js", version: "6.x" },
+	{ name: "React", version: "18.x" },
+	{ name: "React DOM", version: "18.x" },
+	{ name: "PropTypes", version: "15.x" },
+	{ name: "Recharts", version: "2.x" },
+	{ name: "Chart.js", version: "4.x" },
+	{ name: "Lodash", version: "4.x" },
+	{ name: "Day.js", version: "1.x" },
+	{ name: "Sortable.js", version: "1.x" },
 ];

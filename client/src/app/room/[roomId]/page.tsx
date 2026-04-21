@@ -91,7 +91,6 @@ const MemoizedToolbar = memo(function MemoizedToolbar({
 }) {
 	return (
 		<div className="flex w-full items-center justify-between gap-x-2 bg-(--toolbar-bg-secondary) p-1">
-			{/* biome-ignore lint/a11y/useSemanticElements: grouping toolbar controls without form semantics */}
 			<div
 				aria-label="Editor Toolbar"
 				className="animate-fade-in-top"
@@ -232,7 +231,6 @@ export default function Room() {
 	useEffect(() => {
 		if (!socket.connected || !storage.getUserId()) {
 			// use whatever key your join flow writes
-			console.log("Hello **********************************************");
 			router.replace(`/?room=${roomId}`);
 			return; // ← critical: prevent emitting SYNC events on a dead session
 		}
