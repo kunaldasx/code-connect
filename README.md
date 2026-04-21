@@ -52,7 +52,7 @@
 
 - **Real-time Collaboration** - Code together in real-time with cursor sharing, highlighting, and follow mode
 
-- **Shared Terminal** –Execute code and see results together with over 80 supported languages
+- **Shared Terminal** –Execute code and see results together with over 80 supported languages (local Piston setup required)
 
 - **Live Preview** – Preview UI changes instantly with loaded libraries like Tailwind CSS, and more
 
@@ -109,6 +109,37 @@ $ cp .env.example .env  # Configure variables
 $ npm run dev
 ```
 
+##### Optional: Enable Local Code Execution
+
+Code execution is disabled in the hosted demo. To enable the shared terminal and code runner locally, you'll need to run a self-hosted Piston instance.
+
+```bash
+# Clone Piston
+$ git clone https://github.com/engineer-man/piston
+$ cd piston
+
+# Start the API
+$ docker compose up -d api
+
+# Install CLI dependencies
+$ cd cli
+$ npm install
+
+# Install runtimes
+$ node index.js ppman install python
+$ node index.js ppman install node
+$ node index.js ppman install typescript
+$ node index.js ppman install java
+```
+
+Configure the client environment:
+
+```env
+PISTON_API_URL=http://localhost:2000/api/v2/execute
+```
+
+Once configured, Code Connect will be able to execute code through your local Piston instance.
+
 ##### The Application will be available at:
 
 - Frontend: http://localhost:3000
@@ -140,7 +171,7 @@ This software uses the following technologies:
 
 If you like this project and think it has helped in any way, consider buying me a coffee!
 
-<a href="" target="_blank"><img src="frontend/src/assets/bmc-button.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="" target="_blank"><img src="https://raw.githubusercontent.com/kunaldasx/code-connect/refs/heads/main/client/public/images/bmc-button.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 ## License
 

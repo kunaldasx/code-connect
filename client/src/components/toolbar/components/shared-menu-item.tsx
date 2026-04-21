@@ -10,51 +10,51 @@
  */
 
 import {
-  MenubarCheckboxItem,
-  MenubarItem,
-  MenubarSeparator,
-  MenubarShortcut,
+	MenubarCheckboxItem,
+	MenubarItem,
+	MenubarSeparator,
+	MenubarShortcut,
 } from "@/components/ui/menubar";
 
 import type { MenuItem } from "../menu-config";
-import type { ToolbarActions } from "@/types";
+import type { ToolbarActions } from "../types";
 
 interface SharedMenuItemProps {
-  actions: ToolbarActions;
-  hideShortcut?: boolean;
-  item: MenuItem | "separator";
+	actions: ToolbarActions;
+	hideShortcut?: boolean;
+	item: MenuItem | "separator";
 }
 
 export const SharedMenuItem = ({
-  item,
-  actions,
-  hideShortcut,
+	item,
+	actions,
+	hideShortcut,
 }: SharedMenuItemProps) => {
-  if (item === "separator") {
-    return <MenubarSeparator />;
-  }
+	if (item === "separator") {
+		return <MenubarSeparator />;
+	}
 
-  if (item.type === "checkbox") {
-    return (
-      <MenubarCheckboxItem
-        checked={item.checked}
-        onCheckedChange={() => actions[item.action]()}
-      >
-        {item.icon}
-        {item.label}
-      </MenubarCheckboxItem>
-    );
-  }
+	if (item.type === "checkbox") {
+		return (
+			<MenubarCheckboxItem
+				checked={item.checked}
+				onCheckedChange={() => actions[item.action]()}
+			>
+				{item.icon}
+				{item.label}
+			</MenubarCheckboxItem>
+		);
+	}
 
-  return (
-    <MenubarItem onSelect={() => actions[item.action]()}>
-      {item.icon}
-      {item.label}
-      {!hideShortcut && item.shortcut && (
-        <MenubarShortcut className="pl-2 max-[486px]:hidden">
-          {item.shortcut}
-        </MenubarShortcut>
-      )}
-    </MenubarItem>
-  );
+	return (
+		<MenubarItem onSelect={() => actions[item.action]()}>
+			{item.icon}
+			{item.label}
+			{!hideShortcut && item.shortcut && (
+				<MenubarShortcut className="pl-2 max-[486px]:hidden">
+					{item.shortcut}
+				</MenubarShortcut>
+			)}
+		</MenubarItem>
+	);
 };

@@ -16,7 +16,7 @@ const SIN_RES = 4096;
 const SIN_LUT = new Float32Array(SIN_RES + 1);
 for (let i = 0; i <= SIN_RES; i++) SIN_LUT[i] = Math.sin((i / SIN_RES) * TAU);
 
-const lsin = (x) => {
+const lsin = (x: number) => {
 	const n = (((x % TAU) + TAU) % TAU) * (SIN_RES / TAU);
 	const lo = n | 0;
 	return SIN_LUT[lo] + (SIN_LUT[lo + 1] - SIN_LUT[lo]) * (n - lo);
@@ -52,7 +52,7 @@ const NEBULAE = [
 // ─────────────────────────────────────────────────────────────────────────────
 
 const StarCanvas = () => {
-	const canvasRef = useRef(null);
+	const canvasRef = useRef<HTMLCanvasElement>(null);
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -60,8 +60,9 @@ const StarCanvas = () => {
 
 		const dpr = window.devicePixelRatio || 1;
 		const ctx = canvas.getContext("2d");
+		if (!ctx) return;
 
-		let raf,
+		let raf: number,
 			frame = 0,
 			W = 0,
 			H = 0;
@@ -109,7 +110,7 @@ const StarCanvas = () => {
 			mCy[i] = Math.random() < 0.5 ? 0 : 1;
 		};
 
-		const removeMeteor = (i) => {
+		const removeMeteor = (i: number) => {
 			const last = --mN;
 			if (i === last) return; // already the last element
 			mX[i] = mX[last];
