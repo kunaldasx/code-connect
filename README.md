@@ -1,6 +1,6 @@
 <h1 align="center" style>
   <br>
-  <a href="https://code-connect-site.vercel.app" target="_blank"><img src="https://raw.githubusercontent.com/kunaldasx/code-connect/main/frontend/src/assets/logo.png" alt="code connect" width="200"></a>
+  <a href="https://codeconnect-dev.vercel.app" target="_blank"><img src="https://raw.githubusercontent.com/kunaldasx/code-connect/main/client/src/app/logo.svg" alt="code connect" width="200"></a>
   <br>
   Code Connect
   <br>
@@ -43,10 +43,10 @@
 </p>
 
 <p align="center">
-  <img src="frontend/src/assets/preview.png" alt="preview" width="100%" />
+  <img src="https://raw.githubusercontent.com/kunaldasx/code-connect/main/client/public/images/cover.png" alt="preview" width="100%" />
 </p>
 
-🌐 **Live Demo**🔗 [code-connect-site.vercel.app](https://code-connect-site.vercel.app)
+🌐 **Live Demo**🔗 [code-connect-site.vercel.app](https://codeconnect-dev.vercel.app)
 
 ## Key Features
 
