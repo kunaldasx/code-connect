@@ -12,7 +12,6 @@
 import { Suspense } from "react";
 
 import { AboutButton } from "@/components/about-button";
-import { LatencyTestButton } from "@/components/latency-test-button";
 import { RoomAccessForm } from "@/components/room-access-form";
 import { Status } from "@/components/status";
 import StarCanvas from "@/components/star-canvas";
@@ -84,7 +83,6 @@ export default async function Page({ searchParams }: PageProps<"/">) {
 
 				<div className="dark fixed right-3 bottom-2.5 flex items-center gap-x-3">
 					<Status />
-					<LatencyTestButton />
 					<AboutButton />
 				</div>
 			</main>
