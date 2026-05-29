@@ -16,11 +16,11 @@ export const IS_DEV_ENV =
 
 export const BASE_CLIENT_URL = IS_DEV_ENV
 	? "http://localhost:3000"
-	: (process.env.NEXT_PUBLIC_CLIENT_URL ?? "");
+	: (process.env.NEXT_PUBLIC_CLIENT_BASE_URL ?? "http://localhost:3000");
 
 export const BASE_SERVER_URL = IS_DEV_ENV
 	? "http://localhost:3001"
-	: (process.env.NEXT_PUBLIC_API_BASE_URL ?? "");
+	: (process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001");
 
 export const GITHUB_API_URL = "https://api.github.com";
 export const GITHUB_OAUTH_URL = "https://github.com/login/oauth";

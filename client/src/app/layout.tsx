@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 		name: NAME,
 		url: PORTFOLIO_URL,
 	},
-	metadataBase: new URL(BASE_CLIENT_URL ?? ""),
+	metadataBase: BASE_CLIENT_URL ? new URL(BASE_CLIENT_URL) : undefined,
 	formatDetection: {
 		telephone: false,
 	},

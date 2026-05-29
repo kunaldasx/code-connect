@@ -12,7 +12,6 @@
 "use client";
 
 import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { type ChangeEvent, useEffect, useState } from "react";
 import type { Socket } from "socket.io-client";
 import { Spinner } from "@/components/spinner";
