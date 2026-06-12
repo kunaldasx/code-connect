@@ -14,18 +14,13 @@ import path from "path";
 
 const nextConfig: NextConfig = {
 	outputFileTracingRoot: path.join(import.meta.dirname, "../../"),
-	reactCompiler: true,
 	poweredByHeader: false,
-	typedRoutes: true,
-	logging: {
-		browserToTerminal: true,
-	},
 	experimental: {
+		reactCompiler: true,
+		typedRoutes: true,
 		typedEnv: true,
 		viewTransition: true,
 		inlineCss: true,
-		turbopackFileSystemCacheForBuild: true,
-		turbopackServerSideNestedAsyncChunking: true,
 		cssChunking: "strict",
 		optimizePackageImports: [
 			"@mdxeditor/editor",
@@ -47,9 +42,7 @@ const nextConfig: NextConfig = {
 	},
 	transpilePackages: ["monaco-themes"],
 	webpack: (config) => {
-		// Bypass package.json exports field for monaco-themes
 		config.resolve.exportsFields = [];
-
 		return config;
 	},
 };

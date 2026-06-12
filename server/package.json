@@ -22,6 +22,6 @@
 		"simple-peer": "^9.11.1",
 		"socket.io": "^4.8.3",
 		"tsx": "^4.22.3",
-		"uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.67.0"
+		"uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.52.0"
 	}
 }
