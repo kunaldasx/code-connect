@@ -12,6 +12,10 @@
 import type { NextConfig } from "next";
 import path from "path";
 
+type Resource = {
+	request: string;
+};
+
 const nextConfig: NextConfig = {
 	poweredByHeader: false,
 	experimental: {
@@ -39,24 +43,22 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
-	transpilePackages: [
-		"monaco-themes",
-		"@mdxeditor/editor",
-		"micromark-util-symbol",
-		"mdast-util-highlight-mark",
-		"micromark-extension-highlight-mark",
-		"estree-util-visit",
-	],
-	webpack: (config) => {
-		config.resolve.exportsFields = [];
-		// Fix broken subpath export caused by exportsFields override
-		config.resolve.alias = {
-			...config.resolve.alias,
-			"estree-util-visit/do-not-use-color": path.resolve(
-				process.cwd(),
-				"node_modules/estree-util-visit/lib/color.js",
+	transpilePackages: ["monaco-themes", "@mdxeditor/editor"],
+	webpack: (config, { webpack }) => {
+		// Targeted bypass for monaco-themes only — avoids globally
+		// disabling exports fields which breaks @mdxeditor and estree-util-visit
+		config.plugins.push(
+			new webpack.NormalModuleReplacementPlugin(
+				/^monaco-themes\//,
+				(resource: Resource) => {
+					resource.request = path.resolve(
+						process.cwd(),
+						"node_modules",
+						resource.request,
+					);
+				},
 			),
-		};
+		);
 		return config;
 	},
 };
