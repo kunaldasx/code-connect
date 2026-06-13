@@ -185,7 +185,7 @@ export function EditorConfig({ monaco, editor, className }: EditorConfigProps) {
 
 	const filteredSettings = useMemo(() => {
 		const searchLower = search.toLowerCase();
-		return Object.entries(editorOptions).filter(([_key, option]) =>
+		return Object.entries(editorOptions).filter(([, option]) =>
 			option.title.toLowerCase().includes(searchLower),
 		);
 	}, [search, editorOptions]);
@@ -302,7 +302,7 @@ export function EditorConfig({ monaco, editor, className }: EditorConfigProps) {
 							</Label>
 							<Input
 								aria-label={option.title}
-								className="max-w-[calc(100%-50%)]"
+								className="max-w-[50%]"
 								id={id} // Provide fallback for undefined
 								onChange={(e) => updateSetting(key, Number(e.target.value))}
 								type="number"

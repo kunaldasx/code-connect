@@ -45,7 +45,7 @@ const Terminal = ({ results, setResults }: TerminalProps) => {
 	}, [results]);
 
 	return (
-		<div className="relative h-full bg-[color:var(--panel-background)]">
+		<div className="relative h-full bg-(--panel-background)">
 			<div className="absolute top-2 right-1 z-10 flex items-center gap-1 rounded-md px-1">
 				<TooltipProvider>
 					<Tooltip>

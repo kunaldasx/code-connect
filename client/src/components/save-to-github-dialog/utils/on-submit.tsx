@@ -38,7 +38,7 @@ export const onSubmit = (
 			success: (result) => {
 				closeDialog();
 				return (
-					<div className="flex flex-col font-medium [font-size:13px] [line-height:1.5rem]">
+					<div className="flex flex-col font-medium text-[13px] leading-6">
 						<p>Changes committed successfully!</p>
 						<div className="flex items-center gap-x-1 text-accent-foreground">
 							<a

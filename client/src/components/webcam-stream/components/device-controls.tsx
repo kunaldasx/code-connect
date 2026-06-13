@@ -140,7 +140,7 @@ const DeviceControls = ({
 						aria-label={`Toggle ${label}`}
 						className={cn(
 							isEnabled
-								? "bg-[color:var(--toolbar-accent)] text-[color:var(--panel-text-accent)] hover:bg-[color:var(--toolbar-accent)]"
+								? "bg-(--toolbar-accent) text-(--panel-text-accent) hover:bg-(--toolbar-accent)"
 								: "bg-black/70 hover:bg-black/80 dark:bg-white/10 dark:hover:bg-white/20",
 							"rounded-r-none",
 							(disabled || disableToggle) && "opacity-50",

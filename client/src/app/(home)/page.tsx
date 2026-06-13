@@ -73,7 +73,7 @@ export default async function Page({
 						</div>
 
 						<Suspense fallback={null}>
-							<div className="h-80 w-full flex justify-center items-center">
+							<div className="h-80 w-full flex justify-center items-start">
 								<RoomAccessForm roomId={roomId} />
 							</div>
 						</Suspense>
