@@ -14,7 +14,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { parseError } from "@/lib/utils";
 
 import type { ExtendedTreeDataItem } from "../types/tree";
-import { transformReposToTreeData } from "../utils/transform-repos-to-tree";
+import { transformReposToTreeData } from "./transform-repos-to-tree";
 
 export const fetchRepos = async (
 	setLoading: Dispatch<SetStateAction<boolean>>,
