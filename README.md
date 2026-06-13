@@ -163,7 +163,7 @@ This software uses the following technologies:
 
 - **Backend:** Node.js, Express, Socket.IO (binded to µWebSockets.js server)
 
-- **Build & DevOps:** Cloudflare D1 (SQLite) with Drizzle ORM
+- **Build & DevOps:** GitHub Actions (CI/CD), Vercel (frontend deployment), Render (backend deployment)
 
 - **External Services:** Piston (code execution), GitHub REST API (repository management)
 
