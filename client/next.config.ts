@@ -10,6 +10,7 @@
  */
 
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
 	poweredByHeader: false,
@@ -38,9 +39,24 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
-	transpilePackages: ["monaco-themes"],
+	transpilePackages: [
+		"monaco-themes",
+		"@mdxeditor/editor",
+		"micromark-util-symbol",
+		"mdast-util-highlight-mark",
+		"micromark-extension-highlight-mark",
+		"estree-util-visit",
+	],
 	webpack: (config) => {
 		config.resolve.exportsFields = [];
+		// Fix broken subpath export caused by exportsFields override
+		config.resolve.alias = {
+			...config.resolve.alias,
+			"estree-util-visit/do-not-use-color": path.resolve(
+				process.cwd(),
+				"node_modules/estree-util-visit/lib/color.js",
+			),
+		};
 		return config;
 	},
 };
