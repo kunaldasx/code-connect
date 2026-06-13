@@ -18,7 +18,11 @@ import StarCanvas from "@/components/star-canvas";
 import Orb from "@/components/animated-orb-bg";
 import { ShowcaseGrid } from "@/components/showcase-grid";
 
-export default async function Page({ searchParams }: PageProps<"/">) {
+export default async function Page({
+	searchParams,
+}: {
+	searchParams: Promise<{ room?: string }>;
+}) {
 	const params = await searchParams;
 	const roomId = params.room?.toString() || "";
 
