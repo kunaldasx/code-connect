@@ -95,8 +95,9 @@ const AboutDialog = forwardRef<AboutDialogRef, AboutDialogProps>(
 						<DialogHeader className="text-left text-foreground">
 							<DialogTitle>{SITE_NAME}</DialogTitle>
 							<DialogDescription className="pt-2 text-base">
-								A real-time collaborative code editor where developers code and
-								chat, and create together.
+								Code Connect is a browser-based collaborative development
+								platform that enables real-time coding, live previews, shared
+								terminals, video communication, and collaborative note-taking.
 							</DialogDescription>
 						</DialogHeader>
 

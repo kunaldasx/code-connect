@@ -48,7 +48,7 @@ export const GITHUB_OAUTH_DESCRIPTION =
 export const NAME = "Kunal Das";
 export const PORTFOLIO_URL = "https://kunaldasx.vercel.app";
 export const CONTACT_URL = "https://kunaldasx.vercel.app/contact";
-export const REPO_URL = "https://github.com/kunaldasx/CodeConnect";
+export const REPO_URL = "https://github.com/kunaldasx/code-connect";
 export const GITHUB_URL = "https://github.com/kunaldasx";
 
 export const EDITOR_SETTINGS_KEY = "editor-settings";

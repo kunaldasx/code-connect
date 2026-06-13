@@ -7,7 +7,7 @@
 </h1>
 
 <h4 align="center">
-  CodeConnect is an online code collaboration platform that enables real-time coding, cursor sharing, live UI preview, and video communication with integrated Git support—no sign-up required.
+  Code Connect is a browser-based collaborative development platform that enables real-time coding, live previews, shared terminals, video communication, and collaborative note-taking.
 </h4>
 
 <p align="center">
