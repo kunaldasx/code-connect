@@ -24,7 +24,7 @@ export const BASE_SERVER_URL = IS_DEV_ENV
 
 export const GITHUB_API_URL = "https://api.github.com";
 export const GITHUB_OAUTH_URL = "https://github.com/login/oauth";
-export const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+export const GITHUB_CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
 
 export const GITHUB_CLIENT_SECRET = IS_DEV_ENV
 	? process.env.GITHUB_CLIENT_SECRET_DEV
