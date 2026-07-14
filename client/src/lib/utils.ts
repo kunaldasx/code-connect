@@ -58,12 +58,23 @@ export const loginWithGithub = () => {
 	const left = window.screenX + (window.outerWidth - width) / 2;
 	const top = window.screenY + (window.outerHeight - height) / 2;
 
-	console.log("GitHub Client ID:", GITHUB_CLIENT_ID);
+	const clientId = GITHUB_CLIENT_ID;
+	if (!clientId) {
+		console.error("GitHub client ID is not configured.");
+		return;
+	}
+
+	const redirectUri = `${window.location.origin}/api/github/auth`;
+	const authUrl = new URL(`${GITHUB_OAUTH_URL}/authorize`);
+	authUrl.searchParams.set("client_id", clientId);
+	authUrl.searchParams.set("redirect_uri", redirectUri);
+	authUrl.searchParams.set("scope", "repo");
+
 	if (window.authWindow?.closed === false) {
 		window.authWindow.focus();
 	} else {
 		window.authWindow = window.open(
-			`${GITHUB_OAUTH_URL}/authorize?client_id=Ov23lixzGmwIhnYzwy4w&scope=repo`,
+			authUrl.toString(),
 			"_blank",
 			`width=${width},height=${height},left=${left},top=${top},scrollbars=yes,status=yes`,
 		);
