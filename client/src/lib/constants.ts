@@ -30,7 +30,9 @@ export const GITHUB_CLIENT_SECRET = IS_DEV_ENV
 	? process.env.GITHUB_CLIENT_SECRET_DEV
 	: process.env.GITHUB_CLIENT_SECRET_PROD;
 
-export const PISTON_API_URL = process.env.PISTON_API_URL ?? "";
+export const PISTON_API_URL = process.env.NEXT_PUBLIC_PISTON_API_URL ?? "";
+
+console.log("Piston", process.env.NEXT_PUBLIC_PISTON_API_URL);
 
 export const NAME_MAX_LENGTH = 64;
 

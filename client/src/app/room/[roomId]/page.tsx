@@ -304,7 +304,7 @@ export default function Room() {
 	return (
 		<main
 			aria-label="Code Editor Workspace"
-			className="relative flex h-full min-w-[821px] flex-col overflow-hidden bg-[radial-gradient(ellipse_at_22%_22%,#090428_0%,#020610_45%,#010209_100%)]"
+			className="relative flex pb-4 h-full min-w-[821px] flex-col overflow-hidden bg-[radial-gradient(ellipse_at_22%_22%,#090428_0%,#020610_45%,#010209_100%)]"
 		>
 			<div className="relative flex flex-1 flex-col overflow-hidden">
 				<RemotePointers />

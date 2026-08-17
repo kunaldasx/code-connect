@@ -50,6 +50,8 @@ const RunButton = ({
 	setOutput,
 	className,
 }: RunButtonProps) => {
+	console.log("Piston URL", PISTON_API_URL);
+
 	const socket = getSocket();
 	const abortControllerRef = useRef<AbortController | null>(null);
 	const [isRunning, setIsRunning] = useState(false);
